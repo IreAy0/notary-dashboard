@@ -1,0 +1,47 @@
+.nav-dots {
+    display: flex;
+    justify-content: center;
+    margin-bottom: .75em;
+    button {
+        padding: 0;
+        margin: .25em;
+        height: auto;
+        &,
+        &:hover,
+        &:focus,
+        &:active {
+            box-shadow: none;
+            background: none;
+        }
+        &::before {
+            content: '';
+            display: block;
+            width: var(--indent10);
+            height: var(--indent10);
+            border-radius: 100%;
+            background: var(--clr-white-50);
+            margin: .4375em;
+            @extend #transition;
+        }
+        &:hover,
+        &:focus {
+            &::before {
+                background: var(--clr-white-75);
+            }
+        }
+        &:active {
+            &::before {
+                background: var(--clr-white);
+            }
+        }
+        &.current {
+            pointer-events: none;
+            &::before {
+                background: var(--clr-white);
+            }
+        }
+        span {
+            display: none;
+        }
+    }
+}

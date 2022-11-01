@@ -1,0 +1,28 @@
+.tagsWrapper {
+  padding: 5px 20px;
+  background: #d1e3ff;
+  border: none;
+  box-shadow: 0 4px 4px rgba(170, 200, 248, 0.3);
+  border-radius: 14px;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
+  white-space: nowrap;
+  //max-width: 146px;
+  //width: 100%;
+}
+
+.tagsTitle {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+}
+
+.TagsIconWrapper {
+  margin-left: 8px;
+}

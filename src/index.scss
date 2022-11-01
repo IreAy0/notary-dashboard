@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+@import './assets/styles/style.scss';
+
+@media print {
+    @page {
+      margin: 10mm 16mm;
+      display: 'block';
+      pageBreakBefore: 'always',
+    }
+}

@@ -1,0 +1,149 @@
+.placeholder {
+  border-radius: 4px;
+  padding: 0.6rem 0.5rem;
+  height: 20px;
+  font-size: 9px;
+  line-height: 12px;
+  font-weight: 500;
+  border: 2px solid #7b7171;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7b7171;
+  background: #eae8e8;
+  width: 100%;
+  margin-bottom: 0.3rem;
+  min-width: 90px;
+  position: relative;
+
+  g,
+  path {
+    fill: #7b7171;
+  }
+  &.blue {
+    color: #003bb3;
+    background: lighten(#003bb3, 60%);
+    border-color: #003bb3;
+    g,
+    path {
+      fill: #003bb3;
+    }
+  }
+  &.orange {
+    color: #ff9900;
+    background: lighten(#ededed, 10%);
+    border-color: #ff9900;
+    g,
+    path {
+      fill: #ff9900;
+    }
+  }
+  &.lightblue {
+    color: #458fff;
+    background: lighten(#458fff, 30%);
+    border-color: #458fff;
+    g,
+    path {
+      fill: #458fff;
+    }
+  }
+  &.green {
+    color: #24ca97;
+    background: lighten(#24ca97, 50%);
+    border-color: #24ca97;
+    g,
+    path {
+      fill: #24ca97;
+    }
+  }
+  .icon {
+    display: none;
+  }
+  &:hover {
+    .icon {
+      display: inline-block;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      
+      path {
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.tool__placeholder {
+  border-radius: 4px;
+  padding: 1rem 0.5rem;
+  height: 35px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  border: 2px solid #7b7171;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7b7171;
+  background: #eae8e8;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  min-width: 120px;
+  position: relative;
+
+  g,
+  path {
+    fill: #7b7171;
+  }
+  &.blue {
+    color: #003bb3;
+    background: lighten(#003bb3, 60%);
+    border-color: #003bb3;
+    g,
+    path {
+      fill: #003bb3;
+    }
+  }
+  &.orange {
+    color: #ff9900;
+    background: lighten(#ededed, 10%);
+    border-color: #ff9900;
+    g,
+    path {
+      fill: #ff9900;
+    }
+  }
+  &.lightblue {
+    color: #458fff;
+    background: lighten(#458fff, 30%);
+    border-color: #458fff;
+    g,
+    path {
+      fill: #458fff;
+    }
+  }
+  &.green {
+    color: #24ca97;
+    background: lighten(#24ca97, 50%);
+    border-color: #24ca97;
+    g,
+    path {
+      fill: #24ca97;
+    }
+  }
+  .icon {
+    display: none;
+  }
+  &:hover {
+    .icon {
+      display: inline-block;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      
+      path {
+        fill: #fff;
+      }
+    }
+  }
+}

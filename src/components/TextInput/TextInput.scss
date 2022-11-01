@@ -1,0 +1,34 @@
+.storybook-textInput {
+  background: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--clr-header);
+  -webkit-text-fill-color: var(--clr-header);
+  border-radius: 0.25em;
+  box-shadow: inset 0 0 0 2px var(--clr-input-border);
+  &:hover {
+    box-shadow: inset 0 0 0 2px var(--clr-input-border-hover);
+  }
+  &:focus {
+    box-shadow: inset 0 0 0 2px var(--clr-input-border-focus), 0 0 0 0.25rem var(--clr-blue-focus);
+  }
+
+  &--error {
+    color: var(--clr-red-txt) !important;
+    -webkit-text-fill-color: var(--clr-red-txt);
+    box-shadow: inset 0 0 0 2px var(--clr-red-txt);
+    &:hover {
+      box-shadow: inset 0 0 0 2px var(--clr-red-active);
+    }
+    &:focus {
+      box-shadow: inset 0 0 0 2px var(--clr-red-active), 0 0 0 0.25rem var(--clr-red-bg);
+    }
+    &:before {
+      box-shadow: inset 0 0 0 2px var(--clr-red-txt);
+    }
+  }
+  
+}

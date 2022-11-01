@@ -1,0 +1,21 @@
+.btn {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+    margin-top: 30px;
+    // border-top: 1px solid #CECECE;
+}
+
+.error{
+    color: #ff0000;
+    font-size: 12px;
+    text-transform: capitalize;
+    margin-top: -7px;
+  }
+
+.label {
+    color: #767676;
+    font-size: 0.875rem;
+    margin-bottom: 0.35rem;
+}
+  

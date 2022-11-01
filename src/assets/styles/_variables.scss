@@ -1,0 +1,103 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,400;0,600;0,700;1,100&display=swap');
+
+:root {
+  // +palette CSS-variables
+  /// +white, black, gray
+  --clr-white: #fff;
+  --rgb-white: 255, 255, 255;
+  --clr-white-10: rgba(var(--rgb-white), 0.1);
+  --clr-white-25: rgba(var(--rgb-white), 0.25);
+  --clr-white-40: rgba(var(--rgb-white), 0.4);
+  --clr-white-50: rgba(var(--rgb-white), 0.5);
+  --clr-white-75: rgba(var(--rgb-white), 0.75);
+  --clr-white-95: rgba(var(--rgb-white), 0.95);
+  --clr-white-hover: rgba(var(--rgb-white), 0.075);
+  --clr-white-active: rgba(var(--rgb-white), 0.15);
+
+  --clr-black: #000;
+  --rgb-black: 0, 0, 0;
+  --clr-black-01: rgba(var(--rgb-black), 0.01);
+  --clr-black-015: rgba(var(--rgb-black), 0.015);
+  --clr-black-02: rgba(var(--rgb-black), 0.02);
+  --clr-black-025: rgba(var(--rgb-black), 0.025);
+  --clr-black-05: rgba(var(--rgb-black), 0.05);
+  --clr-black-075: rgba(var(--rgb-black), 0.075);
+  --clr-black-10: rgba(var(--rgb-black), 0.1);
+
+  --clr-dark: #141414;
+  --clr-header: #363740;
+  --clr-text: #434343;
+  --clr-text-lite: #767676;
+  --clr-hr: #cecece;
+  --clr-gray-dark: #f2f2f2;
+  --clr-gray-lite: #f9f9f9;
+  /// -white, black, gray
+
+  /// +blue
+  --clr-blue: #003bb3;
+  --rgb-blue: 0, 59, 179;
+  --clr-blue-025: rgba(var(--rgb-blue), 0.025);
+  --clr-blue-05: rgba(var(--rgb-blue), 0.05);
+  --clr-blue-10: rgba(var(--rgb-blue), 0.1);
+  --clr-blue-15: rgba(var(--rgb-blue), 0.15);
+  --clr-blue-20: rgba(var(--rgb-blue), 0.2);
+  --clr-blue-hover: #0066ff;
+  --clr-blue-active: #0051d9;
+  --clr-blue-highlight: #458fff;
+  --rgb-blue-highlight: 69, 143, 255;
+  --clr-blue-highlight-shadow: rgba(var(--rgb-blue-highlight), 0.5);
+  --clr-blue-focus: #dde8ff;
+  /// -blue
+
+  /// +green
+  --clr-green-txt: #2fa36b;
+  --clr-green-hover: #077b43;
+  --clr-green-active: #00531b;
+  --clr-green-bg: #e8ffe8;
+  /// -green
+  /// +red
+  --clr-red-txt: #d35b63;
+  --clr-red-hover: #ab333b;
+  --clr-red-active: #830b13;
+  --clr-red-bg: #ffebed;
+
+  --clr-alert-txt: #ee0004;
+  /// -red
+
+  /// +context
+  --clr-accent: #1a1a1a;
+  --clr-input-border-hover: #6b6b6b;
+  --clr-input-border: #949494;
+  --clr-input-border-focus: var(--clr-accent);
+  --clr-background: var(--clr-white);
+  /// -context
+  // -palette CSS-variables
+
+  // +fonts
+  --font-basic: 'Montserrat', sans-serif;
+
+  // --size-XXS:				 8px;
+  // --size-XS:				12px;
+  // --size-S:				14px;
+  --size-M: 16px;
+  // --size-L:				24px;
+  // --size-XL:				36px;
+  // --size-XXL:				48px;
+  // --size-XXXL:				72px;
+  // -fonts
+
+  // +transitions
+  --transition: all 0.15s ease-in 0s;
+  --noTransition:				/*put something*/ 0.15s ease-in 0s;
+  // -transitions
+}
+
+$breakpoints: (
+  'mobile': 480px,
+  'tablet': 768px,
+  'desktop': 1024px,
+  'desktop-large': 1440px,
+  'desktop-xlarge': 1920px,
+) !default;
+

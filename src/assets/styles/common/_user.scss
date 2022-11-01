@@ -1,0 +1,33 @@
+.userAvatar {
+	display: flex;
+	align-items: center;
+	// width: 2rem;
+	// height: 2rem;
+	border-radius: 100%;
+	// color: var(--clr-white);
+	// box-shadow: 0 0 0;
+	img {
+		display: block;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 100%;
+		padding: .125rem;
+		object-fit: cover;
+		background: var(--clr-white-25);
+		@extend #transition;
+		+ span {
+			margin-left: var(--indent10);
+		}
+	}
+}
+a.userAvatar {
+	&:hover,
+	&:focus {
+		img {
+			background: var(--clr-white);
+		}
+		span {
+			text-decoration: underline;
+		}
+	}
+}

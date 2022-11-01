@@ -1,0 +1,106 @@
+.filterWrapper {
+  display: flex;
+  align-items: center;
+
+  button {
+    cursor: pointer;
+    border: none;
+  }
+
+  input,
+  select {
+    background: white;
+    border: 1px solid #E2E2E2;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #363740;
+    padding: 12px 0px 12px 16px;
+    width: 231px;
+    height: 45px;
+    right: 10px;
+
+    &::placeholder {
+      font-family: 'Poppins', sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 24px;
+      color: #cacaca;
+    }
+  }
+}
+
+.searchBtn {
+  padding: 13px 30px;
+  border-radius: 4px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 10px;
+  color: #ffffff;
+  background: #003bb3;
+  cursor: pointer;
+}
+
+.searchBtn:disabled,
+.searchBtn2:disabled {
+  color: #7b7171;
+  background: #f2f2f2;
+  cursor: disabled;
+}
+
+.searchBtn2 {
+  color: #ffffff;
+  background: #003bb3;
+  cursor: pointer;
+}
+
+.filterBtn,
+.hasFiltersBtn {
+  padding: 13px 20px;
+  background: #003BB3;
+  border-radius: 4px;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  margin-left: 18px;
+  display: flex;
+  align-items: center;
+
+  svg,
+  svg * {
+    fill: #363740;
+
+    &:hover {
+      fill: #ffffff;
+    }
+  }
+
+  &:hover {
+    background: #003bb3;
+    color: #ffffff;
+  }
+}
+
+.hasFiltersBtn {
+  background: #003bb3;
+  color: #ffffff;
+}
+
+.filtersCount {
+  border-radius: 20px;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  background: #003bb3;
+  padding: 0px 7px;
+  margin-left: 10px;
+}

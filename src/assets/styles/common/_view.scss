@@ -1,0 +1,46 @@
+ul.view {
+	display: flex;
+	li + li {
+		margin-left: .875rem;
+	}
+	label {
+		display: block;
+		padding: .75rem;
+		cursor: pointer;
+		background: var(--clr-blue-10);
+		color: var(--clr-blue);
+		box-shadow: inset 0 0 0 2px var(--clr-blue);
+		@extend #radiusCommon;
+		&::before {
+			display: block;
+		}
+	}
+	input {
+		position: absolute;
+		left: 0;
+		top: 1px;
+		width: 0;
+		height: 0;
+		padding: 0;
+		&:checked {
+			+ label {
+				color: var(--clr-white);
+				background: var(--clr-blue);
+			}
+
+		}
+		&:not(:checked) {
+			&:focus + label,
+			+ label:hover {
+				background: var(--clr-blue-20);
+			}
+		}
+		&:active {
+			+ label {
+				&::before {
+					line-height: calc(1.5rem + 1px);
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,231 @@
+// +custom tags
+@import '_variables';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex !important;
+  flex-direction: column !important;
+  font-family: var(--font-basic) !important;
+  background: var(--clr-background)   !important;
+  color: var(--clr-text) !important;
+  font-size: var(--size-M) !important;
+  line-height: 1.5 !important;
+}
+
+a,
+input,
+textarea,
+label,
+button,
+select {
+  // @extend #transition;
+  transition: all 0.15s ease-in 0s, line-height 0s ease 0s;
+  // +remove Safari shadow on :active/click
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  // -remove Safari shadow on :active/click
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input:not([type='checkbox']):not([type='radio']),
+textarea,
+select {
+  &.hasSuccess {
+    + label::before {
+      color: var(--clr-green-txt);
+    }
+    &:hover {
+      + label::before {
+        color: var(--clr-green-hover);
+      }
+    }
+    &:focus {
+      + label::before {
+        color: var(--clr-green-active);
+      }
+    }
+  }
+}
+
+// ===== TODO: remove global styles =====
+label {
+  position: relative;
+  color: var(--clr-text-lite);
+  input + &,
+  textarea + &,
+  select + & {
+    padding-left: 0;
+  }
+  input[type='checkbox'],
+  input[type='radio'] {
+    display: block;
+    width: 0.01px;
+    height: 0.01px;
+    border: 0;
+    box-shadow: 0;
+    padding: 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    @extend #noTransition;
+    &,
+    &::before,
+    &::after {
+      display: block;
+      position: absolute;
+    }
+  }
+  input[type='checkbox'] {
+    &,
+    &::before,
+    &::after {
+      left: 0;
+    }
+    &::before,
+    &::after {
+      width: 1rem;
+      height: 1rem;
+      top: -3px;
+      @extend #transition;
+    }
+    &::before {
+      content: '';
+      border-radius: 0.25em;
+      @extend #input;
+    }
+    &::after {
+      content: '\e900';
+      @extend #iconFont;
+      color: var(--clr-white);
+      opacity: 0;
+      transform: scale(0.5);
+      line-height: 1rem;
+      font-size: 1rem;
+    }
+    &:hover {
+      &::before {
+        @extend #inputHover;
+      }
+    }
+    &:focus {
+      &::before {
+        @extend #inputFocus;
+      }
+    }
+    &:checked {
+      &::before {
+        @extend #inputChecked;
+      }
+      &::after {
+        transform: none;
+        opacity: 1;
+      }
+      &:hover {
+        &::before {
+          @extend #inputCheckedHover;
+        }
+      }
+      &:focus {
+        &::before {
+          @extend #inputCheckedFocus;
+        }
+      }
+    }
+  }
+  input[type='radio'] {
+    &,
+    &::before,
+    &::after {
+      left: 0;
+      top: calc(50% - 7px);;
+    }
+    &::before,
+    &::after {
+      content: '';
+      width: 1rem;
+      height: 1rem;
+      @extend #transition;
+      border-radius: 100%;
+    }
+    &::before {
+      @extend #input;
+    }
+    &::after {
+      background: var(--clr-white);
+      opacity: 0;
+      transform: scale(0.1);
+      line-height: 1rem;
+      font-size: 1rem;
+    }
+    &:hover {
+      &::before {
+        @extend #inputHover;
+      }
+    }
+    &:focus {
+      &::before {
+        @extend #inputFocus;
+      }
+    }
+    &:checked {
+      &::before {
+        @extend #inputChecked;
+      }
+      &::after {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      &:hover {
+        &::before {
+          @extend #inputCheckedHover;
+        }
+      }
+      &:focus {
+        &::before {
+          @extend #inputCheckedFocus;
+        }
+      }
+    }
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+h1,
+h2 {
+  font-weight: 700;
+}
+h1 {
+  font-size: 2em;
+  line-height: 1.3;
+  padding-top: 0.35em;
+  padding-bottom: 0.5em;
+}
+h2 {
+  font-size: 1.5em;
+  line-height: 1.5;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  border-bottom: 1px solid var(--clr-hr);
+  margin: 1em 0;
+}

@@ -1,0 +1,50 @@
+.alert {
+  position: absolute;
+  right: 0;
+  bottom: 3.5rem;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: calc(50% + 8px);
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    transform: translateX(-50%);
+    border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+  }
+  &::before {
+    transform: scale(0.8);
+  }
+  &__errorText {
+    margin: 0 12px 0 8px;
+    white-space: nowrap;
+  }
+  &__close {
+    margin: 0;
+    padding: 0;
+  }
+  &__radio {
+    left: 0;
+    right: auto;
+    bottom: auto;
+    top: -2.5rem;
+    &::after {
+      left: 25px;
+    }
+  }
+  &__default {
+    position: relative;
+    right: unset;
+    bottom: unset;
+  }
+}

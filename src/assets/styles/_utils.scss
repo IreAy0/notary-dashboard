@@ -1,0 +1,191 @@
+// padding and margin utility classes e.g .p-* && .m-*
+@for $i from 0 through 20 {
+  .p {
+    &-#{$i} {
+      padding: #{$i}rem !important;
+    }
+    &y-#{$i} {
+      padding-top: #{$i}rem !important;
+      padding-bottom: #{$i}rem !important;
+    }
+    &x-#{$i} {
+      padding-left: #{$i}rem !important;
+      padding-right: #{$i}rem !important;
+    }
+    &t-#{$i} {
+      padding-top: #{$i}rem !important;
+    }
+    &b-#{$i} {
+      padding-bottom: #{$i}rem !important;
+    }
+    &l-#{$i} {
+      padding-left: #{$i}rem !important;
+    }
+    &r-#{$i} {
+      padding-right: #{$i}rem !important;
+    }
+  }
+
+  .m {
+    &-#{$i} {
+      margin: #{$i}rem !important;
+    }
+    &y-#{$i} {
+      margin-top: #{$i}rem !important;
+      margin-bottom: #{$i}rem !important;
+    }
+    &x-#{$i} {
+      margin-left: #{$i}rem !important;
+      margin-right: #{$i}rem !important;
+    }
+    &t-#{$i} {
+      margin-top: #{$i}rem !important;
+    }
+    &b-#{$i} {
+      margin-bottom: #{$i}rem !important;
+    }
+    &l-#{$i} {
+      margin-left: #{$i}rem !important;
+    }
+    &r-#{$i} {
+      margin-right: #{$i}rem !important;
+    }
+  }
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.mr-auto {
+  margin-right: auto !important;
+}
+
+.text {
+  &-dark {
+    color: #363740;
+    font-weight: 500;
+  }
+  &--blue {
+    color: #003bb3;
+  }
+  &--coral {
+    color: #458fff;
+  }
+  &--green {
+    color: #2fa36b;
+  }
+  &--red {
+    color: #ee0004;
+  }
+  &--black {
+    color: #000000;
+  }
+  &--capitalize {
+    text-transform: capitalize;
+  }
+  &--500 {
+    font-weight: 500;
+  }
+  &--600 {
+    font-weight: 600;
+  }
+  &--700 {
+    font-weight: 700;
+  }
+  &--sm {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+  }
+  &--underline {
+    text-decoration: underline;
+  }
+  &--capitalize {
+    text-transform: capitalize;
+  }
+  &--center {
+    text-align: center;
+  }
+  &--ellipses {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px;
+    display: inline-block;
+  }
+}
+
+.icon {
+  &--default {
+    g,
+    path {
+      fill: #7b7171;
+    }
+  }
+}
+$borders: ('t', 'r', 'b', 'l');
+
+@for $i from 1 through 10 {
+  @each $value in $borders {
+    @if $value == t {
+      .b#{$value}-#{$i} {
+        border-top: #{$i}px solid #cacaca;
+      }
+    }
+    @if $value == r {
+      .b#{$value}-#{$i} {
+        border-right: #{$i}px solid #cacaca;
+      }
+    }
+    @if $value == b {
+      .b#{$value}-#{$i} {
+        border-bottom: #{$i}px solid #cacaca;
+      }
+    }
+    @if $value == l {
+      .b#{$value}-#{$i} {
+        border-left: #{$i}px solid #cacaca;
+      }
+    }
+  }
+}
+
+[class^='dot'] {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+$colors: (
+  'blue': #003bb3,
+  'black': #363740
+);
+
+@each $color, $colorCode in $colors {
+  .dot {
+    &__#{$color} {
+      background: $colorCode;
+      position: relative;
+
+      &.active {
+        &:after {
+          position: absolute;
+          content: '';
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          height: 125%;
+          width: 125%;
+          border-radius: 50%;
+          border: 1px solid $colorCode;
+        }
+      }
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

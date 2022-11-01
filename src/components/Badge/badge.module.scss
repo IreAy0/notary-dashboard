@@ -1,0 +1,86 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  line-height: 1.312rem;
+  padding: 5px 4rem;
+  border-radius: 5px;
+  min-width: 86px;
+  font-weight: 400;
+  color: #fff;
+  background: #7b7171;
+  &.md {
+    min-width: auto;
+  }
+  &.round {
+    border-radius: 40px;
+    width: auto;
+  }
+  &__primary {
+    background: #458fff;
+    font-weight: 600;
+  }
+  &.info {
+    background: #458fff;
+  }
+  &.payment {
+    background: #003BB3;
+  }
+  &.warning {
+    background: #ff9900;
+  }
+  &.success {
+    background: #00a6a9;
+  }
+  &.error {
+    background: #e05a5c;
+  }
+  &.verified {
+    background: #e8ffe8;
+    color: #24CA97;
+  }
+  &.unverified {
+    background: #dfe0eb;
+    color: #997ac2;
+  }
+  &__secondary {
+    border-radius: 40px;
+    min-width: 100px;
+    padding: 4px 12px;
+    font-size: 14px;
+    text-transform: capitalize;
+    &.info {
+      color: #458fff;
+      background: #dde8ff;
+    }
+    &.warning {
+      color: #997ac2;
+      background: #dfe0eb;
+    }
+    &.awaitingPayment {
+      color: #9e616a;
+      background: #ccadaf;
+    }
+    &.success {
+      color: #24ca97;
+      background: #e8ffe8;
+    }
+    &.error {
+      background: #f7b5b7;
+      color: #EE0004;
+    }
+    &.pending {
+      background: rgba(247, 166, 46, 0.5);
+      color: #936520;
+    }
+    &.payNow {
+      background: #dfe0eb;
+      color: #997ac2;
+    &.payment {
+      color: #003BB3;
+      background: #B3C4E8;
+    }
+  }
+}
+}

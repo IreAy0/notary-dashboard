@@ -1,0 +1,50 @@
+.storybook-radioInput {
+  display: inline-block;
+}
+
+.radio_input_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.radio_input {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d3cccc;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.radio_input:checked {
+  width: 20px;
+  height: 20px;
+  background-image: url('/assets/icons/checked-radio.svg');
+  border: 2px solid transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: auto;
+}
+
+.radio_input:checked::after {
+  transform: scale(0.5);
+  opacity: 1;
+}
+
+.radio_input::after {
+  background: #000;
+  opacity: 0;
+  transform: scale(0.1);
+  line-height: 1rem;
+  font-size: 1rem;
+}
+
+.radio_input_label {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 27px;
+  color: #cacaca;
+}

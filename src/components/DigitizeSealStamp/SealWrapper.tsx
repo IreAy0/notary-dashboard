@@ -1,0 +1,490 @@
+/* eslint-disable */
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 're-ducks/rootReducer';
+import { editNotaryFiles, fetchStampsAndSeals, fetchUserProfile, uploadNotaryFiles } from 're-ducks/user';
+import toast from 'react-hot-toast';
+import UploadIcon from 'assets/img/upload.svg';
+import useTypedSelector from 'hooks/useTypedSelector';
+import formatCommissionNumber from 'utils/formatCommissionNumber';
+import { useLocation } from 'react-router-dom';
+import SignaturePolicy from 'container/document/SignaturePolicy';
+import html2canvas from 'html2canvas';
+import styles from './sealstamp.module.scss';
+import EditButton from './EditButton';
+import Button from '../Button';
+import { Input } from '../TextInput/TextInput';
+import seal from 'assets/img/red_seal-2.png';
+// import SealImage from './SealImage';
+interface User {
+  team_role_code?: string | null;
+  first_name?: string;
+  last_name?: string;
+  surname?: string;
+  email?: string;
+  avatar?: string;
+  is_verified_profile?: boolean;
+  plan?: string;
+  notary_commission_number?: number;
+  verified_commission_number?: boolean;
+}
+
+const SealWrapper = ({ setSignature, actionType, requestData, showAgreement, fetching,  Save, isSaving, fileURL}: any,) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [companySeal, setCompanySeal] = useState({ file_url: '', file_id: '' });
+  const user: User = useSelector((state: RootState) => state?.auth?.signIn);
+  const [editSeal, setEditSeal] = useState<boolean>(false);
+  const [sealSuccess, setSealSuccess] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [acceptPolicy, setAcceptPolicy] = useState(false);
+  const [selectedFile, setSelectedFile] = useState()
+  const [preview, setPreview] = useState<any>();
+  const [uploadedSeal, setUploadedSeal] = useState<any>('');
+  const userProfile: any = useTypedSelector((state: RootState) => state.user);
+  const [updatedUser, setUpdatedUser] = useState<User>(user);
+  const { pathname } = useLocation();
+  const [fullName , setFullName] = useState<any>({
+    firstName: '',
+    lastName: '',
+    notary_number: '',
+  });
+const [base64Url, setBase64Url] = useState<any>('');
+
+  // const canvas = useRef();
+  const canvas = useRef<any>()
+  const sealImage = useRef<any>()
+  let ctx: any = null;
+
+
+  const dispatch = useDispatch();
+
+  console.log(fileURL, 'fileURL')
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined)
+      return
+    }
+    const objectUrl = URL.createObjectURL(selectedFile)
+    console.log(objectUrl);
+
+    
+    setPreview(objectUrl);
+
+  }, [selectedFile])
+
+
+  useEffect(() => {
+    updateFullName();
+
+    return () => {
+      setFullName({}); 
+    };
+   
+  }, [])
+
+
+  const updateFullName = () => {
+    setFullName({
+      firstName: userProfile?.first_name,
+      lastName: userProfile?.last_name,
+      notary_number: userProfile?.notary_commission_number,
+    })
+  }
+
+  useEffect(() => {
+    dispatch(
+      fetchUserProfile(
+        {},
+        () => { },
+        () => { }
+      )
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    // setUpdatedUser({ ...user, ...userProfile });
+    if (actionType === 'requests') {
+      setUpdatedUser(requestData);
+    } else {
+      setUpdatedUser({ ...user, ...userProfile });
+    }
+  }, [user, userProfile, requestData, actionType]);
+
+  
+
+  const isDefaultDisabled = (sealSuccess && !editSeal) || loading || !preview
+
+  const setStampAndSeal = (file: any, name: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const payload = {
+      type: name,
+      formData
+    };
+
+    setLoading(true);
+    dispatch(
+      uploadNotaryFiles(
+        name,
+        payload,
+        (response: any) => {
+          setLoading(false);
+          switch (name) {
+            case 'seal':
+              setCompanySeal({ file_url: response.file_url, file_id: response.file_id });
+              setEditSeal(false)
+              break;
+
+            default:
+              break;
+          }
+          toast.success('Upload done successfully');
+        },
+        (error: any) => {
+          setLoading(false);
+          toast.error(error);
+        }
+      )
+    );
+  };
+
+  const editStampAndSeal = (file: any, name: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const payload = {
+      type: name,
+      file_id: companySeal.file_id,
+      formData
+    };
+    setLoading(true);
+    dispatch(
+      editNotaryFiles(
+        payload,
+        (response: any) => {
+          setLoading(false);
+          switch (name) {
+            case 'seal':
+              setCompanySeal({ file_url: response.file_url, file_id: response.file_id });
+              setEditSeal(false);
+              break;
+            default:
+              break;
+          }
+          toast.success('Update done successfully');
+        },
+        (error: any) => {
+          setLoading(false);
+          toast.error(error);
+        }
+      )
+    );
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    const fileType = 'seal';
+    const payload = {
+      type: fileType
+    };
+    dispatch(
+      fetchStampsAndSeals(
+        payload,
+        (response: any) => {
+          setLoading(false);
+          switch (fileType) {
+            case 'seal':
+              setCompanySeal({ file_url: response.file_url, file_id: response.file_id });
+              setSealSuccess(true);
+
+              break;
+
+            default:
+              break;
+          }
+        },
+        () => setLoading(false)
+      )
+    );
+  }, [dispatch, setCompanySeal, user]);
+
+  const saveHtmlAsImage = () => {
+    if (sealImage.current) {
+      html2canvas(sealImage.current, { allowTaint: true }).then((canvas) => {
+       
+        const url = canvas.toDataURL('image/png');
+      
+        setUploadedSeal(url)
+      });
+    }
+    
+  };
+
+
+
+  useEffect(() => {
+    if (!showAgreement) {
+      setIsDisabled(true);
+    } else if (showAgreement && !acceptPolicy) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [acceptPolicy, showAgreement]);
+
+ 
+
+  const onSave = () => {
+      Save({
+        file: uploadedSeal,
+        type: 'NotaryTraditionalSeal',
+        category: 'Upload',
+        done: () => {
+          setUploadedSeal('')
+          setIsDisabled(true)
+          toast.success('Seal Uploaded successfully.', {
+            position: "top-right",
+            style: {
+              background: '#389750',
+              color: '#fff',
+              border: 'none',
+              padding: '16px'
+
+            }
+          })
+        }, 
+        fail: () => {
+           toast.error('Please generate a seal or stamp', {
+              position: "top-right",
+              style: {
+                background: 'red',
+                color: '#fff',
+                border: 'none',
+                padding: '16px'
+
+              }
+            })
+        }
+      });
+    
+  }
+
+   // initialize the canvas context
+   useEffect(() => {
+    // dynamically assign the width and height to canvas
+    const canvasEle = canvas.current;
+    canvasEle.width = canvasEle.clientWidth;
+    canvasEle.height = canvasEle.clientHeight;
+
+    // get context of the canvas
+    ctx = canvasEle.getContext("2d");
+  }, [fullName]);
+
+
+  useEffect(() => {
+    if (fileURL) {
+      setBase64Url(fileURL?.NotaryTraditionalSeal?.find(
+        (signature) => signature?.category === "Upload"
+      )?.file || '');
+    }
+  }, [fileURL]);
+
+
+const r = 111;
+const space = Math.PI / 16;
+
+ 
+
+  const updateCanvas = (text, x, y, radius, space, top, fontSize) => {
+  
+  
+    draw3dText(ctx, "", canvas.current.width / 2, 120, 5);
+
+    ctx.font = "normal " + fontSize + " verdana ";
+    ctx.beginPath();
+// ctx.arc(155, 155, r, 0, Math.pow(r, 2), false);
+ctx.fillStyle = "#c1353f";
+ctx.closePath();
+
+
+    // ctx.beginPath();
+    // ctx.arc(150, 150, r, 0, Math.pow(r, 2), false);
+    // ctx.closePath();
+    ctx.clearRect(0, top ? 0 : y, 600, y);
+    space = space || 0;
+    const numRadsPerLetter = (Math.PI - space * 2) / text.length;
+    ctx.save();
+    ctx.translate(x, y);
+    const k = top ? 1 : -1;
+    ctx.rotate(-k * ((Math.PI - numRadsPerLetter) / 2 - space));
+  
+    for (let i = 0; i < text.length; i++) {
+      ctx.save();
+      ctx.rotate(k * i * numRadsPerLetter);
+      ctx.textAlign = "left";
+      ctx.textBaseline = (!top) ? "top" : "bottom";
+      // ctx.backgroundColor = "rgba(255,255,255,0.1)";
+      
+      const cText = text[i].split(" ").join(String.fromCharCode(8201));
+      ctx.fillText(cText.toUpperCase(), 0, -k * radius);
+      ctx.restore();
+
+
+    }
+
+    // base64Url.value = canvas.toDataURL("image/png");
+    ctx.restore();
+  };
+
+  const draw3dText = (context, text, x, y, textDepth) => {
+    var n;
+    // draw bottom layers
+    for (n = 0; n < textDepth; n++) {
+        context.fillText(text, x - n, y - n);
+    }
+    // draw top layer with shadow casting over
+    // bottom layers
+    context.shadowColor = "#464444";
+    context.shadowBlur = 2;
+    context.shadowOffsetX = 2;
+    context.shadowOffsetY = 2;
+    context.fillText(text, x - n, y - n);
+  };
+
+  useEffect(() => {
+   updateCanvas(`${fullName?.firstName} ${fullName?.lastName}`, 130, 155, r, space, 1, "1.3em");
+    updateCanvas(`SCN:${fullName?.notary_number}`, 130, 145, r, space, 0, "1.3em");
+  } , [fullName])
+
+  
+  return (
+    <div>
+      
+        <div className="grid grid__layout gap-1 pt-1">
+        <div className="col-4">
+            <Input onChange={(e) => setFullName({...fullName, firstName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
+          </div>
+          <div className="col-4">
+            <Input onChange={(e) => setFullName({...fullName, lastName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
+          </div>
+          <div className="col-3">
+            <Input
+              label="Commission Number"
+              placeholder="SNC01345"
+              type="text"
+              value={`${updatedUser.notary_commission_number || '' } `}
+              
+            />
+          </div>
+        </div>
+    
+      <div className="signature__body-wrapper grid grid__layout gap-1 pt-1">
+        {/* <div className={styles.upload__div}>
+          <EditButton show={companySeal.file_url !== ''} onClick={() => setEditSeal(true)} disabled={false} />
+          {companySeal.file_url !== '' || preview ? (
+            <div className={styles.wrap}>
+              <div className={styles.wrap__image3}>
+                <img height="120" src={preview ? `${preview}` : `${companySeal.file_url}?time=${new Date().toISOString()}`} alt="pic" />
+              </div>
+            </div>
+          ) : (
+            <div className={styles.wrap2}>
+              {loading || preview ? (
+                <span>Loading...</span>
+              ) : (
+                <div className={styles.wrap2__image}>
+                  <img src={UploadIcon} id="logo" alt="notary_seal" />
+                </div>
+              )}
+            </div>
+          )}
+
+          <input
+            type="file"
+            className={styles.company_logo}
+            id="company-logo"
+            accept=".jpeg, .jpg, .png"
+            onChange={(e) => uploadImage(e)}
+          />
+        </div>
+        <span className={styles.upload__info}>File should be max 2MB. JPEG, JPG and PNG</span>
+       */}
+
+      <div className="col-7 ">
+        <div ref={sealImage} className="position-relative" style={{width: "auto", position: "relative"}} >
+          <div  id="coy_number"  style={{
+             
+              position: "absolute",
+              top: "38%",
+              left: "-48px",
+              fontWeight: "normal",
+              fontSize: "1.5em",
+              fontFamily: "arial",
+              width: "480px",
+              textAlign: "center",
+              textTransform: "uppercase",
+              color: "#c1353f",
+              textShadow: "2px 2px 2px #464444",
+              /* color: blue; */
+              /* color: #c1353f; */
+              /* text-shadow: 3px 1px 0px #000; */
+            
+          }}> <span>Public<br />  Notary </span> </div>
+          <img className="" width="380" height="380" src={seal} alt="seal" />
+          <canvas  width="300" height="300"  ref={canvas} id="canvas"  style={{
+              transform: "translate(-48%, -50%)",
+              position: "absolute",
+              top:" 50%",
+              left: "203px"
+            }}></canvas>
+        </div>
+    
+       
+      </div>
+      <div className="container col-5">
+        <Button
+        className="mb-1"
+        theme="primary"
+        width={161}
+        onClick={() => saveHtmlAsImage()}
+        loading={loading}
+        // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
+       
+      >
+       Adopt
+      </Button>
+      <div className={fetching ? 'signature__body--disabled mt-2' : ''} />
+      <img src={!uploadedSeal ? base64Url : uploadedSeal} alt="seal" />
+        </div>
+      </div>
+
+
+      
+      {/* <canvas ref={canvas}></canvas> */}
+      <div className="mt-1" />
+      {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+
+      <div className="bb-1 mb-2" />
+      <Button
+        className="mb-1"
+        theme="primary"
+        width={161}
+        onClick={() => onSave()}
+        // loading={loading}
+        loading={isSaving}
+        // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
+        disabled={isDisabled || !uploadedSeal}
+      >
+        Save
+      </Button>
+    </div>
+  );
+};
+
+SealWrapper.defaultProps = {
+  actionType: 'default',
+  requestData: {},
+  showAgreement: false
+};
+
+export default SealWrapper;
+

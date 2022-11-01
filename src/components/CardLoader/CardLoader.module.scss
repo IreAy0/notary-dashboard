@@ -1,0 +1,32 @@
+.loader {
+  &__card {
+    background: #ffffff;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 20px;
+    height: 220px;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
+  animation: shimmer 3s infinite linear;
+}
+
+@for $i from 1 through 20 {
+  .shimmer__width--#{$i} {
+    width: 10px * $i;
+  }
+  .shimmer__height--#{$i} {
+    height: 10px * $i;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}

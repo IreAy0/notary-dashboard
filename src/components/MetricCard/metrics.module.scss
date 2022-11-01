@@ -1,0 +1,83 @@
+.card {
+  box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.25rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  &__grey {
+    background: #383846;
+  }
+  &__purple {
+    background: #383751;
+  }
+  &__green {
+    background: #31473A;
+  }
+  &__blue {
+    background: #2E4981;
+  }
+  &__icon {
+    height: 44px;
+    width: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  &__title {
+    color: white;
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 500;
+    padding: 0;
+  }
+  &__label {
+    color: white;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  &__skeleton {
+    height: 42px;
+    background-size: 1000px 100%;
+    margin-bottom: 1.5rem;
+    display: flex;
+    .primary {
+      width: 50px;
+      height: 32px;
+      background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
+      margin-bottom: 10px;
+      animation: shimmer 3s infinite linear;
+    }
+    .secondary {
+      min-width: 100px;
+      height: 24px;
+      background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
+      margin-bottom: 1.25rem;
+      animation: shimmer 3s infinite linear;
+    }
+    .circle {
+      height: 44px;
+      width: 44px;
+      flex-grow: 0;
+      border-radius: 44px;
+      background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      margin-left: 1.5rem;
+      animation: shimmer 3s infinite linear;
+    }
+  }
+  &__content {
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}

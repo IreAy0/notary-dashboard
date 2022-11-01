@@ -1,0 +1,147 @@
+@use './_mixins' as *;
+
+.grid {
+  display: grid;
+  width: 100%;
+
+  &__layout {
+    @extend .grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 2.3rem;
+    @include grid-generator(12);
+    @include query('desktop') {
+      grid-template-columns: repeat(1, 1fr);
+      @include grid-generator(1);
+      grid-gap: 0rem;
+
+      &.tab-header {
+        border-right: 1px solid #cacaca;
+      }
+    };
+    &--8 {
+      grid-template-columns: repeat(8, 1fr);
+      @include grid-generator(8);
+    }
+    &--4 {
+      grid-template-columns: repeat(3, 1fr);
+      @include grid-generator(3);
+    }
+    &--10 {
+      grid-template-columns: repeat(10, 1fr);
+      @include grid-generator(10);
+    }
+    &--mb {
+      @include query('mobile') {
+        display: block;
+      }
+    }
+    @for $i from 0 through 20 {
+      &.gap-#{$i} {
+        grid-gap: #{$i}rem;
+      }
+
+      @include query('mobile') {
+        &.row-gap-#{$i} {
+          grid-row-gap: #{$i}rem !important;
+        }
+
+        &.col-gap-#{$i} {
+          grid-column-gap: #{$i}rem !important;
+        }
+
+        &.no-col-gap {
+          grid-column-gap: 0 !important;
+        }
+
+        &.no-row-gap {
+          grid-column-gap: 0 !important;
+        }
+      }
+    }
+  }
+
+  @include query('mobile') {
+    @for $i from 1 through 20 {
+      &--mobile {
+        grid-template-columns: repeat(12, 1fr);
+        @include grid-generator(12, mobile);
+
+        &.gap-#{$i} {
+          grid-gap: #{$i}rem;
+        }
+      }
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  &__center {
+    justify-content: center;
+    &--col {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  &__space-center {
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__space-evenly {
+    justify-content: space-evenly;
+  }
+  &__end {
+    justify-content: flex-end;
+  }
+  &__item-center {
+    align-items: center;
+  }
+  &__spaced {
+    justify-content: space-between;
+  }
+  &__end {
+    justify-content: flex-end;
+  }
+  &__column {
+    flex-direction: column;
+  }
+}
+
+.fs {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem; /* 24px */
+  &_sm {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+  }
+  &_xs{
+    font-size: 0.75rem; /* 12px */
+    line-height: 1rem; /* 16px */
+  }
+  &_lg{
+    font-size: 1.125rem; /* 18px */
+line-height: 1.75rem; /* 28px */
+  }
+  &_xl {
+    font-size: 1.25rem; /* 20px */
+line-height: 1.75rem; /* 28px */
+  }
+}
+.d-none{
+  display: none;
+}
+
+.d-block{
+  display: block;
+}
+
+.card {
+  border-radius: 10px;
+  background: #f9f9f9;
+  .divider {
+    border-right: 1px solid #cecece;
+    padding-right: 2rem;
+  }
+}
+
+

@@ -1,0 +1,87 @@
+.header {
+  padding: 0.625rem;
+  padding-left: 1.25rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.875rem;
+  z-index: 2;
+  position: relative;
+  &__group {
+    background: #003bb3;
+    border-radius: 8px;
+    padding: 0.6rem 0.625rem;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.625rem;
+  }
+  &__filterButton {
+    background: #003bb3;
+    border-radius: 8px;
+    color: #fff !important;
+  }
+  &__btn {
+    width: auto;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5rem;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  &__welcome_caption {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  &__profile {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    strong {
+      color: white;
+    }
+  }
+}
+
+.nav {
+  &__link {
+    text-decoration: none;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  background: #fff;
+  margin-left: 0.8rem;
+  margin-top: 0.5rem;
+  min-width: 210px;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1), 0px 0px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  font-size: 0.75rem;
+  &__header {
+    padding: 0.625rem 1rem;
+  }
+  &__label {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    display: block;
+    padding-top: 0.5rem;
+  }
+  &__item {
+    font-size: 0.875rem;
+    padding: 0.625rem 1rem;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #d9d9d9;
+    width: 100%;
+    svg {
+      margin-right: 0.5rem;
+      width: 1.5rem;
+    }
+  }
+}
+

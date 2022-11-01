@@ -1,0 +1,185 @@
+@import '../../assets/styles/mixins';
+@import '../../assets//styles/variables';
+
+.btn {
+  border-radius: 4px;
+  padding: 0 1.25rem;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #363740;
+  background: #f2f2f2;
+  cursor: pointer;
+
+  &.outline {
+    border: 2px solid #003bb3;
+    background-color: #fff;
+    color: #003bb3;
+  }
+  &.wide {
+    padding: 0 3.75rem;
+    max-width: 100%;
+    @include query('mobile') {
+      padding: 0 1rem;
+      width: 100%;
+    }
+  }
+  &__primary {
+    background: #003bb3;
+    color: #fff;
+    &:hover {
+      box-shadow: 0px 9px 20px rgba(0, 0, 0, 0.1);
+    }
+    &.outline {
+      border: 2px solid #003bb3;
+      background-color: #fff;
+      color: #003bb3;
+      &:disabled {
+        border: 2px solid #d3cccc;
+        color: #d3cccc;
+        background: #ededed;
+      }
+      svg,
+      svg * {
+        fill: #003bb3;
+      }
+    }
+    &.wide {
+      // confirm / update in main class
+      min-width: 100%;
+      padding: 0 0.5rem;
+    }
+  }
+  &__secondary {
+    background: #fff;
+    color: #363740;
+    box-shadow: 0px 9px 30px rgba(0, 0, 0, 0.1);
+    &:hover {
+      box-shadow: 0px 9px 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+  &__reject {
+    background: transparent;
+    color: #e64c3c;
+    font-size: 16px;
+  }
+  &__reset {
+    background: #e64c3c;
+    color: #fff;
+    font-size: 16px;
+  }
+  &__plain {
+    background: transparent;
+  }
+  &__grey {
+    background: #f2f2f2;
+    // box-shadow: 0px 14px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    text-align: center;
+    color: #979797;
+    &.outline {
+      border: 2px solid #979797;
+      background-color: transparent;
+      color: #979797;
+      // &:disabled {
+      //   border: 2px solid #d3cccc;
+      //   color: #d3cccc;
+      //   background: #ededed;
+      }
+  }
+  &__sm {
+    height: 34px;
+  }
+  &__md {
+    padding: 0 1rem;
+  }
+  &__lg {
+    height: 56px;
+  }
+  &__xl {
+    font-weight: 600;
+    height: 62px;
+    font-size: 1rem;
+    line-height: 21px;
+    width: 100%;
+  }
+  &:disabled {
+    background: #f2f2f2;
+    color: #d3cccc;
+    border: none;
+    cursor: not-allowed !important;
+    box-shadow: none;
+
+    &:hover {
+      background: #f2f2f2;
+      color: #d3cccc;
+    }
+  }
+  &.left {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+// TODO: Remove unnecesary styles
+.storybook-button {
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  border: 0;
+  border-radius: 3em;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+}
+
+.storybook-button--Primary {
+  color: white;
+  background: #003bb3;
+  box-shadow: 0 14px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.storybook-button--Outline {
+  color: #003bb3;
+  background: none;
+  border: 2px solid #003bb3;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;
+}
+
+.storybook-button--small {
+  font-size: 16px;
+  padding: 5px 20px;
+}
+
+.storybook-button--medium {
+  font-size: 16px;
+  padding: 12px 20px;
+}
+
+.storybook-button--large {
+  font-size: 16px;
+  padding: 12px 60px;
+}
+
+.storybook-button--Link {
+  color: white;
+  background: #003bb3;
+  box-shadow: 0 14px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+
+  &:hover {
+    transition: 0.25s ease;
+  }
+}
+
+.storybook-button--disabled {
+  border: 1px solid #d3cccc;
+  border-radius: 2px;
+  color: #d3cccc;
+  background-color: #ededed;
+}
+

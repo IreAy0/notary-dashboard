@@ -1,0 +1,82 @@
+.container {
+  text-align: center;
+  &__header {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    color: #003bb3;
+    margin-bottom: 9px;
+  }
+  &__caption {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #cecece;
+    font-size: 13px;
+  }
+  &__btn {
+    button {
+      margin: 31px 12px 0 0;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+.reasonModalContainer {
+  display: flex;
+  justify-content: space-between;
+  &__header {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+    color: #003bb3;
+    margin-bottom: 9px;
+  }
+  &__caption {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    align-items: center;
+    color: #878484;
+    margin-bottom: 20px;
+  }
+  &__sideBtn {
+    float: right;
+    margin-top: 30px;
+  }
+  &__side1 {
+    width: 80%;
+  }
+}
+
+.otpModalContainer {
+  &__title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #363740;
+  }
+  &__text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #7a7c7e;
+    margin: 20px 0px;
+  }
+  &__resendEmail {
+    border: none;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration-line: underline;
+    color: #003bb3;
+    margin-top: 10px;
+  }
+
+  &__buttons {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+

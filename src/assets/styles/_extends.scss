@@ -1,0 +1,208 @@
+// +extends
+#uppercase,
+.uppercase {
+  text-transform: uppercase;
+}
+#transition {
+  // transition: all .15s ease-in 0s;
+  // transition: color .15s ease-in 0s, box-shadow .15s ease-in 0s, border .15s ease-in 0s, opacity .15s ease-in 0s;
+  transition: var(--transition), font-size var(--noTransition);
+}
+#noTransition {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+#input {
+  box-shadow: inset 0 0 0 2px var(--clr-input-border);
+  &.hasError {
+    box-shadow: inset 0 0 0 2px;
+    color: var(--clr-red-txt);
+  }
+  &.hasSuccess {
+    box-shadow: inset 0 0 0 2px;
+    color: var(--clr-green-txt);
+  }
+}
+#inputHover {
+  box-shadow: inset 0 0 0 2px var(--clr-input-border-hover);
+  &.hasError {
+    box-shadow: inset 0 0 0 2px;
+    color: var(--clr-red-hover);
+  }
+  &.hasSuccess {
+    box-shadow: inset 0 0 0 2px;
+    color: var(--clr-green-hover);
+  }
+}
+#inputFocus {
+  box-shadow: inset 0 0 0 2px var(--clr-input-border-focus), 0 0 0 0.25rem var(--clr-blue-focus);
+  &.hasError {
+    box-shadow: inset 0 0 0 2px, 0 0 0 0.25rem var(--clr-red-bg);
+    color: var(--clr-red-active);
+  }
+  &.hasSuccess {
+    box-shadow: inset 0 0 0 2px, 0 0 0 0.25rem var(--clr-green-bg);
+    color: var(--clr-green-active);
+  }
+}
+#inputChecked {
+  box-shadow: inset 0 0 0 0 var(--clr-input-border-focus), 0 0 0 0 var(--clr-blue-focus);
+  background: var(--clr-blue);
+  &.hasError {
+    background: var(--clr-red-txt);
+  }
+  &.hasSuccess {
+    background: var(--clr-green-txt);
+  }
+}
+#inputCheckedHover {
+  box-shadow: inset 0 0 0 0 var(--clr-input-border-hover);
+  background: var(--clr-blue);
+  &.hasError {
+    background: var(--clr-red-hover);
+  }
+  &.hasSuccess {
+    background: var(--clr-green-hover);
+  }
+}
+#inputCheckedFocus {
+  box-shadow: inset 0 0 0 0 var(--clr-input-border-focus), 0 0 0 0.25rem var(--clr-blue-focus);
+  background: var(--clr-blue);
+  &.hasError {
+    box-shadow: inset 0 0 0 0 var(--clr-input-border-focus), 0 0 0 0.25rem var(--clr-red-bg);
+    background: var(--clr-red-hover);
+  }
+  &.hasSuccess {
+    box-shadow: inset 0 0 0 0 var(--clr-input-border-focus), 0 0 0 0.25rem var(--clr-green-bg);
+    background: var(--clr-green-hover);
+  }
+}
+#button {
+  box-shadow: 0px 16px 16px rgba(0, 0, 0, 0.1);
+}
+#buttonHover {
+  box-shadow: 0px 16px 16px rgba(0, 0, 0, 0.1);
+}
+#buttonActive {
+  box-shadow: 0px 12px 16px rgba(0, 0, 0, 0.3);
+}
+
+#buttonWhite {
+  background: var(--clr-white);
+  color: var(--clr-blue);
+  font-weight: 600;
+  align-items: center;
+  &:hover,
+  &:focus {
+    background: var(--clr-blue-focus);
+    &::after {
+      background: var(--clr-white);
+    }
+  }
+}
+
+#iconFont {
+  font-family: icomoon;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  // Better Font Rendering ===========
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+a.asButton {
+  &:active#iconFont {
+    line-height: calc(1em + 1px);
+  }
+}
+
+#formSelectEmulator__dropDown {
+  margin-top: 0.25rem;
+  position: absolute;
+  background: var(--clr-white);
+  @extend #radiusCommon;
+  @extend #shadowCommon;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  max-height: 10em;
+  overflow: auto;
+  @extend #transition;
+  label {
+    margin: 0;
+    padding: 0.75em 1em;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    color: #7b7171;
+    padding: 0.5em 0.75em;
+  }
+  input:focus + label,
+  input + label:hover {
+    background: var(--clr-gray-dark);
+    color: var(--clr-black);
+  }
+  li {
+    position: relative;
+    &:first-child {
+      label {
+        border-top-left-radius: 0.25em;
+        border-top-right-radius: 0.25em;
+      }
+    }
+    &:last-child {
+      label {
+        border-bottom-left-radius: 0.25em;
+        border-bottom-right-radius: 0.25em;
+      }
+    }
+  }
+  input[type='radio'],
+  input[type='checkbox'] {
+    // display: none;
+    width: 0;
+    height: 0;
+    padding: 0;
+    position: absolute;
+    &:checked {
+      + label {
+        background: var(--clr-gray-lite);
+        color: var(--clr-header);
+      }
+    }
+  }
+}
+#isHidden {
+  opacity: 0;
+  height: 0;
+  pointer-events: none;
+}
+#isVisible {
+  opacity: 1;
+  height: auto;
+  pointer-events: all;
+}
+
+#shadowCommon {
+  // box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1), 0px 0px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 30px var(--clr-black-10), 0 0 4px var(--clr-black-05);
+}
+#radiusCommon {
+  border-radius: 0.25rem;
+}
+#radiusCommonTop {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+#radiusCommonBot {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+// -extends

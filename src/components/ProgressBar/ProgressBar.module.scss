@@ -1,0 +1,24 @@
+.progressBarWrapper {
+  max-width: 165px;
+  width: 100%;
+  position: relative;
+
+  span {
+    height: 10px;
+    position: absolute;
+    border-radius: 10px;
+  }
+}
+
+.progressLine {
+  //width: 20%;
+  //background: red;
+  z-index: 2;
+}
+
+.staticLine {
+  width: 100%;
+  background: black;
+  z-index: 1;
+  opacity: 0.4;
+}

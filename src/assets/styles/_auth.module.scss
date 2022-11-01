@@ -1,0 +1,238 @@
+@import '_variables';
+@import '_extends';
+@import '_fonts';
+@import '_reset';
+@import '_custom';
+
+.formSimple {
+  small {
+    font-size: var(--size-S);
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  li {
+    padding-top: 0.3125em;
+    padding-bottom: 0.3125em;
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+    // justify-content: space-between;
+    // align-items: start;
+    width: 100%;
+    &.atom_dib {
+      display: inline-block;
+      position: relative;
+      padding-bottom: 0;
+      label,
+      a {
+        margin-bottom: 0;
+      }
+    }
+    &.per50 {
+      width: calc(50% - 0.5em);
+      + .per50 {
+        margin-left: 1em;
+      }
+    }
+    label {
+      position: relative;
+    }
+  }
+  input[type='checkbox'] {
+    order: 1;
+  }
+  input[type='password'],
+  input[type='text'] {
+    padding-right: 3em;
+    ~ button {
+      margin: 0;
+      // padding: 0;
+      position: absolute;
+      bottom: 0.3125em;
+      right: 0;
+      width: 3rem;
+      &::before {
+        z-index: 1;
+        position: relative;
+      }
+      &:after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 100%;
+        background: var(--clr-blue-focus);
+        @extend #transition;
+      }
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        &::before {
+          color: var(--clr-accent);
+        }
+        &:after {
+          width: 2.4em;
+          height: 2.4em;
+        }
+      }
+    }
+  }
+  button {
+    // unfinished feature
+    // margin-top: .3125em;
+    margin-top: 1.25em;
+    // margin-bottom: .75em;
+    margin-bottom: 1.25em;
+    align-self: flex-start;
+    // padding-left: 2.5em;
+    // padding-right: 2.5em;
+    &[type='submit'] {
+      min-width: 16.25rem;
+      white-space: nowrap;
+    }
+  }
+  label,
+  > a {
+    font-size: var(--size-S);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  > a {
+    display: inline-block;
+  }
+  a {
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    &:link,
+    &:visited {
+      color: var(--clr-dark);
+    }
+    &:hover,
+    &:focus {
+      color: var(--clr-blue-hover);
+    }
+    &:active {
+      color: var(--clr-blue-active);
+    }
+  }
+  .label_input_text {
+    width: max-content;
+  }
+  input {
+    padding-right: 3em;
+    + label[class*='hasIcon__'] {
+      &::before {
+        position: absolute;
+        right: 0.75rem;
+        top: 2.5rem;
+        margin-right: 0 !important;
+        color: var(--clr-red-txt);
+      }
+      &.isPass {
+        &::before {
+          right: 2.75rem;
+        }
+      }
+    }
+  }
+}
+
+.outerSloganAndForm,
+.outerSingleForm {
+  display: flex;
+  justify-content: center;
+  @media (min-width: 768px) {
+    article {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      > * {
+        flex: 0 0 auto;
+      }
+      &.notStretchable {
+        align-self: center;
+      }
+      &.alignTop {
+        align-items: flex-start;
+      }
+    }
+  }
+}
+
+.outerSloganAndForm {
+  @media (min-width: 768px) {
+    article {
+      max-width: 990px;
+      > *:not(header) {
+        width: 45%;
+      }
+    }
+  }
+}
+
+.outerSingleForm {
+  article {
+    width: 100%;
+    max-width: 22rem;
+    @media (min-width: 768px) {
+      > * {
+        width: 100%;
+      }
+    }
+  }
+  h2 {
+    text-align: center;
+  }
+}
+
+.outerForm {
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    // aspect-ratio: attr(width) / attr(height);
+    margin: 2em auto 0;
+    @media (max-width: 767px) {
+      &[src*='tablet-mail'] {
+        width: 50%;
+      }
+    }
+  }
+}
+
+.noShadow {
+  &,
+  &[type='submit'],
+  &[type='button'] {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
+
+.isTransparent {
+  &[type='submit'],
+  &[type='button'] {
+    background: 0;
+    color: var(--clr-text-lite);
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      background: 0;
+    }
+    &:hover,
+    &:focus {
+      color: var(--clr-header);
+    }
+  }
+}

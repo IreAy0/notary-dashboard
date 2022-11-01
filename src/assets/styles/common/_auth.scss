@@ -1,0 +1,20 @@
+.auth {
+  &__wrapper {
+    width: 490px;
+    max-width: 100%;
+    margin: 0 auto;
+    .title {
+      font-size: 2rem;
+      line-height: 1.5;
+      font-weight: 700;
+      letter-spacing: 0.1;
+    }
+    .caption {
+      font-size: 1rem;
+      line-height: 1.5;
+      padding-top: 1.25rem;
+    }
+  }
+  &__form {
+  }
+}

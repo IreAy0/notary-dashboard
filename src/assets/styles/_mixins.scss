@@ -1,0 +1,66 @@
+@use './variables' as *;
+/*
+ * Adds hover and focus styling
+ */
+@mixin hocus {
+  &:hover,
+  &:focus {
+    @content;
+  }
+}
+
+@mixin grid-generator($grid-columns, $columnType: col) {
+  @if $columnType == mobile {
+    $columnType: mobile-col;
+  }
+
+  @for $i from 1 through $grid-columns {
+    .#{$columnType}-#{$i} {
+      grid-column: span $i;
+    }
+  }
+  // add media queries mixins for mobile
+}
+
+// media queries mixins
+@mixin query($breakpoint, $type: max) {
+  // If $breakpoint is a key that exists in
+  // $breakpoints, get and use the value
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint: map-get($breakpoints, $breakpoint);
+  }
+
+  @media screen and (#{$type}-width: #{$breakpoint}) {
+    @content;
+  }
+}
+
+// adds ellipses to the an overflowing text
+@mixin truncate($truncation-boundary) {
+  max-width: $truncation-boundary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin addScrollBar($payload: small) {
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+
+    @if $payload == 'large' {
+      width: 5px;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 3px;
+    border: 7px solid transparent;
+    box-shadow: inset 0 0 2.5px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: lighten(#000, 70%);
+    border-radius: 8px;
+  }
+}

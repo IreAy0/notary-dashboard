@@ -1,0 +1,38 @@
+.tel {
+  &__phone {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 4px !important;
+    border: 1px solid #949494 !important;
+    font-family: 'Poppins', sans-serif !important;
+    border &::placeholder {
+      font-size: 15px;
+      font-weight: 0px;
+    }
+  }
+  &__dropdown {
+    background-color: #fff !important;
+    border-right: none !important;
+    border-right: 1px solid #949494 !important;
+    border-left: 1px solid #949494 !important;
+    position: relative;
+    // overflow: hidden;
+
+    // TODO: To be updated later
+    &:after {
+      // position: absolute;
+      // top: 0;
+      // content: '';
+      // width: 100%;
+      // height: 100%;
+      // background: rgba(255, 255, 255, 0.6);
+      // z-index: 10;
+      // cursor: default;
+    }
+  }
+  &__input {
+    box-shadow: 0px 4px 8px rgba(167, 167, 167, 0.25) !important;
+    border-radius: 4px !important;
+    font-style: #4f4f4f !important;
+  }
+}

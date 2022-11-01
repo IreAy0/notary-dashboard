@@ -1,0 +1,44 @@
+.custom__dropdown {
+    position: relative;
+  
+    &-option {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      pointer-events: none;
+  
+      &.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+    }
+  
+    &-btn {
+      position: absolute;
+      bottom: 25px;
+      right: 90px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+  }
+  
+  .select {
+    &__btn {
+      height: 48px;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      color: #575a65;
+      padding: 0.25rem 1rem;
+    }
+  }
+  

@@ -1,0 +1,18 @@
+.draggable {
+  position: absolute;
+  z-index: 10000;
+  cursor: move;
+
+  &.alt {
+    cursor: pointer;
+  }
+  
+  &.signed {
+    cursor: move;
+  }
+
+  &.disable {
+    cursor: not-allowed;
+  }
+}
+

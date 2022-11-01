@@ -1,0 +1,623 @@
+@import '_variables';
+@import '_extends';
+@import '_fonts';
+@import '_reset';
+
+@import '_utils';
+@import './mixins';
+@import './container';
+@import '_custom';
+// TODO: replace @import with direct links to font files
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+// +misc
+
+#logo {
+  display: block;
+  width: 87px;
+  height: 20px;
+  overflow: hidden;
+  &::before {
+    content: '\e924';
+    @extend #iconFont;
+    display: block;
+    font-size: 1.25em;
+  }
+}
+
+ul.hint {
+  color: #434343;
+  font-size: 14px;
+  line-height: 21px;
+  list-style: none;
+  color: #434343;
+  padding: 0;
+  $indent: 1em;
+
+  li {
+    display: block;
+    padding: 0 0 0 $indent;
+    margin-bottom: 2px;
+
+    &::before {
+      content: '\2022';
+      font-weight: 700;
+      display: inline-block;
+      text-indent: -$indent;
+    }
+  }
+}
+
+.formSelectEmulator {
+  position: relative;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  + a {
+    padding-left: 0;
+    text-decoration: none;
+    cursor: default;
+    font-size: var(--size-S);
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    &,
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--clr-text-lite);
+    }
+  }
+  > a {
+    display: block;
+    padding: 0.75em 0.75em 0.75em 1em;
+    @extend #input;
+    color: var(--clr-header);
+    @extend #radiusCommon;
+    white-space: nowrap;
+    text-decoration: none;
+    justify-content: space-between;
+    &:hover {
+      @extend #inputHover;
+      color: var(--clr-dark);
+    }
+    &:focus {
+      @extend #inputFocus;
+      color: var(--clr-dark);
+    }
+  }
+  ul {
+    @extend #formSelectEmulator__dropDown;
+  }
+  &:hover ul,
+  ul:target,
+  ul:focus,
+  ul:focus-within {
+    @extend #isVisible;
+  }
+}
+
+.asButton {
+  @extend button;
+  height: 3em;
+  overflow: hidden;
+  &:active,
+  &[class*='hasIcon__']:active,
+  &[class*='hasIcon__']:active::before {
+    line-height: calc(1.5rem + 1px);
+  }
+  img {
+    @extend #noTransition;
+  }
+  &:active {
+    img {
+      transform: translateY(1px);
+    }
+  }
+}
+
+.subscriptionPlans {
+  flex-wrap: wrap;
+  align-content: center;
+  header {
+    width: 100%;
+  }
+  h1,
+  h1 + p {
+    text-align: center;
+  }
+  h1 {
+    font-size: 1.5rem;
+    padding-bottom: 0;
+    padding-top: 1em;
+  }
+  > .asButton {
+    display: inline-flex;
+  }
+  fieldset {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.875rem;
+    padding: 1em;
+    label {
+      position: relative;
+      line-height: 2em;
+      &:first-of-type {
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 100%;
+          width: 3.75em;
+          height: 2em;
+          z-index: 1;
+        }
+      }
+      ~ label {
+        margin-left: 1.5em;
+        &::before {
+          content: '';
+          display: inline-block;
+          background: var(--clr-blue);
+          width: 4.5em;
+          height: 2em;
+          border-radius: 9999em;
+          vertical-align: top;
+          margin-right: 1.5em;
+          @extend #transition;
+        }
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          $indent: 4px;
+          width: calc(2em - #{$indent * 2});
+          height: calc(2em - #{$indent * 2});
+          background: var(--clr-white);
+          border-radius: 100%;
+          top: $indent;
+          left: $indent;
+          @extend #transition;
+        }
+      }
+    }
+    input {
+      width: 0.01px;
+      height: 0.01px;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+      -webkit-appearance: none;
+      appearance: none;
+      @extend #noTransition;
+      &:focus ~ label:last-of-type {
+        &::before {
+          background: var(--clr-blue-hover);
+        }
+      }
+      &:active ~ label:last-of-type,
+      &:focus:active ~ label:last-of-type,
+      &:active:focus ~ label:last-of-type {
+        &::before {
+          background: var(--clr-blue);
+        }
+      }
+      &:checked {
+        + label {
+          color: var(--clr-header);
+          &::after {
+            left: calc(4.5em - 24px);
+          }
+        }
+      }
+      &:not(:checked) {
+        + label {
+          cursor: pointer;
+          color: var(--clr-text-lite);
+          &:hover {
+            color: var(--clr-header);
+          }
+        }
+      }
+    }
+  }
+}
+.asButton.absTL,
+.asButton.absTR {
+  + .subscriptionPlans {
+    padding-top: 3rem;
+  }
+}
+.subscriptionPlans--choosePlan {
+  // TODO: need to move to the appropriate pages
+  margin-left: -1rem;
+  margin-right: -1rem;
+  text-align: left;
+  p {
+    font-weight: 500;
+  }
+  div {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1em;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      &::after {
+        content: '';
+        display: block;
+        width: 1.5em;
+        height: 0.25rem;
+        background: currentColor;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+    p {
+      text-align: right;
+      padding: 0;
+      strong {
+        display: block;
+        font-size: 1.5rem;
+        line-height: 1.5;
+      }
+    }
+  }
+  button {
+    width: calc(100% - 3rem);
+    position: absolute;
+    bottom: 1.5rem;
+  }
+  section {
+    margin: 1rem 1rem 2rem;
+    padding: 1.5rem 1.5rem 6rem;
+    box-shadow: 0px 10px 35px var(--clr-black-10);
+    @extend #radiusCommon;
+    font-size: 0.875rem;
+    position: relative;
+    &.current {
+      background: var(--clr-blue);
+      &,
+      h2 {
+        color: var(--clr-white);
+      }
+      button {
+        background: var(--clr-white);
+        &:hover,
+        &:focus {
+          background: var(--clr-white-95);
+        }
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: center;
+  }
+}
+.absTL,
+.absTR {
+  position: absolute;
+  top: 0;
+}
+.absTL {
+  left: 0;
+}
+.absTR {
+  right: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.section {
+  &__placeholder {
+    padding-top: 2rem;
+    font-size: 0.875rem;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  &--divider {
+    padding-left: 1.875rem;
+    border-left: 1px solid #cacaca;
+  }
+  &--top-divider {
+    margin-top: 1.875rem;
+    padding-top: 1.875rem;
+    border-top: 1px solid #cacaca;
+  }
+  &__heading {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+  &__caption {
+    font-size: 0.875rem;
+  }
+}
+
+.link {
+  color: #003bb3;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  &--grey {
+    color: #141414;
+  }
+  &--underline {
+    text-decoration: underline;
+  }
+}
+
+.label__title {
+  color: #767676;
+  font-size: 0.875rem;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.signature {
+  &__body {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #cacaca;
+    padding: 15px 20px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+
+    &-wrapper {
+      position: relative;
+    }
+
+    img {
+      object-fit: contain;
+    }
+
+    & button {
+      cursor: pointer;
+    }
+
+    input {
+      text-transform: capitalize;
+    }
+
+    &--disabled {
+      width: 100%;
+      height: 250px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      background: linear-gradient(to right, #eff1f381 4%, #f8f9fb8e 25%, #eff1f398 36%);
+      animation: shimmer 1s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200px 0;
+      }
+      100% {
+        background-position: 200px 0;
+      }
+    }
+  }
+  &__canvas {
+    width: 100%;
+    height: 85%;
+    border-radius: 4px;
+  }
+
+  &__controller {
+    z-index: 2;
+  }
+
+  &__text {
+    &-box, &-area {
+      width: 100%;
+      height: 80%;
+      font-size: 55px;
+      text-align: center;
+      font-family: Arizonia;
+
+      &.def-font {
+        font-family: 'Poppins';
+      }
+    }
+
+    &-area {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    &-black {
+      color: #363740;
+    }
+    &-blue {
+      color: #003bb3;
+    }
+  }
+
+  &__image {
+    height: 80%;
+    display: flex;
+    align-items: center;
+
+    &--small {
+      height: 65%;
+    }
+
+    & img {
+      height: 100%;
+    }
+  }
+}
+
+.lists {
+  list-style-type: disc;
+  &__item {
+    margin-bottom: 0.5rem;
+    margin-left: 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+.sign-up__back-btn {
+  color: #434343;
+
+  & svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+//alert toast
+.Toastify {
+  &__toast {
+    background: #003bb3 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 0rem 0.75rem !important;
+    min-height: 0px !important;
+
+    &--success {
+      background: #e8ffe8 !important;
+      color: #2fa36b !important;
+    }
+
+    &--error {
+      background: #ffebed !important;
+      color: #856c6e !important;
+    }
+
+    &--warning {
+      background: #fefff1 !important;
+      color: #ff9900 !important;
+    }
+  }
+
+  &__close-button {
+    display: none !important;
+  }
+}
+
+.unverified__label {
+  height: 50px;
+  background: #ff9900;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+.rdrDateRangePickerWrapper {
+  background: #fff !important;
+  box-shadow: 0px 25px 35px rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  overflow: hidden;
+  width: 421px !important;
+}
+
+.rdrDefinedRangesWrapper {
+  display: none !important;
+  font-size: 12px;
+  border-right: solid 1px #eff2f7;
+  background: #fff;
+}
+
+.rdrCalendarWrapper {
+  width: 100% !important;
+}
+
+.rdrMonth {
+  width: unset !important;
+}
+
+.rdrInputRange {
+  display: none !important;
+}
+
+.icon__wrap {
+  width: 1.5rem;
+  margin-right: 0.5rem;
+  display: flex;
+  justify-content: center;
+
+  &:is(svg, path) {
+    width: 100%;
+  }
+}
+
+.react-datepicker__day--selected {
+  background: #003bb3 !important;
+}
+
+.scroll__bar {
+  @include addScrollBar;
+}
+
+.DayPicker-Month {
+  margin: unset !important;
+  margin-top: 1em !important;
+}
+
+.DayPicker-Day {
+  border: 1px solid #dfdfdf;
+  padding: 1.2em !important;
+  font-size: 12px !important;
+  border-radius: unset !important;
+  line-height: 15px !important;
+  color: #000000 !important;
+  &--today {
+    color: unset !important;
+    font-weight: unset !important;
+  }
+  &--disabled {
+    color: #dce0e0 !important;
+    cursor: default !important;
+    pointer-events: none !important; //this will disable mouse event
+  }
+}
+
+.DayPicker-Day--birthday {
+  background-color: #003bb3 !important;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  background-color: #4a90e2;
+  color: white !important;
+}
+
+.DayPicker-Weekday {
+  color: #000000 !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  line-height: 15px !important;
+}
+
+.DayPicker-NavButton {
+  right: 0em !important;
+}
+
+// -misc
+
+// +inside
+@import '_inner';
+@import 'common/_tabs';
+@import 'common/_view';
+@import 'common/_user';
+@import 'common/_buttons';
+@import 'common/_carousel';
+@import 'common/_auth';
+@import 'common/_nprogress';
+// -inside

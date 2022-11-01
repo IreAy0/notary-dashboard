@@ -1,0 +1,124 @@
+.storybook-textInput {
+  background: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #363740;
+}
+
+.storybook-textInput--error,
+.storybook-textInput--error::before {
+  box-shadow: inset 0 0 0 2px red !important;
+}
+
+.input {
+  height: 48px;
+  border-radius: 4px;
+  border: 1px solid #949494;
+  padding: 0.625rem 0.75rem;
+  font-size: 1rem;
+  margin-top: 5px;
+  width: 100%;
+  position: relative;
+
+  &:active,
+  &:focus {
+    border-color: #003bb3;
+  }
+  &::placeholder {
+    color: #cacaca;
+  }
+  &:disabled {
+    border-color: #949494;
+    background: #f4f4f4;
+  }
+  &.hasError {
+    border-color: #ee0004;
+    color: #ee0004;
+  }
+  &__label {
+    position: relative;
+    color: #767676;
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    &.checkbox {
+      padding-left: 1.5rem;
+      display: inline-flex;
+    }
+    &.radio {
+      padding-left: 1.5rem;
+      display: inline-flex;
+    }
+  }
+
+  &__btn {
+    height: 16px;
+    width: auto;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &:hover,
+    &:focus {
+      background: none;
+    }
+    &:after {
+      display: none;
+    }
+  }
+  &__error {
+    color: rgba(238, 0, 4, 1) !important;
+    -webkit-text-fill-color: rgba(238, 0, 4, 1);
+    box-shadow: inset 0 0 0 1px rgba(238, 0, 4, 1);
+    &:hover {
+      box-shadow: inset 0 0 0 1px rgba(238, 0, 4, 1);
+    }
+    &:focus {
+      box-shadow: inset 0 0 0 1px rgba(238, 0, 4, 1), 0 0 0 0.25rem rgba(238, 0, 4, 0.1);
+    }
+    &:before {
+      box-shadow: inset 0 0 0 1px rgba(238, 0, 4, 1);
+    }
+  }
+  &__error_icon {
+    position: absolute;
+    height: 16px;
+    width: auto;
+    right: 1rem;
+    bottom: 1rem;
+    &__password {
+      right: 3rem;
+    }
+  }
+  &__radio_error {
+    &:before {
+      box-shadow: inset 0 0 0 2px !important;
+      color: rgba(238, 0, 4, 1);
+      -webkit-text-fill-color: rgba(238, 0, 4, 1);
+    }
+  }
+}
+
+.formik__errors {
+  position: relative;
+  display: block;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #ee0004;
+  font-weight: 400;
+  transition: all 300ms ease-in-out;
+}
+.formik__errors::first-letter {
+  text-transform: capitalize;
+}
