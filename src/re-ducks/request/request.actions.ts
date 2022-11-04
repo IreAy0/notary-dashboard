@@ -8,7 +8,8 @@ import {
   CANCEL_NOTARY_REQUEST,
   COMPLETE_NOTARY_SESSION,
   GET_SESSION_LINK,
-  END_NOTARY_SESSION
+  END_NOTARY_SESSION,
+  VERIFY_LOCKER_OTP
 } from './request.types';
 
 export const getAllRequestAction = (payload: object, cb: (success: string) => void, cbError: (error: string) => void) => ({
@@ -40,6 +41,13 @@ export const getRequestDetails = (payload: object, cb: (success: object) => void
 
 export const getRequestDocument = (payload: object, cb: (success: object) => void, cbError: (error: string) => void) => ({
   type: GET_REQUEST_DOC,
+  payload,
+  cb,
+  cbError
+});
+
+export const verifyLockerOTP = (payload: object, cb: (success: object) => void, cbError: (error: string) => void) => ({
+  type: VERIFY_LOCKER_OTP,
   payload,
   cb,
   cbError

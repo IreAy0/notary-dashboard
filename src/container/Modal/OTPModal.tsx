@@ -5,7 +5,7 @@ import useTypedSelector from 'hooks/useTypedSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Input } from 'components/TextInput/TextInput';
-import { getRequestDocument } from 're-ducks/request';
+import { getRequestDocument, verifyLockerOTP } from 're-ducks/request';
 import toast from 'react-hot-toast';
 import styles from './confirmationmodal.module.scss';
 import Modal from '../../components/Modal/Modal';
@@ -21,40 +21,42 @@ interface User {
   plan?: string;
   commission_number?: number;
 }
-
-const OTPModal = ({ isOpen, isClose, request }: any) => {
+// , request
+const OTPModal = ({ isOpen, isClose }: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user: User = useSelector((state: RootState) => state?.auth?.signIn);
   const userProfile = useTypedSelector((state: RootState) => state.user);
   const [updatedUser, setUpdatedUser] = useState<User>(user);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState('');
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
   }, [user, userProfile]);
 
-  const routeToCertificate = (doc) => {
-    history.push({
-      pathname: `/requests/${request?.request_id}/certificate`,
-      state: doc
-    });
-  };
+  // const routeToCertificate = (doc) => {
+  //   history.push({
+  //     pathname: `/requests/${request?.request_id}/certificate`,
+  //     state: doc
+  //   });
+  // };
 
   const fetchDocument = (useOTP?: boolean) => {
     setLoading(true);
+
     dispatch(
-      getRequestDocument(
+      verifyLockerOTP(
         {
-          id: request?.request_id,
+          email: updatedUser?.email,
           otp: useOTP ? otp : ''
         },
-        (doc) => {
+        (success) => {
+          console.log(success);
           setLoading(false);
-          if(useOTP) {
-            routeToCertificate(doc);
-          }
+          // if(useOTP) {
+          //   routeToCertificate(doc);
+          // }
         },
         (err) => {
           toast.error(err);
@@ -66,19 +68,23 @@ const OTPModal = ({ isOpen, isClose, request }: any) => {
 
   const verifyOTP = (type: string) => {
     if (type === 'proceed') {
+      
       fetchDocument(true);
     } else {
-      fetchDocument();
+
+      console.log('here')
+      // fetchDocument();
     }
   };
 
-  useEffect(
-    () => {
-      fetchDocument();
-    },
-    // eslint-disable-next-line
-    []
-  );
+  // useEffect(
+  //   () => {
+  //     fetchDocument();
+  //   },
+  //   // eslint-disable-next-line
+  //   []
+  // );
+
 
   return (
     <Modal isOpen={isOpen} isClose={isClose}>
@@ -99,14 +105,14 @@ const OTPModal = ({ isOpen, isClose, request }: any) => {
             Send another one
           </button>
           <div className={styles.otpModalContainer__buttons}>
-            <button style={{ marginRight: '20px' }} onClick={isClose}>
+            {/* <button style={{ marginRight: '20px' }} onClick={isClose}>
               Cancel
-            </button>
+            </button> */}
             <Button
               theme="primary"
               onClick={() => verifyOTP('proceed')}
               loading={loading}
-              disabled={otp === '' || otp.length !== 4 || loading}
+              disabled={otp === '' || otp.length !== 6 || loading}
             >
               Proceed
             </Button>

@@ -213,7 +213,7 @@ function SidebarMenu() {
           </NavLink>
         </li>
         <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings">
+          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings/Personal_Info">
             <button>
               <SettingsIcon />
             </button>

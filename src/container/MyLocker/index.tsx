@@ -7,7 +7,12 @@ import { fetchUserProfile } from 're-ducks/user';
 import { getAllCompleteRequestAction } from 're-ducks/locker';
 import useTypedSelector from 'hooks/useTypedSelector';
 import priceSplitter from 'helpers/priceSplitter';
+import { RootState } from 're-ducks/rootReducer';
+import { Box, Button, Modal, Typography } from '@mui/material';
+import OTPModal from 'container/Modal/OTPModal';
+import instance from 'services/axios';
 import Table from '../../components/Table';
+import toast from 'react-hot-toast';
 import { ReactComponent as EmptyIcon } from '../../assets/icons/requestEmptyIcon.svg';
 import styles from '../../pages/MyRequest/request.module.scss';
 
@@ -19,6 +24,18 @@ interface mockData {
   phone: string;
   amount: number;
 }
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4
+};
 
 export const mockClientItems = (itemsNumber = 10) => {
   const mockItems: mockData[] = [];
@@ -66,7 +83,13 @@ const MyLockerTable = () => {
   const [useMockData, setUseMockData] = useState<any>([]);
   const dispatch = useDispatch();
   const { locker }: any = useTypedSelector((state) => state);
-  
+  const user: any = useTypedSelector((state) => state);
+  const [showOTPModal, setOTPModal] = useState<Boolean>(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
   const fetchAllCompleteRequest = useCallback(
     (nextPage: any = 1, itemsPerPage: any = 10) => {
       setLoading(true);
@@ -101,20 +124,42 @@ const MyLockerTable = () => {
 
     dispatch(
       fetchUserProfile(
+        
         {},
-        () => {},
+        () => {
+         
+        },
         () => {}
       )
     );
   }, [dispatch]);
 
   useEffect(() => {
+    // setOTPModal(user?.user?.access_locker_documents)
     setUseMockData(mockClientItems(10));
   }, []);
+
+  useEffect(() => {
+    setOTPModal(user?.user?.access_locker_documents === false);
+  }, [user?.user])
       
-    
+  useEffect(() => {
+    if(user?.user?.access_locker_documents === false){
+      instance.get('/notary/notary-otp-locker')
+        .then(res => {
+          toast.success(res?.data?.message);
+          console.log(res, 'response')
+        
+        })
+    }
+  },[user])
+
+  console.log(showOTPModal, user?.user?.access_locker_documents )
+
   return (
     <div className="mt-1">
+      {showOTPModal  && <OTPModal isOpen={showOTPModal} isClose={() => setOTPModal(false)} />}
+
       <Table
         type="primary"
         tableData={useMockData}

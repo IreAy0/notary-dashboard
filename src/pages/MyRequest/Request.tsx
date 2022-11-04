@@ -18,8 +18,11 @@ import toast from 'react-hot-toast';
 import { RequestAcceptance } from 'types/requests';
 import classnames from 'classnames';
 import Button from 'components/Button';
+import instance from 'services/axios';
 import styles from './request.module.scss';
-import Dashboard from '../../layouts/dashboard';
+// import Dashboard from '../../layouts/dashboard';
+import Dashboard from '../../dashboard/SidebarLayout/index';
+
 // import { Button } from '@mui/material';
 import Buttonstyles from '../../components/Button/button.module.scss';
 
@@ -127,6 +130,7 @@ export default function Request() {
     [dispatch, searchValue]
   );
 
+ 
 
 
   const handleSearch = (e: any) => {
@@ -134,7 +138,6 @@ export default function Request() {
   };
 
   const confirmOrRejectRequest = () => {
-    console.log(selectedRequest, 'sr')
     dispatch(
       confirmRequest(
         {
@@ -206,7 +209,7 @@ export default function Request() {
                       {row?.document_name}
                     </Link>
                     <br />
-                    <span style={{ color: '#7B7171' }}>{row?.participants?.slice(0, 2).join(', ')}...</span>
+                    {/* <span style={{ color: '#7B7171' }}>{row?.participants?.slice(0, 2).join(', ')}...</span> */}
                   </td>
                   <td className="table__row-text center">
                     <Badge size="md" theme={badgeType(row.status.toString())} type="secondary">

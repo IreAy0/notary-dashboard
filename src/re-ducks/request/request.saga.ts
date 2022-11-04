@@ -11,7 +11,8 @@ import {
   CANCEL_NOTARY_REQUEST,
   COMPLETE_NOTARY_SESSION,
   GET_SESSION_LINK,
-  END_NOTARY_SESSION
+  END_NOTARY_SESSION,
+  VERIFY_LOCKER_OTP
 } from './request.types';
 import api from '../../services/api';
 
@@ -75,6 +76,25 @@ function* fetchRequestDocument(action: any): Generator {
       )
     );
 
+    if (res.status === 200) {
+      cb(res.data.data);
+    }
+  } catch (err: any) {
+    const { cbError } = action;
+    const alert = err?.response?.data?.message || '';
+    cbError(alert);
+  }
+}
+
+function* postVerifyLockerOTP(action: any): Generator {
+  try {
+    const { cb, payload } = action;
+
+    const res: any = yield call(() =>
+      api.post('/notary/notary-otp-locker', payload)
+    );
+
+    console.log('res', res)
     if (res.status === 200) {
       cb(res.data.data);
     }
@@ -154,6 +174,7 @@ function* watchRequestSaga() {
   yield takeEvery(CONFIRM_REQUEST, confirmRequests);
   yield takeEvery(GET_REQUEST_DETAILS, fetchRequestDetails);
   yield takeEvery(GET_REQUEST_DOC, fetchRequestDocument);
+  yield takeEvery(VERIFY_LOCKER_OTP, postVerifyLockerOTP)
   yield takeEvery(CANCEL_NOTARY_REQUEST, cancelNotaryRequests);
   yield takeEvery(END_NOTARY_SESSION, endNotarySession);
   yield takeEvery(COMPLETE_NOTARY_SESSION, completeNotarySession);

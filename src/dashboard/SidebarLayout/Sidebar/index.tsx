@@ -26,7 +26,7 @@ const SidebarWrapper = styled(Box)(
         min-width: ${theme.sidebar.width};
         color: ${theme.colors.alpha.trueWhite[70]};
         position: relative;
-        z-index: 7;
+        z-index: 1020;
         height: 100%;
         padding-bottom: 68px;
 `

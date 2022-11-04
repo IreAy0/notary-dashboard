@@ -17,6 +17,7 @@ import styles from '../MyRequest/request.module.scss';
 import Dashboard from '../../layouts/dashboard';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
+import instance from 'services/axios';
 
 export interface Props {
   data: any;
@@ -39,14 +40,23 @@ const SingleRequest = () => {
   const { id } = useParams<{ id?: string }>();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [participants, setParticipants] = useState<any>([])
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
+
+  const getRequestParticipants = (Virtualid) => {
+    instance.get(`/request-virtual-session/${Virtualid}`)
+      .then(res => (
+        setParticipants(res?.data)
+      ))
+  }
 
   const fetchRequestDetails = useCallback(() => {
     dispatch(
       getRequestDetails(
         { id },
-        (requestData) => {
-          console.log(requestData)
+        (requestData: any) => {
+          
+          getRequestParticipants(requestData?.schedule_session_id)
           setRequest(requestData);
           setLoading(false);
         },
@@ -125,9 +135,6 @@ const SingleRequest = () => {
       )
     )
   }
-
-  console.log(selectedRequest, 'sr')
-
   return (
     <Dashboard>
       <div className={styles.request_container}>
@@ -192,22 +199,22 @@ const SingleRequest = () => {
             </div> : null}
         </div>
         <div className="mt-1">
-          <Table type="primary" tableData={request?.participants} headers={singleRequestHeaders} loading={loading}>
-            {(row) => {
-              const isSigner = <span>{row?.is_signer ? 'Signer' : 'Witness'}</span>;
+          <Table type="primary" tableData={participants?.schedule?.participants} headers={singleRequestHeaders} loading={loading}>
+            {(row: any) => {
+              const isSigner = <span>{row?.role === 'Signer' ? 'Signer' : 'Witness'}</span>;
 
               return (
                 <>
                   <td className="table__row-text center">
-                    <span className="text--600 text--blue">{row?.name}</span> ({row?.is_request_owner && row.is_signer ? 'Owner' : isSigner}
-                    )
+                    <span className="text--600 text--blue">{row?.first_name} {row?.last_name}</span> 
+                    ({row?.role === 'Signer' ? 'Signer' : isSigner})
                   </td>
-                  <td className="table__row-text center">{row?.phone_number}</td>
+                  <td className="table__row-text center">{row?.phone}</td>
                   <td className="table__row-text center">{row?.email}</td>
                   <td className="table__row-text center">
-                    <Badge size="md" theme={badgeType(row?.status.toString())} type="secondary">
+                    {/* <Badge size="md" theme={badgeType(row?.status.toString())} type="secondary">
                       {row?.status}
-                    </Badge>
+                    </Badge> */}
                   </td>
                 </>
               );

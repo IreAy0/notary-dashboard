@@ -22,6 +22,8 @@ import Docs from '../../assets/icons/docs.svg';
 import Dashboard from '../../dashboard/SidebarLayout/index';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
+import classnames from 'classnames';
+import Buttonstyles from '../../components/Button/button.module.scss';
 import { ReactComponent as Empty } from '../../assets/icons/requestEmptyState.svg';
 
 interface User {
@@ -46,9 +48,9 @@ const badgeType = (status: string) => {
       return 'info';
     case 'completed':
       return 'success';
-    case 'Awaiting Payment':
+    case 'Awaiting':
       return 'payment';
-    case 'Pending':
+    case 'Accepted':
       return 'pending';
     case 'cancelled':
       return 'error';
@@ -150,6 +152,9 @@ const HomePage = () => {
     );
   };
 
+
+  console.log(requests, 'home1')
+
   return (
     <Dashboard>
       {/* {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />} */}
@@ -169,8 +174,10 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      <CallSection data={dashboardOverview} />
+      
+ <CallSection data={requests} />
+     
+     
 
       <section className="pt-1">
         <div className={styles.table_container}>
@@ -180,7 +187,7 @@ const HomePage = () => {
           <div className="mt-1">
             <Table
               type="primary"
-              tableData={requests?.requests?.slice(0, 5)}
+              tableData={requests?.slice(0, 5)}
               headers={requestHeaders}
               loading={loading}
               placeHolderImg={<EmptyState user={updatedUser?.first_name} />}
@@ -190,39 +197,57 @@ const HomePage = () => {
                   <td className="table__row-text center">
                     <Link className="text--blue text--600" to={`/requests/${row.id}`}>
                       {' '}
-                      {row?.document_name || '-'}
+                      {row?.document_name || row?.schedule_session?.title || '-'}
                     </Link>
                     <br />
-                    <span className="text--grey">{row.participants.slice(0, 2).join(', ')}</span>
+                    {/* <span className="text--grey">{row.participants.slice(0, 2).join(', ')}</span> */}
                   </td>
                   <td className="table__row-text center">
-                    <Badge size="md" theme={badgeType(row.status.toString())} type="secondary">
-                      {row.status}
+                    <Badge size="md" theme={badgeType(row?.status?.toString())} type="secondary">
+                      {row?.status}
                     </Badge>
                   </td>
-                  <td className="table__row-text center">{format(parseISO(row.call_date), 'PPPP')}</td>
+                  <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
 
-                  <td className="table__row-text center" style={checkForTime(row.immediate_session === true ? 'Immediate' : row.call_time)}>
-                    {row.immediate_session === false ? row?.call_time?.slice(0, 5) : 'Immediate'}
+                  <td className="table__row-text center" style={checkForTime(row?.schedule_session?.immediate === true ? 'Immediate' : row?.start_time)}>
+                    {row?.schedule_session?.immediate === false ? row?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
                   </td>
                   <td className="table__row-text center">
-                    {row.status === 'pending' && (
+                    {row?.status === 'Awaiting' && (
                       <>
                         <button
-                        type='button'
-                          onClick={() => setSelectedRequest({ type: 'accept', id :row?.id , body: row })}
+                          onClick={() => setSelectedRequest({ type: 'accept', id :row?.id , body: {
+                            "status": "Accepted",
+                            "schedule_session_id":  row?.schedule_session?.id,
+                            "schedule_session_request_id": row?.id
+                          } })}
+
                           className="text--600 text--coral px-1"
                         >
-                          {row.status === 'pending' && <span>Accept</span>}
+                          {row.status === 'Awaiting' && <span>Accept</span>}
                         </button>
 
                         <button
-                        type='button'
-                          onClick={() => setSelectedRequest({ type: 'reject', id :row?.id , body: row  })}
+                          onClick={() => setSelectedRequest({ type: 'reject', id :row?.id , body: {
+                            "status": "Rejected",
+                            "schedule_session_id":  row?.schedule_session?.id,
+                            "schedule_session_request_id": row?.id
+                          } })}
                           className="text--600 text--red px-1"
                         >
-                          {row.status === 'pending' && <span>Reject</span>}
+                          {row.status === 'Awaiting' && <span>Reject</span>}
                         </button>
+                      </>
+                    )}
+                    {row?.status === 'Accepted' && (
+                      <>
+                    <a href={row?.link} target="_blank" rel="noreferrer" className={classnames(
+                      Buttonstyles.btn,
+                      Buttonstyles.btn__primary,
+                      Buttonstyles.btn__sm
+                    )}  >Join Call</a>
+
+                       
                       </>
                     )}
                   </td>

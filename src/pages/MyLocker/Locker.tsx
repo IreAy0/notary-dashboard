@@ -1,7 +1,8 @@
 import React from 'react';
 import MyLockerTable from 'container/MyLocker';
 import styles from '../MyRequest/request.module.scss';
-import Dashboard from '../../layouts/dashboard';
+// import Dashboard from '../../layouts/dashboard';
+import Dashboard from '../../dashboard/SidebarLayout/index';
 
 const Locker = () => (
   <Dashboard>

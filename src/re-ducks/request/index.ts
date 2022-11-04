@@ -5,6 +5,7 @@ export {
   confirmRequest,
   getRequestDetails,
   getRequestDocument,
+  verifyLockerOTP,
   cancelNotaryRequest,
   endNotarySession,
   completeNotarySession,

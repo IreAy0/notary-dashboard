@@ -67,7 +67,7 @@ const days = [
   { name: 'Friday', id: '5' }
 ];
 
-const Calendar = () => {
+const Calendar = (editData) => {
   const [userProfile, setUserProfile] = useState<any>();
   const [selectedDays, setSelectedDays] = useState<any>([]);
   const [disableSaveButton,setDisableSaveButton] = useState<any>(false);
@@ -83,6 +83,10 @@ const Calendar = () => {
     end_time: ''
   });
   const [weekDays, setWeekDays] = useState<any>([]);
+
+
+  const query = new URLSearchParams(window.location.search);
+
 
   useEffect(() => {
     instance
@@ -125,17 +129,25 @@ const Calendar = () => {
 
 
   useEffect(() => {
-    dispatch(
-      fetchNotaryCalendar(
-        {},
-        (success) => {
-          setAvailableTimes(success);
-        },
-        (error: any) => {
-          toast.error(error?.message);
-        }
-      )
-    );
+    // query.has('edit')
+    if(query.has('edit')){
+      dispatch(
+        fetchNotaryCalendar(
+          {},
+          (success) => {
+            console.log('available', success)
+            setAvailableTimes(success);
+            setRowsData([...rowsData, ...success?.data])
+          },
+          (error: any) => {
+            toast.error(error?.message);
+          }
+        )
+      );
+  
+    }
+   
+    
 
     dispatch(
       fetchUserProfile(
@@ -150,10 +162,9 @@ const Calendar = () => {
     );
   }, [dispatch]);
 
-
+  console.log(rowsData, 'available')
 
   const saveCalendarDetails = () => {
-    console.log('saveCalendarDetails', selectedDays, rowsData);
     dispatch(
       createNotaryCalendar(
         {
@@ -191,22 +202,10 @@ const Calendar = () => {
       )
     );
   };
- 
-
-  const isCloseModal = () => {
-    setPopulationModal(false);
-  };
 
 
   return (
     <>
-      {/* {showPopulationModal && (
-        <ConfirmPopulationModal
-          isOpen={showPopulationModal}
-          isClose={() => isCloseModal()}
-          onPopulateClick={() => populateForOtherMonths()}
-        />
-      )} */}
       <div>
         <h3 className={styles.calendarHeader}>Select Day & Time</h3>
         <p className={styles.calendarCaption}>You can set your schedule for multiple dates. Click here to see how it works.</p>
@@ -230,7 +229,8 @@ const Calendar = () => {
                
                 <TableBody>
                   {rowsData.map((row, index) => (
-                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <>
+                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         <Select
                           displayEmpty
@@ -304,6 +304,8 @@ const Calendar = () => {
                         </Button>
                       </TableCell>
                     </TableRow>
+                    </>
+                   
                   ))}
                 </TableBody>
               </Table>

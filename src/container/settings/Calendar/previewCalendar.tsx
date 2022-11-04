@@ -36,21 +36,6 @@ import ConfirmPopulationModal from './CalendarPopulationModal';
 import { getNextDay } from './date';
 import styles from '../settings.module.scss';
 
-const times = [
-  {
-    id: '09:00',
-    show: false
-  },
-  { id: '10:00', show: false },
-  { id: '11:00', show: false },
-  { id: '12:00', show: false },
-  { id: '13:00', show: false },
-  { id: '14:00', show: false },
-  { id: '15:00', show: false },
-  { id: '16:00', show: false },
-  { id: '17:00', show: false },
-  { id: '18:00', show: false }
-];
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -62,13 +47,6 @@ const MenuProps = {
   }
 };
 
-const days = [
-  { name: 'Monday', id: '1' },
-  { name: 'Tuesday', id: '2' },
-  { name: 'Wednesday', id: '3' },
-  { name: 'Thursday', id: '4' },
-  { name: 'Friday', id: '5' }
-];
 
 const PreviewCalendar = () => {
   const [userProfile, setUserProfile] = useState<any>();
@@ -87,6 +65,7 @@ const PreviewCalendar = () => {
   });
   const [weekDays, setWeekDays] = useState<any>([]);
 
+
   useEffect(() => {
     instance
       .get(`/time-slots`)
@@ -95,7 +74,6 @@ const PreviewCalendar = () => {
       })
       .catch((err: any) => console.log(err));
   }, []);
-
 
   const dispatch = useDispatch();
 
@@ -165,7 +143,7 @@ const PreviewCalendar = () => {
         }}
       >
         {`Schedule for (${availableTimes?.data?.[0]?.date} - ${availableTimes?.data?.[availableTimes?.data?.length - 1]?.date}) `}
-       <Link className='fs_sm' to='/settings/Review_Calendar' >
+       <Link className='fs_sm' to='/settings/Calendar?edit' >
            Edit
         </Link>
       </Box>
