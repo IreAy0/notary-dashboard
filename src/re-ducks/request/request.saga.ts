@@ -100,7 +100,8 @@ function* postVerifyLockerOTP(action: any): Generator {
     }
   } catch (err: any) {
     const { cbError } = action;
-    const alert = err?.response?.data?.message || '';
+    console.log(err?.response?.data?.data?.error, 'error')
+    const alert = err?.response?.data?.data?.error || '';
     cbError(alert);
   }
 }

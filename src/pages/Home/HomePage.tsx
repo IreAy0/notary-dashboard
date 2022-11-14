@@ -3,6 +3,7 @@ import Metrics from 'components/MetricCard';
 import { RootState } from 're-ducks/rootReducer';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 import useTypedSelector from 'hooks/useTypedSelector';
 import VerifyNotaryId from 'container/authForm/VerifyNotaryId';
 import styles from 'layouts/layouts.module.scss';
@@ -22,7 +23,6 @@ import Docs from '../../assets/icons/docs.svg';
 import Dashboard from '../../dashboard/SidebarLayout/index';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
-import classnames from 'classnames';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import { ReactComponent as Empty } from '../../assets/icons/requestEmptyState.svg';
 
@@ -74,37 +74,44 @@ const checkForTime = (time: any) => {
 };
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+  const [userProfile, setUserProfile] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState<RequestAcceptance>({} as RequestAcceptance);
   const [isCloseModal, setIsCloseModal] = useState(false);
   const user: User = useTypedSelector((state: RootState) => state?.auth?.signIn);
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
-  const dispatch = useDispatch();
   const { requests }: any = useTypedSelector((state) => state?.request);
+  // const userProfile = useTypedSelector((state: any) => state.user);
 
   useEffect(() => {
     dispatch(
       fetchUserProfile(
         {},
-        () => {},
-        () => {}
+        (success) => {
+          console.log(success, 'user');
+          setUserProfile(success);
+        },
+        (error: any) => {
+          toast.error(error.message);
+        }
       )
     );
-  }, [dispatch])
+    
+  }, [dispatch]);
 
-  const userProfile = useTypedSelector((state: any) => state.user);
 
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
 
 
-  useEffect(() => {
-    if (!user?.is_id_verified) {
-      setIsCloseModal(true);
-    }
-    if (userProfile?.is_id_verified) {
-      setIsCloseModal(false);
-    }
-  }, [user?.is_id_verified, userProfile?.is_id_verified, setIsCloseModal]);
+  // useEffect(() => {
+  //   if (!user?.is_id_verified) {
+  //     setIsCloseModal(true);
+  //   }
+  //   if (userProfile?.is_id_verified) {
+  //     setIsCloseModal(false);
+  //   }
+  // }, [user?.is_id_verified, userProfile?.is_id_verified, setIsCloseModal]);
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
@@ -114,11 +121,11 @@ const HomePage = () => {
     const params = {
       status: ''
     };
-
+    setLoading(true);
     dispatch(
       getAllRequestAction(
         { params },
-        () => {
+        (res) => {
           setLoading(false);
         },
         () => {
@@ -129,8 +136,9 @@ const HomePage = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    setLoading(true);
     fetchAllRequest();
-  }, [fetchAllRequest]);
+  }, [ dispatch, fetchAllRequest, userProfile ]);
 
   const confirmOrRejectRequest = () => {
     dispatch(
@@ -153,7 +161,7 @@ const HomePage = () => {
   };
 
 
-  console.log(requests, 'home1')
+  // console.log(requests, dashboardOverview, 'home1', userProfile, updatedUser, user)
 
   return (
     <Dashboard>
@@ -175,7 +183,7 @@ const HomePage = () => {
         </div>
       </section>
       
- <CallSection data={requests} />
+        <CallSection data={requests} />
      
      
 
@@ -187,10 +195,10 @@ const HomePage = () => {
           <div className="mt-1">
             <Table
               type="primary"
-              tableData={requests?.slice(0, 5)}
+              tableData={requests?.slice(0, 5) || []}
               headers={requestHeaders}
               loading={loading}
-              placeHolderImg={<EmptyState user={updatedUser?.first_name} />}
+              placeHolderImg={<EmptyState user={!!userProfile} />}
             >
               {(row: { [k: string]: any }) => (
                 <>

@@ -8,7 +8,7 @@ export interface Props {
   label: string;
   value: number | string;
   loading?: boolean;
-  theme?: 'grey' | 'purple' | 'green' | 'blue';
+  theme?: 'grey' | 'purple' | 'green' | 'blue' | 'white';
 }
 
 const Metric = ({ label, value, iconPath, loading, theme }: Props) => (

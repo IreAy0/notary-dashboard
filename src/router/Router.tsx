@@ -13,6 +13,7 @@ import PasswordRecovery from 'pages/Auth/PasswordRecovery';
 import SingleRequest from 'pages/SingleRequest';
 import Request from 'pages/MyRequest/Request';
 import Locker from 'pages/MyLocker/Locker';
+import MyTemplates from 'pages/MyTemplates';
 import SingleDetailLocker from 'pages/SingleLocker';
 import RequestDocument from 'pages/SingleRequest/Document';
 import NotarySession from 'pages/Session';
@@ -40,6 +41,8 @@ const Router: FC = () => (
     <PrivateRoute exact path={appRoutePaths.myRequest} component={Request} />
     <PrivateRoute exact path={appRoutePaths.singleRequest} component={SingleRequest} />
     <PrivateRoute exact path={appRoutePaths.myLocker} component={Locker} />
+    <PrivateRoute exact path={appRoutePaths.singleLocker} component={SingleDetailLocker} />
+    <PrivateRoute exact path={appRoutePaths.myTemplate} component={MyTemplates} />
     <PrivateRoute exact path={appRoutePaths.singleLocker} component={SingleDetailLocker} />
     <PrivateRoute exact path={appRoutePaths.notarySession} component={NotarySession} />
     <PrivateRoute exact path={appRoutePaths.certificate} component={Certificate} />

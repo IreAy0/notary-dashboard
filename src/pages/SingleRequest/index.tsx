@@ -12,12 +12,14 @@ import useTypedSelector from 'hooks/useTypedSelector';
 import { RootState } from 're-ducks/rootReducer';
 import { RequestAcceptance } from 'types/requests';
 import toast from 'react-hot-toast';
+import instance from 'services/axios';
+import Buttonstyles from '../../components/Button/button.module.scss';
 import externalTab from '../../assets/icons/external-tab.svg';
 import styles from '../MyRequest/request.module.scss';
 import Dashboard from '../../layouts/dashboard';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
-import instance from 'services/axios';
+import { fetchUserProfile } from 're-ducks/user';
 
 export interface Props {
   data: any;
@@ -113,6 +115,19 @@ const SingleRequest = () => {
     );
   };
 
+  useEffect(() => {
+
+    dispatch(
+      fetchUserProfile(
+        
+        {},
+        () => {
+         
+        },
+        () => {}
+      )
+    );
+  }, [dispatch]);
 
   const confirmationText = selectedRequest.type === 'accept' ? 'Yes, Accept' : 'Reject';
 
@@ -135,6 +150,7 @@ const SingleRequest = () => {
       )
     )
   }
+  
   return (
     <Dashboard>
       <div className={styles.request_container}>
@@ -195,7 +211,11 @@ const SingleRequest = () => {
             )}
           </div>
           {request?.status !== "cancelled" && request?.status !== "Awaiting" && request?.status !== "pay now" &&  !loading ? <div className={classNames(styles.join_button, 'mt-1')}>
-              <Button theme='primary' onClick={() => handleSessionLink()}>Join Call</Button>
+              <a href={request?.link} target="_blank" rel="noreferrer"  className={classNames(
+                Buttonstyles.btn,
+                Buttonstyles.btn__primary,
+                Buttonstyles.btn__sm
+              )}>Join Call</a>
             </div> : null}
         </div>
         <div className="mt-1">

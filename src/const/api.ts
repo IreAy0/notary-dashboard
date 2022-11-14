@@ -38,6 +38,8 @@ export default {
   END_SESSION: 'notary/requests/session',
   COMPLETE_SESSION: '/request/complete-session',
 
+  GET_ALL_UPLOADED_TEMPLATE: '/notary/document-templates',
+
   GET_SESSION_LINK: 'request/join-call?',
   UPLOAD_DOC: 'document/upload',
   UPLOAD_TEMP: 'document/upload-template',

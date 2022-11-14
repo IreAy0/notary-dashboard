@@ -2,12 +2,17 @@
   box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.1);
   padding: 1rem 1.25rem;
   background: #fff;
+  color: #fff ;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
   &__grey {
     background: #383846;
+  }
+  &__white {
+    background: #fff;
+    color: #383846 !important;
   }
   &__purple {
     background: #383751;
@@ -27,14 +32,14 @@
     margin-bottom: 18px;
   }
   &__title {
-    color: white;
+    // color: white;
     font-size: 28px;
     line-height: 1;
     font-weight: 500;
     padding: 0;
   }
   &__label {
-    color: white;
+    // color: white;
     font-size: 0.875rem;
     line-height: 1.5;
   }

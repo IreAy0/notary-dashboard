@@ -19,7 +19,7 @@ export interface Props {
   placeholder: string;
 }
 
-const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPreview = false }: Props) => {
+const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPreview = false }: Props) => {
   const [filename, setFilename] = useState<any>();
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -84,6 +84,8 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
     }
   }, [imageFiles]);
   
+  console.log(fileBase64, 'b64', images, imageFiles )
+
   const fetchAllCompleteRequest = useCallback(
     (nextPage: any = 1, itemsPerPage: any = 10) => {
       setLoading(true);
@@ -98,8 +100,6 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
           (res: any) => {
             setLoading(false);
             console.log(res, 'file')
-            
-
             // setCompletedRequest(res);
           },
           () => {
@@ -150,12 +150,11 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
       "files": images
     }
     if(filename){
-      instance.post('/notary/notary-locker', fileData )
+      // /api/v1/notary/document-templates
+      instance.post('/notary/document-templates', fileData )
         .then(res => {
           toast.success(res?.data?.message);
           fetchAllCompleteRequest();
-          setImages([])
-          setFilename('')
           setLoading(false)
         })
         .catch((err) => { 
@@ -211,8 +210,8 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
   );
 };
 
-Upload.defaultProps = {
+TemplateUpload.defaultProps = {
   iconName: '',
   showPreview: false
 }
-export default Upload;
+export default TemplateUpload;

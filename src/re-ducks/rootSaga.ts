@@ -5,6 +5,7 @@ import { watchUserSaga } from './user';
 import { watchRequestSaga } from './request';
 import { watchLockerSaga } from './locker';
 import { watchDocsSaga } from './documents';
+import { watchTemplateSaga } from './template';
 
 function* rootSaga() {
   yield all([
@@ -13,7 +14,8 @@ function* rootSaga() {
     watchNotificationsSaga(),
     watchRequestSaga(),
     watchLockerSaga(),
-    watchDocsSaga()
+    watchDocsSaga(),
+    watchTemplateSaga()
   ]);
 }
 

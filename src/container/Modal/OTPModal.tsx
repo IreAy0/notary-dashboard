@@ -7,8 +7,10 @@ import { useHistory } from 'react-router-dom';
 import { Input } from 'components/TextInput/TextInput';
 import { getRequestDocument, verifyLockerOTP } from 're-ducks/request';
 import toast from 'react-hot-toast';
+import { fetchUserProfile } from 're-ducks/user';
 import styles from './confirmationmodal.module.scss';
 import Modal from '../../components/Modal/Modal';
+import instance from 'services/axios';
 
 interface User {
   team_role_code?: string | null;
@@ -33,14 +35,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
-  }, [user, userProfile]);
-
-  // const routeToCertificate = (doc) => {
-  //   history.push({
-  //     pathname: `/requests/${request?.request_id}/certificate`,
-  //     state: doc
-  //   });
-  // };
+  }, [user, userProfile])
 
   const fetchDocument = (useOTP?: boolean) => {
     setLoading(true);
@@ -52,14 +47,25 @@ const OTPModal = ({ isOpen, isClose }: any) => {
           otp: useOTP ? otp : ''
         },
         (success) => {
-          console.log(success);
           setLoading(false);
+          dispatch(
+            fetchUserProfile(
+              
+              {},
+              () => {
+               
+              },
+              () => {}
+            )
+          );
           // if(useOTP) {
           //   routeToCertificate(doc);
           // }
         },
         (err) => {
           toast.error(err);
+          setOtp('')
+          console.log(err, 'err')
           setLoading(false);
         }
       )
@@ -73,18 +79,27 @@ const OTPModal = ({ isOpen, isClose }: any) => {
     } else {
 
       console.log('here')
-      // fetchDocument();
+      fetchDocument();
     }
   };
 
-  // useEffect(
-  //   () => {
-  //     fetchDocument();
-  //   },
-  //   // eslint-disable-next-line
-  //   []
-  // );
-
+  const resendOtp = () => {
+    instance.get('/notary/notary-otp-locker')
+      .then(res => {
+        toast.success(res?.data?.message);
+        console.log(res, 'response')
+    
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        console.log('err', err)
+      })
+  }
+  // useEffect(() => {
+  //   if(user?.user?.access_locker_documents === false){
+     
+  //   }
+  // },[user?.user?.access_locker_documents])
 
   return (
     <Modal isOpen={isOpen} isClose={isClose}>
@@ -99,7 +114,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
             className={styles.otpModalContainer__resendEmail}
             onClick={(e) => {
               e.preventDefault();
-              verifyOTP('resend');
+              resendOtp()
             }}
           >
             Send another one

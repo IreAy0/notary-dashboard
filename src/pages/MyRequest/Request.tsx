@@ -103,7 +103,8 @@ export default function Request() {
     }
   ];
   const [activeTabContent, setActiveTabContent] = useState(tabs[0]);
-  console.log(requests, 'requests')
+ 
+
   const fetchRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
       const params = {

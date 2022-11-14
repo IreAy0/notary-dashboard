@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { lockerHeaders } from 'mocks/table';
+import { lockerHeaders, templateHeaders } from 'mocks/table';
 import Pagination from 'components/Pagination';
 import { Link } from 'react-router-dom';
 import { fetchUserProfile } from 're-ducks/user';
@@ -16,6 +16,8 @@ import toast from 'react-hot-toast';
 import { ReactComponent as EmptyIcon } from '../../assets/icons/requestEmptyIcon.svg';
 import styles from '../../pages/MyRequest/request.module.scss';
 import Upload from 'components/Upload';
+import TemplateUpload from 'components/Upload/templateUpload';
+import { getAllTemplates } from 're-ducks/template';
 
 interface mockData {
   id: number;
@@ -38,26 +40,6 @@ const style = {
   p: 4
 };
 
-export const mockClientItems = (itemsNumber = 10) => {
-  const mockItems: mockData[] = [];
-  for (let i:number = 1; i < itemsNumber + 1; i += 1) {
-    const item: mockData = { 
-      id: i,
-      title: `Client ${i}`,
-      date: `'12/${i}/2020'`,
-      email: `client${i}@email.com  `,
-      phone: `08012345678  `,
-      amount: 100000
-    }
-
-    mockItems.push( item );
-  }
-
-  return mockItems;
-
-}; 
-
-console.log(mockClientItems(10), 'mockClientItems');
 
 const EmptyState = ({ isDocumentEmpty = false }: { isDocumentEmpty: boolean }) => {
   const user = useSelector((state: any) => state?.auth?.signIn);
@@ -77,35 +59,28 @@ const EmptyState = ({ isDocumentEmpty = false }: { isDocumentEmpty: boolean }) =
   );
 };
 
-const MyLockerTable = () => {
+const MyTemplateTable = () => {
   const [loading, setLoading] = useState(true);
   const [dataPerPage, setDataPerPage] = useState(10);
-  const [complectedRequest, setCompletedRequest] = useState([]);
+  // const [templates, setTemplates] = useState([]);
   const [useMockData, setUseMockData] = useState<any>([]);
   const dispatch = useDispatch();
-  const { locker }: any = useTypedSelector((state) => state);
+  const { locker, templates }: any = useTypedSelector((state) => state);
   const user: any = useTypedSelector((state) => state);
   const [showOTPModal, setOTPModal] = useState<Boolean>(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
-
-  const fetchAllCompleteRequest = useCallback(
+  const fetchAllUploadedTemplates = useCallback(
+    
     (nextPage: any = 1, itemsPerPage: any = 10) => {
       setLoading(true);
       setDataPerPage(itemsPerPage);
-      const params = {
-        page: nextPage === 0 ? 1 : nextPage,
-        per_page: itemsPerPage
-      };
       dispatch(
-        getAllCompleteRequestAction(
-          { params },
+        getAllTemplates(
           (res: any) => {
             setLoading(false);
             console.log(res, 'file')
-            setCompletedRequest(res);
           },
           () => {
             setLoading(false);
@@ -117,7 +92,7 @@ const MyLockerTable = () => {
   );
 
   useEffect(() => {
-    fetchAllCompleteRequest();
+    fetchAllUploadedTemplates();
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -133,48 +108,23 @@ const MyLockerTable = () => {
         () => {}
       )
     );
-  }, [dispatch]);
+  }, [dispatch]);     
 
-  useEffect(() => {
-    // setOTPModal(user?.user?.access_locker_documents)
-    setUseMockData(mockClientItems(10));
-  }, []);
-
-  useEffect(() => {
-    setOTPModal(user?.user?.access_locker_documents === false);
-  }, [user?.user])
-      
-  useEffect(() => {
-    if(user?.user?.access_locker_documents === false){
-      instance.get('/notary/notary-otp-locker')
-        .then(res => {
-          toast.success(res?.data?.message);
-          console.log(res, 'response')
-        
-        })
-        .catch((err) => {
-          toast.error(err.message);
-          console.log('err', err)
-        })
-    }
-  },[user?.user?.access_locker_documents])
-
-  console.log(showOTPModal, user?.user?.access_locker_documents, locker, locker?.length <= 0 )
+  console.log(showOTPModal, user?.user?.access_locker_documents, templates, 'here' )
 
   return (
     <div className="mt-1">
-      {showOTPModal  && <OTPModal isOpen={showOTPModal} isClose={() => setOTPModal(false)} />}
-      <Upload maxFilesize={2} fileRule=" " label='Upload Document' placeholder='Please click here to upload document'/>
+      <TemplateUpload maxFilesize={2} fileRule=" " label='Upload Document' placeholder='Please click here to upload template document'/>
       <Divider  sx={{my:3}} />
       <Typography sx={{
         mb:3
       }} variant="h4" component="h4">
-          All Documents
+          All Templates
       </Typography>
       <Table
         type="primary"
-        tableData={locker?.lockers || []}
-        headers={lockerHeaders}
+        tableData={templates?.templates || []}
+        headers={templateHeaders}
         loading={loading}
         placeHolderImg={!loading && <EmptyState isDocumentEmpty={locker?.lockers?.length <= 0} />}
       >
@@ -185,17 +135,11 @@ const MyLockerTable = () => {
                   {row.title}
                 </Link>
                 <br />
-                {/* <span style={{ color: '#7B7171' }}>
-                  {row.participants?.slice(0, 2)?.map((item: any) => {
-                    const isSigner = item?.is_signer ? 'Signer' : 'Witness';
-                    
-                    return `${item.name} (${item?.is_request_owner && item?.is_signer ? 'Owner' : isSigner}), `;
-                  })}
-                </span> */}
+               
               </td>
               <td className="table__row-text center">{row?.phone}</td>
               <td className="table__row-text center">{row?.email}</td>
-              <td className="table__row-text center">{row?.amount ? `₦ ${priceSplitter(Math.floor(row?.amount))}` : null}</td>
+             
           </>
         )}
       </Table>
@@ -205,7 +149,7 @@ const MyLockerTable = () => {
             currentPage={locker?.lockers?.pagePayload?.page}
             total={locker?.lockers?.pagePayload?.total}
             perPage={dataPerPage}
-            fetchPage={(nextPage, itemsPerPage) => fetchAllCompleteRequest(nextPage, itemsPerPage)}
+            fetchPage={(nextPage, itemsPerPage) => fetchAllUploadedTemplates(nextPage, itemsPerPage)}
           />
         )}{' '}
       </div>
@@ -213,5 +157,5 @@ const MyLockerTable = () => {
   );
 };
 
-export default MyLockerTable;
+export default MyTemplateTable;
 

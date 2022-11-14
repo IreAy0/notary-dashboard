@@ -34,9 +34,9 @@ const Table = ({ type, headers, children, tableData, loading, placeHolderImg, sh
   const tableLoader = (
     <div className={styles.skeleton}>
       <div className={styles.skeleton__head} />
-      {headers.slice(0, 4).map((_, index: number) => (
+      {headers?.slice(0, 4).map((_, index: number) => (
         <div key={index} className={styles.skeleton__row}>
-          {headers.map((header: string | {}, idx: number) => (
+          {headers?.map((header: string | {}, idx: number) => (
             <div key={idx} className={styles.skeleton__item} />
           ))}
         </div>

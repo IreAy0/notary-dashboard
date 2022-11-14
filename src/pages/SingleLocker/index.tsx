@@ -131,7 +131,8 @@ const SingleDetailLocker = () => {
   const goBack = () => {
     history.goBack();
   };
-  
+  console.log(request, 'req-details');
+
   return (
     <Dashboard>
       {loading ? (

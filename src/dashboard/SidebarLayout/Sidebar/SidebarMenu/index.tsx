@@ -32,7 +32,7 @@ import { ReactComponent as HomeIcon } from '../../../../assets/icons/homeIcon.sv
 import { ReactComponent as MYDocsIcon } from '../../../../assets/icons/myDocsIcon.svg';
 import { ReactComponent as MYRequestIcon } from '../../../../assets/icons/requestIcon.svg';
 import { ReactComponent as SettingsIcon } from '../../../../assets/icons/settingsIcon.svg';
-
+import { ReactComponent as TemplateIcon } from '../../../../assets/icons/template.svg';
 // import { ReactComponent as Logo } from '../../assets/icons/sidebarLogo.svg';
 
 // import styles from '../../';
@@ -210,6 +210,14 @@ function SidebarMenu() {
               <MYRequestIcon />
             </button>
             <span className={styles.menu__label}>Requests</span>
+          </NavLink>
+        </li>
+        <li className={styles.menu__item}>
+          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/templates">
+            <button>
+              <TemplateIcon/>
+            </button>
+            <span className={styles.menu__label}>Templates</span>
           </NavLink>
         </li>
         <li className={styles.menu__item}>

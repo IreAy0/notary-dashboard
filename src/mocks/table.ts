@@ -128,7 +128,7 @@ export const requestHeaders = [
 
 export const lockerHeaders = [
   {
-    text: 'Request',
+    text: 'Document Name',
     alignment: 'center',
     sortable: false,
     key: 'request'
@@ -152,6 +152,21 @@ export const lockerHeaders = [
     key: 'amount'
   }
 ];
+
+export const templateHeaders = [
+  {
+    text: 'Document Name',
+    alignment: 'center',
+    sortable: false,
+    key: 'request'
+  },
+  {
+    text: 'Action',
+    alignment: 'center',
+    sortable: false,
+    key: 'action'
+  },
+]
 
 export const lockerData = [
   {
