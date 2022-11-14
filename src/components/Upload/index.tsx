@@ -49,8 +49,6 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
 
   };
 
-  console.log(imageFiles, 'imageFiles')
-
   useEffect(() => {
     const images_new: any = []; const fileReaders:any = [];
     let isCancel = false;
@@ -63,14 +61,12 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
           if (result) {
 
             images_new.push(result)
-            console.log(result , e , 'result')
           }
           if (images_new.length === imageFiles.length && !isCancel) {
             setImages(images_new);
           }
         }
         fileReader.readAsDataURL(file);
-        console.log(file, 'files')
       })
     };
     
@@ -96,10 +92,7 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
         getAllCompleteRequestAction(
           { params },
           (res: any) => {
-            setLoading(false);
-            console.log(res, 'file')
-            
-
+            setLoading(false);            
             // setCompletedRequest(res);
           },
           () => {
@@ -143,7 +136,6 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
 
 
   const uploadDocument = () => {
-    console.log(filename, 'uploaded')
     setLoading(true)
     const fileData = {
       "title": filename?.name,

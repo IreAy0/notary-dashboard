@@ -8,7 +8,6 @@ function* getAllCompleteRequest(action: any): any {
   try {
     const { cb, payload: data } = action;
     const res: any = yield call(() => api.get(`${API.GET_ALL_COMPLETE_REQUEST}?${queryFormatter(data.params)}`));
-    console.log(res.data.data, 'action')
     if (res.status === 200) {
       yield put({ type: SAVE_ALL_COMPLETE_REQUEST, payload: res.data.data });
       cb(res.data.data);

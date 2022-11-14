@@ -13,13 +13,13 @@ import { RootState } from 're-ducks/rootReducer';
 import { RequestAcceptance } from 'types/requests';
 import toast from 'react-hot-toast';
 import instance from 'services/axios';
+import { fetchUserProfile } from 're-ducks/user';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import externalTab from '../../assets/icons/external-tab.svg';
 import styles from '../MyRequest/request.module.scss';
 import Dashboard from '../../layouts/dashboard';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
-import { fetchUserProfile } from 're-ducks/user';
 
 export interface Props {
   data: any;
@@ -96,7 +96,6 @@ const SingleRequest = () => {
   };
 
   const confirmOrRejectRequest = () => {
-    console.log(selectedRequest, 'sr')
     dispatch(
       confirmRequest(
         {

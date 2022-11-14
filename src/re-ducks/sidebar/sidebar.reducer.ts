@@ -7,8 +7,6 @@ export const initialState: ISidebarState = {
   minimizeSidebar: false
 };
 
-console.log(window.innerWidth < SCREEN_SIZES.md);
-
 
 const sidebarReducer = (state = initialState, action: ISidebarAction) => {
   switch (action.type) {

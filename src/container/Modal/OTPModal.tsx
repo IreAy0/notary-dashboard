@@ -8,9 +8,9 @@ import { Input } from 'components/TextInput/TextInput';
 import { getRequestDocument, verifyLockerOTP } from 're-ducks/request';
 import toast from 'react-hot-toast';
 import { fetchUserProfile } from 're-ducks/user';
+import instance from 'services/axios';
 import styles from './confirmationmodal.module.scss';
 import Modal from '../../components/Modal/Modal';
-import instance from 'services/axios';
 
 interface User {
   team_role_code?: string | null;
@@ -65,7 +65,6 @@ const OTPModal = ({ isOpen, isClose }: any) => {
         (err) => {
           toast.error(err);
           setOtp('')
-          console.log(err, 'err')
           setLoading(false);
         }
       )
@@ -77,8 +76,6 @@ const OTPModal = ({ isOpen, isClose }: any) => {
       
       fetchDocument(true);
     } else {
-
-      console.log('here')
       fetchDocument();
     }
   };
@@ -87,12 +84,10 @@ const OTPModal = ({ isOpen, isClose }: any) => {
     instance.get('/notary/notary-otp-locker')
       .then(res => {
         toast.success(res?.data?.message);
-        console.log(res, 'response')
     
       })
       .catch((err) => {
         toast.error(err.message);
-        console.log('err', err)
       })
   }
   // useEffect(() => {

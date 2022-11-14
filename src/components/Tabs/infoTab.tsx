@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { TabOption } from 'types/tabs.interface';
-import history from 'utils/history';
+// import history from 'utils/history';
 import styles from './tabs.module.scss';
 
 export interface TabsProps {

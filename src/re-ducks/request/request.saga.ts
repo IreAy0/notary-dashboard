@@ -53,7 +53,6 @@ function* fetchRequestDetails(action: any): Generator {
     const { cb, payload } = action;
 
     const res: any = yield call(() => api.get(`${API.REQUEST}/${payload.id}`));
-    console.log(res.data, 'action')
     if (res.status === 200) {
       cb(res.data?.data);
     }
@@ -93,14 +92,11 @@ function* postVerifyLockerOTP(action: any): Generator {
     const res: any = yield call(() =>
       api.post('/notary/notary-otp-locker', payload)
     );
-
-    console.log('res', res)
     if (res.status === 200) {
       cb(res.data.data);
     }
   } catch (err: any) {
     const { cbError } = action;
-    console.log(err?.response?.data?.data?.error, 'error')
     const alert = err?.response?.data?.data?.error || '';
     cbError(alert);
   }

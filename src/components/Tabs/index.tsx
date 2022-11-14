@@ -17,7 +17,6 @@ const Tabs = ({ tabs, active, setActive, type, size }: TabsProps) => {
   const activeClass = (tab: { label: string; title?: string }) =>
     (active) === (tab.label || tab.title) && styles.active;
 
-  console.log(tabs, active, 'tabs', setActive)
 
   return (
     <>

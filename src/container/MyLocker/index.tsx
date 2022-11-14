@@ -11,11 +11,11 @@ import { RootState } from 're-ducks/rootReducer';
 import { Box, Button, Modal, Typography, Divider } from '@mui/material';
 import OTPModal from 'container/Modal/OTPModal';
 import instance from 'services/axios';
-import Table from '../../components/Table';
 import toast from 'react-hot-toast';
+import Upload from 'components/Upload';
+import Table from '../../components/Table';
 import { ReactComponent as EmptyIcon } from '../../assets/icons/requestEmptyIcon.svg';
 import styles from '../../pages/MyRequest/request.module.scss';
-import Upload from 'components/Upload';
 
 interface mockData {
   id: number;
@@ -57,7 +57,6 @@ export const mockClientItems = (itemsNumber = 10) => {
 
 }; 
 
-console.log(mockClientItems(10), 'mockClientItems');
 
 const EmptyState = ({ isDocumentEmpty = false }: { isDocumentEmpty: boolean }) => {
   const user = useSelector((state: any) => state?.auth?.signIn);
@@ -104,7 +103,6 @@ const MyLockerTable = () => {
           { params },
           (res: any) => {
             setLoading(false);
-            console.log(res, 'file')
             setCompletedRequest(res);
           },
           () => {
@@ -149,17 +147,15 @@ const MyLockerTable = () => {
       instance.get('/notary/notary-otp-locker')
         .then(res => {
           toast.success(res?.data?.message);
-          console.log(res, 'response')
         
         })
         .catch((err) => {
           toast.error(err.message);
-          console.log('err', err)
         })
     }
   },[user?.user?.access_locker_documents])
 
-  console.log(showOTPModal, user?.user?.access_locker_documents, locker, locker?.length <= 0 )
+  // console.log(showOTPModal, user?.user?.access_locker_documents, locker, locker?.length <= 0 )
 
   return (
     <div className="mt-1">

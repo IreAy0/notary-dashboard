@@ -11,13 +11,13 @@ import { RootState } from 're-ducks/rootReducer';
 import { Box, Button, Modal, Typography, Divider } from '@mui/material';
 import OTPModal from 'container/Modal/OTPModal';
 import instance from 'services/axios';
-import Table from '../../components/Table';
 import toast from 'react-hot-toast';
-import { ReactComponent as EmptyIcon } from '../../assets/icons/requestEmptyIcon.svg';
-import styles from '../../pages/MyRequest/request.module.scss';
 import Upload from 'components/Upload';
 import TemplateUpload from 'components/Upload/templateUpload';
 import { getAllTemplates } from 're-ducks/template';
+import styles from '../../pages/MyRequest/request.module.scss';
+import { ReactComponent as EmptyIcon } from '../../assets/icons/requestEmptyIcon.svg';
+import Table from '../../components/Table';
 
 interface mockData {
   id: number;
@@ -80,7 +80,6 @@ const MyTemplateTable = () => {
         getAllTemplates(
           (res: any) => {
             setLoading(false);
-            console.log(res, 'file')
           },
           () => {
             setLoading(false);
@@ -110,7 +109,7 @@ const MyTemplateTable = () => {
     );
   }, [dispatch]);     
 
-  console.log(showOTPModal, user?.user?.access_locker_documents, templates, 'here' )
+  // console.log(showOTPModal, user?.user?.access_locker_documents, templates, 'here' )
 
   return (
     <div className="mt-1">

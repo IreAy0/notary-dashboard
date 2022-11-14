@@ -42,5 +42,6 @@ export function inputToImage(file:any) {
   const ctx: any = canvas.getContext('2d');
   ctx.fillText(file, 0, 50);
   ctx.strokeText(file, 0, 50);
+  
   return canvas.toDataURL();
 }

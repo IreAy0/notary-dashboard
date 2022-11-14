@@ -1,7 +1,7 @@
 import React, { useRef, useState, FC, useEffect } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { TabsProps } from 'types/tabs.interface';
-import urlToImageObj from 'utils/urlToImageObj';
+// import urlToImageObj from 'utils/urlToImageObj';
 import SignaturePolicy from 'container/document/SignaturePolicy';
 import toast from 'react-hot-toast';
 import { fetchUserSignature } from 're-ducks/user';
@@ -52,7 +52,7 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
           dispatch(
             fetchUserSignature(
               
-              (data) => {
+              () => {
                 setFetchingFiles(false);
                 // setCurrentSign(data);
               },

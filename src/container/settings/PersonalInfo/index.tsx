@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import useTypedSelector from 'hooks/useTypedSelector';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import InfoTabs from 'components/Tabs/infoTab';
 import AddPersonalInfo from './components/AddPersonalInfo';
 import DigitiseSignature from './components/DigitiseSignature';
 import IDVerification from './components/IDVerification';
-import Card from '@mui/material/Card';
-import InfoTabs from 'components/Tabs/infoTab';
 
 const tabsContent = [
   {

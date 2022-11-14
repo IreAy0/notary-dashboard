@@ -54,8 +54,6 @@ const IDVerification: FC<Props> = ({ user, nextStep, prevStep }: Props) => {
     setIdentityType({ name, id: matchedID });
     // setIDData((prevState: any) => ({ ...prevState, id_type: matchedID }));
   };
-
-  console.log(user, userProfile, 'userProfile');
   useEffect(() => {
     dispatch(
       fetchUserProfile(
@@ -124,7 +122,6 @@ const IDVerification: FC<Props> = ({ user, nextStep, prevStep }: Props) => {
     }),
     onSubmit: (values) => {
       setSubmitting(true);
-      console.log(values.identity_number, 'values');
       dispatch(
         updateUserIDAction(
           

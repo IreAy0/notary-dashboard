@@ -34,7 +34,7 @@ const CallSection = ({ data }: BodyProps) => {
   // const { requests } = data;
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
 
-  console.log(data.filter(item => item.status === 'Accepted'), 'home')
+  // console.log(data.filter(item => item.status === 'Accepted'), 'home')
 
   const filtered = data.filter(item => item.status === 'Accepted')
   const handleSessionLink = () => {

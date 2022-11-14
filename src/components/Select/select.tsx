@@ -1,10 +1,10 @@
 import React from 'react'
-import { Theme, useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+import { useTheme } from '@mui/material/styles';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+// import Select, { SelectChangeEvent } from '@mui/material/Select';
 import classnames from 'classnames';
 import styles from './select.module.scss';
 
@@ -21,7 +21,7 @@ export interface SelectProps {
 }
 
 
-export default function SelectInput({ options, label, disabled = false, selected, handleChange, placeholder, ...props }: SelectProps) {
+export default function SelectInput({ options, label, disabled = false, selected, handleChange, placeholder }: SelectProps) {
   const theme = useTheme();
   // const [personName, setPersonName] = React.useState<string[]>([]);
 

@@ -17,7 +17,6 @@ export default (): boolean => {
       const token: JWTDecode = jwtDecode(accessToken);
       const time = Date.now().valueOf() / 1000;    
       if (token.exp < time) {
-        console.log('false');
         
         return false;
       }

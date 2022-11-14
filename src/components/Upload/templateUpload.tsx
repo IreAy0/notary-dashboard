@@ -49,7 +49,6 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
 
   };
 
-  console.log(imageFiles, 'imageFiles')
 
   useEffect(() => {
     const images_new: any = []; const fileReaders:any = [];
@@ -63,14 +62,12 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
           if (result) {
 
             images_new.push(result)
-            console.log(result , e , 'result')
           }
           if (images_new.length === imageFiles.length && !isCancel) {
             setImages(images_new);
           }
         }
         fileReader.readAsDataURL(file);
-        console.log(file, 'files')
       })
     };
     
@@ -84,8 +81,6 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
     }
   }, [imageFiles]);
   
-  console.log(fileBase64, 'b64', images, imageFiles )
-
   const fetchAllCompleteRequest = useCallback(
     (nextPage: any = 1, itemsPerPage: any = 10) => {
       setLoading(true);
@@ -99,7 +94,6 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
           { params },
           (res: any) => {
             setLoading(false);
-            console.log(res, 'file')
             // setCompletedRequest(res);
           },
           () => {
@@ -143,7 +137,6 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
 
 
   const uploadDocument = () => {
-    console.log(filename, 'uploaded')
     setLoading(true)
     const fileData = {
       "title": filename?.name,

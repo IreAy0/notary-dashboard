@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Document from 'components/Document';
 import { getRequestDetails, getRequestDocument } from 're-ducks/request';
-import Dashboard from '../../dashboard/SidebarLayout/index';
 import toast from 'react-hot-toast';
 import { fetchUserProfile } from 're-ducks/user';
+import Dashboard from '../../dashboard/SidebarLayout/index';
 
 const RequestDocument = () => {
   const dispatch = useDispatch();
@@ -67,8 +67,6 @@ const RequestDocument = () => {
     );
   }, [dispatch]);
 
-
-  console.log(request, 'get document')
 
   return (
     <Dashboard>

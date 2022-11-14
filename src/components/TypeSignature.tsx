@@ -3,14 +3,14 @@
 import React, { FC, useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TabsProps } from 'types/tabs.interface';
-import { textToImage, textToSignImage } from 'utils/textToImage';
+import {  textToSignImage } from 'utils/textToImage';
 // import urlToImageObj from 'utils/urlToImageObj';
 import SignaturePolicy from 'container/document/SignaturePolicy';
 import toast from 'react-hot-toast';
 import Button from './Button';
 import { Input } from './TextInput/TextInput';
-import { RadioInput } from './RadioInput/RadioInput';
-import SignatureEditor from './Toolbar/SignatureEditor';
+// import { RadioInput } from './RadioInput/RadioInput'; textToImage,
+// import SignatureEditor from './Toolbar/SignatureEditor';
 import styles from './RadioInput/RadioInput.module.scss';
 
 
@@ -20,22 +20,22 @@ const TypeSignature: FC<TabsProps> = ({
   isSaving,
   showAgreement,
   user,
-  fetching,
-  signatureType,
-  hideButton,
+  // fetching,
+  // signatureType,
+  // hideButton,
   uploadedText
 }: TabsProps) => {
   const [text, setText] = useState<string>(uploadedText || '');
   const [acceptPolicy, setAcceptPolicy] = useState<boolean>(false);
   const [showImage, setShowImage] = useState<boolean>(true);
-  const [textColor, setTextColor] = useState<string>('#363740');
+  const textColor = '#363740';
   const [fontFamily, setFontFamily] = useState<string>('');
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [imageURL, setImageURL] = useState<string>('');
   const [fontIndex, setFontIndex] = useState<Number>();
   const textBoxRef = useRef<any>();
   const refs = useRef<any>([])
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   const fonts = ['Great Vibes', 'Montserrat'];
   const [fullName , setFullName] = useState<any>({
     firstName: '',

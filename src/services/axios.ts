@@ -2,12 +2,12 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
 import { doSignOut } from 're-ducks/auth';
-import { isAuthenticated } from 'utils';
+// import { isAuthenticated } from 'utils';
 import { getToken } from 'utils/getToken';
 import history from 'utils/history';
 import { store } from '../index';
 
-const token = localStorage.getItem('accessToken');
+// const token = localStorage.getItem('accessToken');
 
 
 

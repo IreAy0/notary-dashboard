@@ -72,9 +72,6 @@ const AddSignature = ({ field, resetField, updateToFirebase }: Props) => {
       )
     );
   }, [dispatch, activeTab, field.type]);
-  
-  console.log('selectedSignature', selectedSignature);
-
 
   const setSignatureUrl = (payload: { field_id: string; signature: string, content?: string }) => {
     updateToFirebase(payload);

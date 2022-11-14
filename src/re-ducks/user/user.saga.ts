@@ -52,7 +52,7 @@ function* fetchUserSignature(action: any): Generator<any> {
   try {
     const  response : any = yield call(() => api.get(API.USER_SIGNATURE));    
     if (response.status === 200) {
-      console.log('response',  response);
+      // console.log('response',  response);
       cb(response.data.data);
       
     }

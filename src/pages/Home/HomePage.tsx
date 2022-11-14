@@ -89,7 +89,6 @@ const HomePage = () => {
       fetchUserProfile(
         {},
         (success) => {
-          console.log(success, 'user');
           setUserProfile(success);
         },
         (error: any) => {

@@ -123,9 +123,6 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
     // }
   }, [dispatch, activeTabContent]);
 
-
-  console.log(currentSign, 'currentSign');
-
   return (
     <div>
       <SignatureTabs type="horizontal" tabs={tabsContent} active={activeTabContent} setActive={(tab) => setActiveTabContent(tab)} />

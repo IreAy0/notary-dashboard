@@ -5,9 +5,9 @@ import BankAccountSetUp from "container/settings/BankSetUp";
 import PaymentHistory from "container/settings/PaymentHistory";
 import SecuritySetUp from "container/settings/Security";
 import Calendar from "container/settings/Calendar";
+import PreviewCalendar from "container/settings/Calendar/previewCalendar";
 import Dashboard from '../../dashboard/SidebarLayout/index';
 import Tabs from '../../components/Tabs';
-import PreviewCalendar from "container/settings/Calendar/previewCalendar";
 
 const Settings = () => {
   const tabs = [
@@ -40,9 +40,6 @@ const Settings = () => {
   useEffect(() => {
     setActiveTab({label: tab?.replace(/_/g, ' ')});
   }, [tab])
-
-  console.log(tab, 'tab', activeTab?.label )
-
   
   return(
         <Dashboard>

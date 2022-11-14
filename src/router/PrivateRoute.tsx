@@ -1,7 +1,8 @@
+// doRefreshTokenAction,
 import React, { useEffect } from 'react';
 import { Redirect, Route, RouteProps, useLocation } from 'react-router-dom';
 import { isAuthenticated } from 'utils';
-import { doRefreshTokenAction, doSignOut } from 're-ducks/auth';
+import {  doSignOut } from 're-ducks/auth';
 import { store } from '../index';
 
 interface PrivateRouteProps extends RouteProps {
@@ -10,8 +11,8 @@ interface PrivateRouteProps extends RouteProps {
 
 const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
   const { pathname, search } = useLocation();
-  const refreshToken = localStorage.getItem('refreshToken');
-  const params = { type: 'notary', refresh_token: refreshToken };
+  // const refreshToken = localStorage.getItem('refreshToken');
+  // const params = { type: 'notary', refresh_token: refreshToken };
   useEffect(() => {
     if (!pathname.includes('auth')) {
       localStorage.setItem('redirectTo', pathname  + search);

@@ -19,7 +19,7 @@
         "project": ["./tsconfig.json"]
       },
       "rules": {
-        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/no-unused-vars": ["off"],
         "linebreak-style": 0
       }
     }
@@ -58,7 +58,6 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "arrow-body-style": ["warn", "as-needed"],
-    "no-unused-vars": ["off"],
     "react/jsx-props-no-spreading": ["off"],
     "no-empty-pattern": ["warn"],
     "react/jsx-indent": "off",
@@ -110,6 +109,7 @@
     "react/button-has-type": ["off"],
     "react/display-name": ["off"],
     "no-case-declarations": ["off"],
+    "no-unused-vars": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {

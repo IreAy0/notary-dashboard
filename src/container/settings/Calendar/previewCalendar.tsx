@@ -55,7 +55,7 @@ const PreviewCalendar = () => {
   const [selectedNotaryCalendar, setSelectedNotaryCalendar] = useState<any>([]);
   const [showPopulationModal, setPopulationModal] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<any>([]);
-  const [time_slots, setTime_slots] = useState<any>([]);
+  const [timeSlots, setTimeSlots] = useState<any>([]);
   const [rowsData, setRowsData] = useState<any>([]);
   const [calendarData, setCalendarData] = useState<any>({
     day: '',
@@ -70,8 +70,9 @@ const PreviewCalendar = () => {
     instance
       .get(`/time-slots`)
       .then((res: any) => {
-        setTime_slots(res?.data);
+        setTimeSlots(res?.data);
       })
+      // eslint-disable-next-line no-console
       .catch((err: any) => console.log(err));
   }, []);
 

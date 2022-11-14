@@ -26,12 +26,12 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { IconButton } from 'material-ui';
 import instance from 'services/axios';
+import { Link } from 'react-router-dom';
 import NotaryCalendar from './components/NotaryCalendar';
 import TimeContainer from './components/Time/TimeContainer';
 import ConfirmPopulationModal from './CalendarPopulationModal';
 import { getNextDay } from './date';
 import styles from '../settings.module.scss';
-import { Link } from 'react-router-dom';
 
 const times = [
   {
@@ -74,7 +74,7 @@ const Calendar = (editData) => {
   const [selectedNotaryCalendar, setSelectedNotaryCalendar] = useState<any>([]);
   const [showPopulationModal, setPopulationModal] = useState(false);
   const [available_times, setAvailableTimes] = useState<any>([]);
-  const [time_slots, setTime_slots] = useState<any>([]);
+  const [timeSlots, setTimeSlots] = useState<any>([]);
   const [rowsData, setRowsData] = useState<any>([]);
   const [calendarData, setCalendarData] = useState<any>({
     day: '',
@@ -92,8 +92,9 @@ const Calendar = (editData) => {
     instance
       .get(`/time-slots`)
       .then((res: any) => {
-        setTime_slots(res?.data);
+        setTimeSlots(res?.data);
       })
+      // eslint-disable-next-line no-console
       .catch((err: any) => console.log(err));
   }, []);
 
@@ -135,7 +136,6 @@ const Calendar = (editData) => {
         fetchNotaryCalendar(
           {},
           (success) => {
-            console.log('available', success)
             setAvailableTimes(success);
             setRowsData([...rowsData, ...success?.data])
           },
@@ -162,8 +162,6 @@ const Calendar = (editData) => {
     );
   }, [dispatch]);
 
-  console.log(rowsData, 'available')
-
   const saveCalendarDetails = () => {
     dispatch(
       createNotaryCalendar(
@@ -189,7 +187,6 @@ const Calendar = (editData) => {
             fetchNotaryCalendar(
               {},
               (success) => {
-                console.log(success, 'calendar');
                 setAvailableTimes(success);
               },
               (error: any) => {
@@ -270,7 +267,7 @@ const Calendar = (editData) => {
                           <MenuItem disabled value="">
                             <em>Select start time</em>
                           </MenuItem>
-                          {time_slots.map((name) => (
+                          {timeSlots.map((name) => (
                             <MenuItem key={name} value={name}>
                               {name}
                             </MenuItem>
@@ -291,7 +288,7 @@ const Calendar = (editData) => {
                           <MenuItem disabled value="">
                             <em>Select end time</em>
                           </MenuItem>
-                          {time_slots.map((name) => (
+                          {timeSlots.map((name) => (
                             <MenuItem key={name} value={name}>
                               {name}
                             </MenuItem>

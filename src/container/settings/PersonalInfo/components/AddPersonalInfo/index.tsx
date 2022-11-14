@@ -10,9 +10,9 @@ import { editUserProfile } from 're-ducks/user/user.action';
 import PhoneNumInput from 'components/PhoneNumInput/Phone';
 import { fetchUserProfile } from 're-ducks/user';
 import { stateList } from 'mocks/state';
-import styles from './personalinfo.module.scss';
 import SelectInput from 'components/Select/select';
 import instance from 'services/axios';
+import styles from './personalinfo.module.scss';
 
 interface Props {
   nextStep: () => void;
@@ -82,7 +82,6 @@ const AddPersonalInfo = ({ nextStep }: Props) => {
   };
 
   const handleStateChange = (e: any) => {
-    console.log(e, 'e')
     setSelectedState({ name: e.name, id: e.id })
   };
 

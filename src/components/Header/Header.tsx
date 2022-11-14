@@ -20,7 +20,7 @@ import menuStyles from '../MenuDialog/menu.module.scss';
 import Avatar from '../Avatar';
 import { ReactComponent as Logo } from '../../assets/icons/tonote-logo-blue.svg';
 import { ReactComponent as Logout } from '../../assets/icons/logout.svg';
-import { ReactComponent as HideMenuIcon } from '../../assets/icons/hideMenuIcon.svg';
+// import { ReactComponent as HideMenuIcon } from '../../assets/icons/hideMenuIcon.svg';
 
 import { ReactComponent as Tick } from '../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../assets/icons/alertErrorIcon.svg';

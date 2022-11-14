@@ -14,13 +14,13 @@ import {Box,
 
 import { styled } from '@mui/material/styles';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
+import classnames from 'classnames';
 import { ReactComponent as Logout } from '../../../../assets/icons/logout.svg';
 import { ReactComponent as Tick } from '../../../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../../../assets/icons/alertErrorIcon.svg';
 import { ReactComponent as Setting } from '../../../../assets/icons/navSettings.svg';
 import Avatar from '../../../../components/Avatar/index';
 import menuStyles from '../../../../components/MenuDialog/menu.module.scss';
-import classnames from 'classnames';
 
 
 const UserBoxButton = styled(Button)(
@@ -60,8 +60,6 @@ const UserBoxDescription = styled(Typography)(
 
 
 function HeaderUserbox({userProfile}) {
-
-  console.log(userProfile);
   const dispatch = useDispatch();
   const history = useHistory();
 
