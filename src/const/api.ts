@@ -26,7 +26,7 @@ export default {
   GET_NOTARY_CALENDAR: 'notary/calendar',
 
   NOTIFICATIONS: '/notary/requests/notifications',
-
+  NOTARY_LOCKER:'/documents',
   DASHBOARD_OVERVIEW: '/notary/dashboard',
   REQUEST: '/notary/notary-requests',
   UPDATE_REQUEST: '/notary/update-request-status',

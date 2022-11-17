@@ -46,6 +46,8 @@ export const getRequestDocument = (payload: object, cb: (success: object) => voi
   cbError
 });
 
+
+
 export const verifyLockerOTP = (payload: object, cb: (success: object) => void, cbError: (error: string) => void) => ({
   type: VERIFY_LOCKER_OTP,
   payload,

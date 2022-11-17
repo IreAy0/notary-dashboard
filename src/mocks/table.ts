@@ -146,10 +146,10 @@ export const lockerHeaders = [
     key: 'email'
   },
   {
-    text: 'Amount',
+    text: 'Action',
     alignment: 'center',
     sortable: false,
-    key: 'amount'
+    key: 'action'
   }
 ];
 

@@ -212,14 +212,14 @@ function SidebarMenu() {
             <span className={styles.menu__label}>Requests</span>
           </NavLink>
         </li>
-        <li className={styles.menu__item}>
+        {/* <li className={styles.menu__item}>
           <NavLink activeClassName={styles.active} className={styles.menu__link} to="/templates">
             <button>
               <TemplateIcon/>
             </button>
             <span className={styles.menu__label}>Templates</span>
           </NavLink>
-        </li>
+        </li> */}
         <li className={styles.menu__item}>
           <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings/Personal_Info">
             <button>

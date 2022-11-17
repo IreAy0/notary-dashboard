@@ -7,6 +7,7 @@ import AppWrapper from './AppWrapper';
 import ThemeProvider from '../theme/ThemeProvider';
 
 const App: FC = () => (
+  
     <BrowserRouter history={history}>
        <ThemeProvider>
       <AppWrapper>

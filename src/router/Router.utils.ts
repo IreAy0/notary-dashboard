@@ -15,6 +15,7 @@ export const appRoutes = {
   myRequest: () => pathResolver('/requests'),
   singleRequest: () => pathResolver('/requests/:id'),
   requestDocument: () => pathResolver('/requests/:id/document'),
+  lockerDocument: () => pathResolver('/locker/:id/document'),
   certificate: () => pathResolver('/requests/:id/certificate'),
   myLocker: () => pathResolver('/locker'),
   singleLocker: () => pathResolver('/locker/:id'),
@@ -41,6 +42,7 @@ export const appRoutePaths: {
   myLocker: string;
   singleLocker: string;
   requestDocument: string;
+  lockerDocument: string;
   certificate: string;
   notarySession: string;
   sessionError: string;
@@ -65,6 +67,7 @@ export const appRoutePaths: {
   myTemplate: appRoutes.myTemplate(),
   singleTemplate: appRoutes.singleTemplate(),
   requestDocument: appRoutes.requestDocument(),
+  lockerDocument: appRoutes.lockerDocument(),
   certificate: appRoutes.certificate(),
   notarySession: appRoutes.notarySession(),
   sessionError: appRoutes.sessionError(),

@@ -38,8 +38,7 @@ const HeaderWrapper = styled(Box)(
         padding: ${theme.spacing(0, 2)};
         right: 0;
         z-index: 6;
-       
-        backdrop-filter: blur(3px);
+       background: #fff;
         position: fixed;
         justify-content: space-between;
         width: 100%;
@@ -102,8 +101,6 @@ const ListWrapper = styled(Box)(
 );
 
 function Header() {
-
-
   const [showNotifications, setShowNotifications] = useState(false);
   const [showRange, setShowRange] = useState(false);
   const [selectedDate, setSelectedDate] = useState({
@@ -184,19 +181,7 @@ function Header() {
   const headerFilter = () => {
     switch (history.location.pathname) {
       case '/':
-        return (
-          <div className={styles.header__group}>
-            <button className={styles.header__btn} type="button" onClick={() => setShowRange(!showRange)}>
-              <p>
-                {selectedDate.startDate
-                  ? `${formatNum(selectedDate.startDate.toString().split('-').join('/'))} - ${formatNum(
-                    selectedDate.endDate.toString().split('-').join('/')
-                  )}`
-                  : 'Select'}
-              </p>
-            </button>
-          </div>
-        );
+        return '' ;
       case '/settings':
         return '';
       case '/locker':
@@ -226,6 +211,8 @@ function Header() {
   );
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
+
+  
 
   return (
     <HeaderWrapper
@@ -295,14 +282,14 @@ function Header() {
       </Stack>
       <Box display="flex" alignItems="center">
       <div>{headerFilter()}</div>
-      {showRange && (
+      {/* {showRange && (
                 <div style={{ transform: 'scale(0.88)', position: 'absolute', top: '4rem', right: '1rem' }}>
                   <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
                   <Button theme="primary" className={SelectBtnStyles['custom__dropdown-btn']} onClick={selectDate}>
                     <WhiteTick />
                   </Button>
                 </div>
-      )}
+      )} */}
         <HeaderUserbox userProfile={updatedUser}/>
         
       </Box>

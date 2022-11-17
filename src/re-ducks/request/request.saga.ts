@@ -12,7 +12,8 @@ import {
   COMPLETE_NOTARY_SESSION,
   GET_SESSION_LINK,
   END_NOTARY_SESSION,
-  VERIFY_LOCKER_OTP
+  VERIFY_LOCKER_OTP,
+  GET_LOCKER_DETAILS
 } from './request.types';
 import api from '../../services/api';
 
@@ -62,6 +63,7 @@ function* fetchRequestDetails(action: any): Generator {
     cbError(alert);
   }
 }
+
 
 function* fetchRequestDocument(action: any): Generator {
   try {

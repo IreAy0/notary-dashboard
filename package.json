@@ -10,6 +10,7 @@
     "@mui/lab": "5.0.0-alpha.84",
     "@mui/material": "5.8.2",
     "@mui/styles": "5.8.0",
+    "@mui/x-data-grid": "^5.17.11",
     "@react-pdf-viewer/core": "2.11.0",
     "@tawk.to/tawk-messenger-react": "^1.0.0",
     "@testing-library/jest-dom": "^5.11.4",

@@ -16,10 +16,10 @@ import parseISO from 'date-fns/parseISO';
 import toast from 'react-hot-toast';
 import { RequestAcceptance } from 'types/requests';
 import { fetchUserProfile } from 're-ducks/user';
-import Profile from '../../assets/icons/profile.svg';
-import Earnings from '../../assets/icons/earningIcon.svg';
-import Time from '../../assets/icons/time.svg';
-import Docs from '../../assets/icons/docs.svg';
+import Profile from '../../assets/icons/icons/clientIcon.svg';
+import Earnings from '../../assets/icons/icons/earningsIcon.svg';
+import Time from '../../assets/icons/icons/sessionsIcons.svg';
+import Docs from '../../assets/icons/icons/documentsIcon.svg';
 import Dashboard from '../../dashboard/SidebarLayout/index';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
@@ -168,16 +168,16 @@ const HomePage = () => {
       <section>
         <div className="grid grid__layout grid__layout--8 pt-2">
           <div className="col-2">
-            <Metrics iconPath={Profile} label="Clients" value={dashboardOverview?.message?.clients} theme="grey" />
+            <Metrics iconPath={Profile} label="Clients" value={dashboardOverview?.message?.clients} theme="white" />
           </div>
           <div className="col-2">
-            <Metrics iconPath={Earnings} label="Earnings" value={dashboardOverview?.message?.earnings} theme="purple" />
+            <Metrics iconPath={Earnings} label="Earnings" value={dashboardOverview?.message?.earnings} theme="white" />
           </div>
           <div className="col-2">
-            <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="green" />
+            <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="white" />
           </div>
           <div className="col-2">
-            <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="blue" />
+            <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="white" />
           </div>
         </div>
       </section>

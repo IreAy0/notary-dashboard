@@ -22,16 +22,18 @@ const Metric = ({ label, value, iconPath, loading, theme }: Props) => (
         <div className={styles.circle} />
       </div>
     ) : (
-      <>
+      <div className='flex flex__item-center flex__spaced w-full'>
         <div className="">
         <span className={styles.card__icon}>
           {/* eslint-disable-next-line global-require */}
-          <img src={iconPath} alt="icon" />
-        </span>
+          {/* <img src={iconPath} alt="icon" /> */}
           <p className={styles.card__title}>{value || 0}</p>
+        </span>
+          {/* <p className={styles.card__title}>{value || 0}</p> */}
           <span className={styles.card__label}>{label}</span>
         </div>
-      </>
+        <div><img src={iconPath} alt="icon" /></div>
+      </div>
     )}
   </div>
 );
