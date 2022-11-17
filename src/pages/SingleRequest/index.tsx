@@ -194,7 +194,7 @@ const SingleRequest = () => {
                 <img src={externalTab} alt="Icon" />
                 <Link
                   className={classNames(styles.session_container__link, 'text--blue text--600')}
-                  to={`/requests/${request?.id}/document`}
+                  to={`/requests/${request?.document_id}/document`}
                 >
                   {request?.document_name}
                 </Link>

@@ -174,14 +174,14 @@ const Header = () => {
           <div className="flex">
             <MenuDialog>
               <div>{headerFilter()}</div>
-              {showRange && (
+              {/* {showRange && (
                 <div style={{ transform: 'scale(0.88)', position: 'absolute' }}>
                   <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
                   <Button theme="primary" className={SelectBtnStyles['custom__dropdown-btn']} onClick={selectDate}>
                     <WhiteTick />
                   </Button>
                 </div>
-              )}
+              )} */}
             </MenuDialog>
             <div>
               <MenuDialog>
@@ -191,7 +191,7 @@ const Header = () => {
                       <div className={styles.header__profile}>
                         <Avatar withInidicator name={`${updatedUser?.first_name} ${updatedUser?.last_name}`} />
                         <div className="flex flex__item-center mr-1">
-                          <strong className="text--white mr-1 text--capitalize">Notary Public</strong>
+                          <strong className=" mr-1 text--capitalize">Notary Public</strong>
                           <Caret />
                         </div>
                       </div>

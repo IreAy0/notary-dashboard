@@ -19,6 +19,7 @@ const authReducer = (state = initialState, { type, payload }: IAuthAction) => {
           ...state.signIn,
           ...(payload as object)
         }
+
       };
     default:
       return state;

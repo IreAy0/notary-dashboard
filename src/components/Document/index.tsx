@@ -2,6 +2,8 @@ import React from 'react';
 import styles from 'components/Document/index.module.scss';
 import { Doc } from 'types/document';
 import { getFileType } from 'utils/formatString';
+import history from 'utils/history';
+import DocumentLoader from 'components/DocumentLoader';
 
 interface Props {
   doc: Doc | undefined;
@@ -14,12 +16,16 @@ const FileViewer = require('react-file-viewer');
 const CustomErrorComponent = require('custom-error');
 
 const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
-  const docUrl = type === 'request' ? doc?.request_url : doc?.document_url;
+  const docUrl = type === 'request' ? doc?.file_url : doc?.document_url;
   const fileType = docUrl && getFileType(docUrl);
+
+  
+
+  // console.log(fileType, 'type', doc)
 
   return (
     <div className={styles.document__view}>
-      {doc &&
+      {/* {doc &&
         doc?.signatureFields &&
         doc?.signatureFields.map((field: any) => {
           const { signature, position_x, position_y, field_id, field_type } = field;
@@ -106,10 +112,13 @@ const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
               )}
             </>
           );
-        })}
+        })} */}
+
 
       {docUrl ? (
         <div className={isCentered ? styles.page__center : ''} style={{ width: `${docWidth}px` }} key={doc?.id}>
+           
+            {!doc ? <DocumentLoader /> : 
           <FileViewer
             fileType={fileType}
             filePath={docUrl}
@@ -117,6 +126,7 @@ const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
             errorComponent={CustomErrorComponent}
             unsupportedComponent={CustomErrorComponent}
           />
+        }
         </div>
       ) : (
         <div className={styles.doc__error}>Unable to load document</div>
@@ -128,7 +138,7 @@ const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
 DocumentViewer.defaultProps = {
   type: 'document',
   docWidth: 750,
-  isCentered: false
+  isCentered: true
 };
 
 export default DocumentViewer;

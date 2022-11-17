@@ -1,11 +1,14 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useCallback } from 'react';
 import { singleRequestHeaders } from 'mocks/table';
 import { getRequestDetails } from 're-ducks/request';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import OTPModal from 'container/Modal/OTPModal';
 import toast from 'react-hot-toast';
 import DocumentLoader from 'components/DocumentLoader';
+import classNames from 'classnames';
+import { getLockerDetails } from 're-ducks/locker/locker.actions';
 import externalTab from '../../assets/icons/external-tab.svg';
 import VideoIcon from '../../assets/icons/video-icon.svg';
 import styles from '../MyRequest/request.module.scss';
@@ -39,7 +42,7 @@ const badgeType = (status: string) => {
 
 const SingleDetailLocker = () => {
   const [showOTPModal, setOTPModal] = useState(false);
-  const [request, setRequest] = useState<any>([]);
+  const [locker, setLocker] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams<{ id?: string }>();
 
@@ -111,12 +114,12 @@ const SingleDetailLocker = () => {
   }
   const fetchRequestDetails = useCallback(() => {
     dispatch(
-      getRequestDetails(
+      getLockerDetails(
         { id },
         (res: any) => {
           setLoading(false);
-          
-          setRequest(res);
+          // console.log(res, 'res')
+          setLocker(res);
         },
         (error) => {
           setLoading(false);
@@ -145,18 +148,24 @@ const SingleDetailLocker = () => {
               <svg className="mr-1" width="24" height="25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 16.5v-3h16v-2H6v-3l-4 4 4 4Z" fill="#363740" />
               </svg>
-              {mockRequest?.document_name}
+              {locker?.title}
             </button>
           </h4>
           <div className={styles.session_container}>
-            {request?.status !== 'pending' && (
+            {locker?.status !== 'pending' && (
               <div className={styles.session_container__document_time}>
                 <p className={styles.session_container__title}>Document Attached:</p>
                 <span className={styles.session_container__document_link}>
                   <img src={externalTab} alt="" />{' '}
-                  <button className={styles.session_container__link} onClick={() => setOTPModal(!showOTPModal)}>
+                  {/* <button className={styles.session_container__link} >
                     {mockRequest?.document_name}
-                  </button>
+                  </button> */}
+                  <Link
+                  className={classNames(styles.session_container__link, 'text--blue text--600')}
+                  to={`/locker/${locker?.id}/document`}
+                >
+                   {locker?.title}
+                </Link>
                 </span>
               </div>
             )}
@@ -177,22 +186,22 @@ const SingleDetailLocker = () => {
             </div>
           </div>
           <div className="mt-1">
-            <Table type="primary" tableData={mockRequest?.participants || []} headers={singleRequestHeaders} loading={false}>
-              {(row) => {
-                const isSigner = <span>{row?.is_signer ? 'Signer' : 'Witness'}</span>;
+            <Table type="primary" tableData={locker?.participants || []} headers={singleRequestHeaders} loading={false}>
+              {(row: any) => {
+                const isSigner = <span>{row?.role === 'Signer' ? 'Signer' : 'Witness'}</span>;
 
                 return (
                   <>
                     <td className="table__row-text center">
                       <span className="text--500" style={{ color: '#003BB3', textDecoration: 'underline', fontWeight: 600 }}>
-                        {row?.name || 'N/A'}
+                        {`${row?.user?.first_name} ${row?.user?.last_name}` || 'N/A'}
                       </span>
-                      <span>({row?.is_request_owner && row.is_signer ? 'Owner' : isSigner})</span>
+                      <span>({row?.ownerDocument && row.role === 'Signer' ? 'Owner' : row.role === 'Notary' ? 'Notary' : isSigner})</span>
                     </td>
-                    <td className="table__row-text center">{row?.phone|| 'N/A'}</td>
-                    <td className="table__row-text center">{row?.email || 'N/A'}</td>
+                    <td className="table__row-text center">{row?.user?.phone|| 'N/A'}</td>
+                    <td className="table__row-text center">{row?.user?.email || 'N/A'}</td>
                     <td className="table__row-text center" style={{ color: '#458FFF', fontWeight: '600', cursor: 'pointer' }} aria-hidden>
-                      <Badge size="md" theme={badgeType(row?.status.toString())} type="secondary">
+                      <Badge size="md" theme={badgeType(row?.status?.toString())} type="secondary">
                         {row?.status}
                       </Badge>
                     </td>
@@ -200,7 +209,7 @@ const SingleDetailLocker = () => {
                 );
               }}
             </Table>
-            {showOTPModal && <OTPModal isOpen={showOTPModal} isClose={() => setOTPModal(false)} request={request} />}
+            {/* {showOTPModal && <OTPModal isOpen={showOTPModal} isClose={() => setOTPModal(false)} request={request} />} */}
           </div>
         </div>
       )}

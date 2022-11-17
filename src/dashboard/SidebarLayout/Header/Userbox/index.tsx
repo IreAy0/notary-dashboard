@@ -123,7 +123,7 @@ function HeaderUserbox({userProfile}) {
           <div className={menuStyles.header}>
                     <div className="flex flex__spaced flex__item-center">
                       <div>
-                        <strong className="text--capitalize">Notary</strong>&nbsp;
+                        <strong className="text--capitalize">Notary </strong>&nbsp;
                         <small className={`text--${userProfile?.national_verification === true ? 'green' : 'red'}`}>
                           { verifiedUser}
                         </small>

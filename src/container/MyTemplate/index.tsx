@@ -62,9 +62,11 @@ const EmptyState = ({ isDocumentEmpty = false }: { isDocumentEmpty: boolean }) =
 const MyTemplateTable = () => {
   const [loading, setLoading] = useState(true);
   const [dataPerPage, setDataPerPage] = useState(10);
+  // const [userProfile, setUserProfile] = useState<any>();
   // const [templates, setTemplates] = useState([]);
   const [useMockData, setUseMockData] = useState<any>([]);
   const dispatch = useDispatch();
+  // const userProfile = useTypedSelector((state: any) => state.user);
   const { locker, templates }: any = useTypedSelector((state) => state);
   const user: any = useTypedSelector((state) => state);
   const [showOTPModal, setOTPModal] = useState<Boolean>(false);

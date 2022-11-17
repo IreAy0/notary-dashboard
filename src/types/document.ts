@@ -41,4 +41,5 @@ export type Doc = {
   signatureFields?: { [k: string]: any }[];
   notary_id?: any;
   notary_email?: string;
+  file_url?: string;
 };

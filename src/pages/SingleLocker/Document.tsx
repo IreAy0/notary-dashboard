@@ -2,18 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Document from 'components/Document';
+import { getLockerDetails } from 're-ducks/locker/locker.actions';
+import DocumentLoader from 'components/DocumentLoader';
 import { getRequestDetails, getRequestDocument } from 're-ducks/request';
 import toast from 'react-hot-toast';
 import { fetchUserProfile } from 're-ducks/user';
-import { getLockerDetails } from 're-ducks/locker/locker.actions';
-import DocumentLoader from 'components/DocumentLoader';
 import history from 'utils/history';
 import Dashboard from '../../dashboard/SidebarLayout/index';
 
-const RequestDocument = () => {
+const LockerDocument = () => {
   const dispatch = useDispatch();
   const [, setLoading] = useState(true);
-  const [request, setRequest] = useState<any>([]);
+  const [lockerDocument, setLockerDocument] = useState<any>([]);
   const [document, setDocument] = useState<any>({});
   const { id } = useParams<{ id?: string }>();
 
@@ -22,7 +22,7 @@ const RequestDocument = () => {
       getLockerDetails(
         { id },
         (requestData: any) => {
-          setRequest(requestData?.documentUploads);
+          setLockerDocument(requestData?.documentUploads);
           setLoading(false);
         },
         (error) => {
@@ -70,11 +70,10 @@ const RequestDocument = () => {
     );
   }, [dispatch]);
 
-  // console.log(request, 'request')
-
   const goBack = () => {
     history.goBack();
   };
+  // console.log(lockerDocument, 'lockerDocument')
 
   return (
     <Dashboard>
@@ -84,8 +83,8 @@ const RequestDocument = () => {
               </svg>
               Go Back
             </button>
-      {request?.length === 0 ? <DocumentLoader /> : 
-      <> {request?.map((doc) =>(
+      {lockerDocument?.length === 0 ? <DocumentLoader /> : 
+      <> {lockerDocument?.map((doc) =>(
           <div key={doc?.id}>
             <Document type="request" doc={doc} />
           </div>
@@ -93,10 +92,9 @@ const RequestDocument = () => {
       ))}</>
       }
     
-      {/* <Document type="request" doc={document} /> */}
     </Dashboard>
   );
 };
 
-export default RequestDocument;
+export default LockerDocument;
 

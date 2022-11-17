@@ -1,9 +1,13 @@
 /* eslint-disable react/require-default-props */
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
-
-import Sidebar from './Sidebar';
+import { useDispatch, useSelector } from 'react-redux';
+import useTypedSelector from 'hooks/useTypedSelector';
+import PreLoader from 'components/Preloader';
+import { fetchUserProfile } from 're-ducks/user';
+import toast from 'react-hot-toast';
 import Header from './Header';
+import Sidebar from './Sidebar';
 
 interface SidebarLayoutProps {
   children?: ReactNode;
@@ -11,9 +15,37 @@ interface SidebarLayoutProps {
 
 const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const user = useSelector((state: any) => state?.auth?.signIn);
+  const [userProfile, setUserProfile] = useState<any>({});
+  // const userProfile = useTypedSelector((state: any) => state.user);
+
+
+  useEffect(() => {
+    dispatch(
+      fetchUserProfile(
+        {},
+        (success) => {
+          setUserProfile(success);
+        },
+        (error: any) => {
+          toast.error(error.message);
+        }
+      )
+    );
+    
+  }, [dispatch]);
+
+
+  const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
+
+  if(!userProfile?.id){
+    return <PreLoader />
+  }
 
   return (
     <>
+    {/* {!userProfile?.id && } */}
       <Box
         sx={{
           flex: 1,
