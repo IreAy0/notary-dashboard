@@ -382,7 +382,7 @@ const space = Math.PI / 12;
 
   
   return (
-    <div className='pt-4'>
+    <div className='pt-2'>
       
     
       <div className="signature__body-wrapper grid grid__layout gap-1 pt-1">
@@ -404,7 +404,7 @@ const space = Math.PI / 12;
       </Modal>
 
       <div className="col-7 ">
-        <div ref={sealImage} className="position-relative" style={{width: "auto", position: "relative"}} >
+        <div ref={sealImage} className="position-relative" style={{width : '380px',overflow: 'scroll', position: "relative"}} >
           <div  id="coy_number"  style={{
              
               position: "absolute",
@@ -423,7 +423,7 @@ const space = Math.PI / 12;
               /* text-shadow: 3px 1px 0px #000; */
             
           }}> <span>SCN:{fullName?.notary_number}</span> </div>
-          <img className="" width="380" height="380" src={`${sealColor == 'grey' ? seal_gray : sealColor == 'green' ? seal_green : sealColor == 'orange' ? seal_orange : ''}`} alt="seal" />
+          <img style={{maxWidth : '380px' }} className="" width="380" height="380" src={`${sealColor == 'grey' ? seal_gray : sealColor == 'green' ? seal_green : sealColor == 'orange' ? seal_orange : ''}`} alt="seal" />
           <canvas  width="300" height="300"  ref={canvas} id="canvas"  style={{
               transform: "translate(-48%, -50%)",
               position: "absolute",

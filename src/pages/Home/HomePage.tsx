@@ -25,6 +25,7 @@ import Table from '../../components/Table';
 import Badge from '../../components/Badge';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import { ReactComponent as Empty } from '../../assets/icons/requestEmptyState.svg';
+import { Grid } from '@mui/material';
 
 interface User {
   is_id_verified?: boolean;
@@ -166,19 +167,25 @@ const HomePage = () => {
     <Dashboard>
       {/* {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />} */}
       <section>
-        <div className="grid grid__layout grid__layout--8 pt-2">
-          <div className="col-2">
-            <Metrics iconPath={Profile} label="Clients" value={dashboardOverview?.message?.clients} theme="white" />
-          </div>
-          <div className="col-2">
-            <Metrics iconPath={Earnings} label="Earnings" value={dashboardOverview?.message?.earnings} theme="white" />
-          </div>
-          <div className="col-2">
-            <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="white" />
-          </div>
-          <div className="col-2">
-            <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="white" />
-          </div>
+      
+        <div className=" pt-2">
+        <Grid container spacing={2}>
+  <Grid item xs={6} md={3}>
+  <Metrics iconPath={Profile} label="Clients" value={dashboardOverview?.message?.clients} theme="white" />
+  </Grid>
+  <Grid item xs={6} md={3}>
+  <Metrics iconPath={Earnings} label="Earnings" value={dashboardOverview?.message?.earnings} theme="white" />
+
+  </Grid>
+  <Grid item xs={6} md={3}>
+  <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="white" />
+
+  </Grid>
+  <Grid item xs={6} md={3}>
+  <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="white" />
+
+  </Grid>
+</Grid>
         </div>
       </section>
       
@@ -186,8 +193,8 @@ const HomePage = () => {
      
      
 
-      <section className="pt-1">
-        <div className={styles.table_container}>
+      <section className="pt-1 ">
+        <div className={styles.table_container} style={{overflow: 'auto'}}>
           <div className={styles.table_container__headerFlex}>
             <h4 className={styles.table_container__header}>All Requests</h4>
           </div>

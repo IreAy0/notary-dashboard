@@ -176,6 +176,18 @@ const MyLockerTable = () => {
 
   const [rows, setRows] = React.useState<Row[]>(lockerMain);
 
+  const deleteDocument = useCallback((id: any = '') => {
+    instance.delete(`/notary/notary-locker/${id}`)
+      .then(res => {
+        fetchAllCompleteRequest()
+        toast.success(res?.data?.data?.message);
+        
+      })
+      .catch(err => {
+        toast.error(`Couldn't delete Document, Please try again!`)
+      })
+  }, [])
+
   const columns = React.useMemo<GridColumns<Row>>(
     () => [
       { field: 'title', headerName: 'Document Name', type: 'string' ,flex: 1, headerAlign: 'center',sortable: false, renderCell: (params: any) => (
@@ -204,19 +216,24 @@ const MyLockerTable = () => {
         />,
           <GridActionsCellItem
             label="Delete"
-            // onClick={duplicateUser(params.id)}
+            onClick={() => deleteDocument(params.id)}
             showInMenu
           />
         ]
       }
     ],
-    [ ]
+    [deleteDocument ]
   );
+
+  useEffect(() => {
+    setRows(locker?.lockers)
+  }, [locker])
 
   useEffect(() => {
     if(user?.user?.access_locker_documents === false){
       instance.get('/notary/notary-otp-locker')
         .then(res => {
+          console.log(res?.data?.message)
           toast.success(res?.data?.message);
         
         })

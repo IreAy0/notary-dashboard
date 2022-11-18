@@ -143,16 +143,18 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
     }
     if(filename){
       instance.post('/notary/notary-locker', fileData )
-        .then(res => {
-          toast.success(res?.data?.message);
+        .then((res: any) => {
+          
           fetchAllCompleteRequest();
+          toast.success(res?.data?.data?.message);
           setImages([])
           setFilename('')
+          console.log(res)
           setLoading(false)
         })
         .catch((err) => { 
           setLoading(false)
-          toast.error(err?.message);
+          toast.error(err?.response?.data?.data?.message);
         })
     }
   }

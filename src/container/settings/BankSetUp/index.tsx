@@ -160,7 +160,7 @@ const BankAccountSetUp = () => {
 
   return (
     <form id="Bank" onSubmit={formik.handleSubmit}>
-      <div className="grid grid__layout gap-6 pt-2">
+      <div className="grid grid__layout  pt-2">
         <div className="col-6 bb-1 pb-1">
           <div className="col-6 mb-1">
             <Select label="Bank Name*" placeholder="Select" options={bankList} selected={selectedBank} handleChange={handleChange} />

@@ -207,7 +207,9 @@ const Calendar = (editData) => {
         <h3 className={styles.calendarHeader}>Select Day & Time</h3>
         <p className={styles.calendarCaption}>You can set your schedule for multiple dates. Click here to see how it works.</p>
         <div className={styles.calendarContainer}>
-          <div className={styles.calendarContainer__section_one}>
+          {/* <div className={styles.calendarContainer__section_one}> */}
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -307,8 +309,10 @@ const Calendar = (editData) => {
                 </TableBody>
               </Table>
             </TableContainer>
+            </Paper>
+           
             
-          </div>
+          {/* </div> */}
           <div className="br-1" />
           
         </div>

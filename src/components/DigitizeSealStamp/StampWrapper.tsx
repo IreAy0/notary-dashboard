@@ -311,8 +311,14 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
           </div>
         </div>
       )}
-      <div className="signature__body-wrapper">
-      <Box ref={stampImage} sx={{ width: "50%", margin: "auto" }} >
+      <div className="signature__body-wrapper ">
+      <Box ref={stampImage} sx={{ width: {
+      xs: '100%', // theme.breakpoints.up('xs')
+      // sm: 200, // theme.breakpoints.up('sm')
+      sm: '50%', // theme.breakpoints.up('md')
+      // lg: 400, // theme.breakpoints.up('lg')
+      // xl: 500, // theme.breakpoints.up('xl')
+    }, margin: "auto" }} >
       <TopCard>
         <Box  
           sx={{ border: "2px solid black" ,  }}
@@ -350,7 +356,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
     
     </Box>
         {/* <span className={styles.upload__info}>File should be max 2MB. JPEG, JPG and PNG</span> */}
-        <div className="container col-5">
+        <div className="container col-5 py-1">
         <Button
         className="mb-1"
         theme="primary"
@@ -363,7 +369,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
        Adopt
       </Button>
       {/* <div className={fetching ? 'signature__body--disabled mt-2' : ''} /> */}
-      {/* <img src={companyStamp?.file_url} alt="seal" /> */}
+      <img src={companyStamp?.file_url} alt="seal" />
         </div>
         <div className="mt-1" />
         {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}

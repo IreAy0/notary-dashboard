@@ -186,7 +186,7 @@ export default function Request() {
               </div>
             )}
           </div>
-          <div className="mt-1">
+          <div className="mt-1" style={{overflow: 'auto'}}>
             <Table
               type="primary"
               tableData={requests || []}

@@ -1,9 +1,12 @@
 .auth_wrapper {
   &__content1 {
-    padding: 155px 103px 4rem 74px;
+    padding: 15px 20px 15px 20px;
     overflow: scroll;
     background: url('../../assets/img/background-top-stamp.svg') no-repeat;
     background-position: top right;
+    @media (min-width: 1024px) {
+      padding: 155px 103px 4rem 74px;
+    }
   }
   &__content2 {
     margin: 140px 50px;
@@ -12,7 +15,10 @@
     margin: 0px 50px 140px 50px;
   }
   &__image {
-    width: '277px';
+    width: 40%;
+    @media  (min-width: 1024px){
+      width: '277px';
+    }
   }
   &__title {
     
@@ -72,14 +78,22 @@
   display: flex;
   // width: 100vw;
   // height: 100vh;
-  position: fixed;
+  position: relative;
+  flex-direction: column;
+  @media (min-width: 1024px) {
+    position: fixed;
+    flex-direction: row;
+  }
 }
 
 .auth_image_wrapper::after {
-  content: url('../../assets/img/background-buttom-stamp.svg');
-  bottom: 0px;
-  right: 0;
-  position: fixed;
+  
+  @media screen and (min-width: 1024px){
+    content: url('../../assets/img/background-buttom-stamp.svg');
+    bottom: 0px;
+    right: 0;
+    position: fixed;
+  }
 }
 
 .auth_signup_wrapper {
@@ -90,10 +104,13 @@
 }
 
 .auth_signup_wrapper::after {
-  content: url('../../assets/img/background-buttom-stamp.svg');
+  
+  @media screen and (min-width: 1024px){
+    content: url('../../assets/img/background-buttom-stamp.svg');
   bottom: 0px;
   right: 0;
   position: fixed;
+  }
 }
 
 .phoneLabelWrapper {
@@ -114,20 +131,31 @@
 }
 
 .auth_Password_form {
-  width: 576px;
+  width: 100%;
+  @media (min-width: 1024px) {
+    width: 576px;
+  }
 }
 
 .auth_form {
   overflow-y: scroll;
-  width: 576px;
+  width: 100%;
+  @media (min-width: 1024px) {
+    width: 576px;
+  }
 }
 
 .auth_image {
+  display: none;
   flex-grow: 1;
   background-size: cover;
   width: 68vw;
   img {
     width: 100%;
+    
+  }
+  @media (min-width: 1024px) {
+      display: block;
   }
 }
 

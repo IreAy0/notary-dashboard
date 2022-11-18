@@ -17,7 +17,7 @@ import { fetchUserProfile } from 're-ducks/user';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import externalTab from '../../assets/icons/external-tab.svg';
 import styles from '../MyRequest/request.module.scss';
-import Dashboard from '../../layouts/dashboard';
+import Dashboard from '../../dashboard/SidebarLayout/index';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
 
@@ -181,9 +181,9 @@ const SingleRequest = () => {
                 </Button>
               </>)}
 
-            {request.status !== "cancelled" && request.status !== "Awaiting" && request.status !== "pay now" && !loading && <Button theme="plain" onClick={() => setSelectedRequest({ type: 'cancel', id :request?.id , body: request  })}>
+            {/* {request.status !== "cancelled" && request.status !== "Awaiting" && request.status !== "pay now" && !loading && <Button theme="plain" onClick={() => setSelectedRequest({ type: 'cancel', id :request?.id , body: request  })}>
                 <span className="text--red">Cancel Invitation</span>
-            </Button>}
+            </Button>} */}
           </div>
         </div>
         <div className={styles.session_container}>
@@ -217,7 +217,7 @@ const SingleRequest = () => {
               )}>Join Call</a>
             </div> : null}
         </div>
-        <div className="mt-1">
+        <div className="mt-1" style={{overflow: 'auto'}}>
           <Table type="primary" tableData={participants?.schedule?.participants} headers={singleRequestHeaders} loading={loading}>
             {(row: any) => {
               const isSigner = <span>{row?.role === 'Signer' ? 'Signer' : 'Witness'}</span>;

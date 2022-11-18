@@ -1,10 +1,14 @@
 /* eslint-disable react/require-default-props */
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
+import { useIdleTimer } from 'react-idle-timer'
+
 import { useDispatch, useSelector } from 'react-redux';
 import useTypedSelector from 'hooks/useTypedSelector';
 import PreLoader from 'components/Preloader';
 import { fetchUserProfile } from 're-ducks/user';
+import { doSignOut } from 're-ducks/auth';
+import history from 'utils/history';
 import toast from 'react-hot-toast';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -14,13 +18,31 @@ interface SidebarLayoutProps {
 }
 
 const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
-  const theme = useTheme();
+
   const dispatch = useDispatch();
+
+  const onIdle = () => {
+    
+    // dispatch log out when idle
+    console.log('log outt');
+    dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
+
+  }
+
+  
+  const idleTimer = useIdleTimer({ 
+    onIdle,
+    timeout: 1000 * 60 * 3,
+    promptTimeout: 0  
+  })
+
+  const theme = useTheme();
+ 
   const user = useSelector((state: any) => state?.auth?.signIn);
   const [userProfile, setUserProfile] = useState<any>({});
   // const userProfile = useTypedSelector((state: any) => state.user);
-
-
+  
+  
   useEffect(() => {
     dispatch(
       fetchUserProfile(
@@ -33,16 +55,16 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
         }
       )
     );
-    
+      
   }, [dispatch]);
-
-
+  
+  
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
-
+  
   if(!userProfile?.id){
     return <PreLoader />
   }
-
+    
   return (
     <>
     {/* {!userProfile?.id && } */}
