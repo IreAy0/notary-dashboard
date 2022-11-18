@@ -186,7 +186,7 @@ const MyLockerTable = () => {
       .catch(err => {
         toast.error(`Couldn't delete Document, Please try again!`)
       })
-  }, [])
+  }, [fetchAllCompleteRequest])
 
   const columns = React.useMemo<GridColumns<Row>>(
     () => [
@@ -233,7 +233,6 @@ const MyLockerTable = () => {
     if(user?.user?.access_locker_documents === false){
       instance.get('/notary/notary-otp-locker')
         .then(res => {
-          console.log(res?.data?.message)
           toast.success(res?.data?.message);
         
         })

@@ -149,7 +149,6 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
           toast.success(res?.data?.data?.message);
           setImages([])
           setFilename('')
-          console.log(res)
           setLoading(false)
         })
         .catch((err) => { 

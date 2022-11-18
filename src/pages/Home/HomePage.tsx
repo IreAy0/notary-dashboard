@@ -14,6 +14,7 @@ import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import toast from 'react-hot-toast';
+import { Grid } from '@mui/material';
 import { RequestAcceptance } from 'types/requests';
 import { fetchUserProfile } from 're-ducks/user';
 import Profile from '../../assets/icons/icons/clientIcon.svg';
@@ -25,7 +26,6 @@ import Table from '../../components/Table';
 import Badge from '../../components/Badge';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import { ReactComponent as Empty } from '../../assets/icons/requestEmptyState.svg';
-import { Grid } from '@mui/material';
 
 interface User {
   is_id_verified?: boolean;

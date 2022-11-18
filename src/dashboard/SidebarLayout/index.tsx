@@ -24,7 +24,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
   const onIdle = () => {
     
     // dispatch log out when idle
-    console.log('log outt');
+   
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
 
   }
