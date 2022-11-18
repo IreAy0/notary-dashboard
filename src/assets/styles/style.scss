@@ -375,9 +375,14 @@ ul.hint {
     border-radius: 4px;
     position: relative;
     overflow: hidden;
-
+   
     &-wrapper {
       position: relative;
+      display: flex;
+      flex-direction: row;
+      @include query('desktop') {
+        flex-direction: column;
+      }
     }
 
     img {

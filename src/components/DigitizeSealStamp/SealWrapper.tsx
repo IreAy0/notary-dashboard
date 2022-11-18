@@ -410,7 +410,7 @@ ctx.closePath();
        */}
 
       <div className="col-7 ">
-        <div ref={sealImage} className="position-relative" style={{width: "auto", position: "relative"}} >
+        <div ref={sealImage} className="position-relative" style={{width : '380px', position: "relative"}} >
           <div  id="coy_number"  style={{
              
               position: "absolute",
@@ -428,8 +428,8 @@ ctx.closePath();
               /* color: #c1353f; */
               /* text-shadow: 3px 1px 0px #000; */
             
-          }}> <span>Public<br />  Notary </span> </div>
-          <img className="" width="380" height="380" src={seal} alt="seal" />
+          }}> <span> Notary<br />  Public </span> </div>
+          <img style={{maxWidth : '380px' }} className="" width="380" height="380" src={seal} alt="seal" />
           <canvas  width="300" height="300"  ref={canvas} id="canvas"  style={{
               transform: "translate(-48%, -50%)",
               position: "absolute",

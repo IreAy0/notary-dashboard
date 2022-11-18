@@ -36,7 +36,7 @@ const TypeSignature: FC<TabsProps> = ({
   const textBoxRef = useRef<any>();
   const refs = useRef<any>([])
   // const { pathname } = useLocation();
-  const fonts = ['Great Vibes', 'Montserrat'];
+  const fonts = ['Great Vibes', 'Arizonia'];
   const [fullName , setFullName] = useState<any>({
     firstName: '',
     lastName: ''

@@ -12,9 +12,9 @@ import { getLockerDetails } from 're-ducks/locker/locker.actions';
 import externalTab from '../../assets/icons/external-tab.svg';
 import VideoIcon from '../../assets/icons/video-icon.svg';
 import styles from '../MyRequest/request.module.scss';
-import Dashboard from '../../layouts/dashboard';
 import Table from '../../components/Table';
 import Badge from '../../components/Badge';
+import Dashboard from '../../dashboard/SidebarLayout/index';
 
 export interface Props {
   data: any;

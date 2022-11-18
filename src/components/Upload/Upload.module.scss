@@ -1,3 +1,6 @@
+@import '../../assets/styles/_variables.scss';
+@import '../../assets/styles/_mixins.scss';
+
 .upload {
   display: inline-flex;
   background: #FAFAFA;
@@ -8,13 +11,17 @@
   margin-bottom: 0.625rem;
   margin-top: 0rem;
   margin-right: 1rem;
-  height: 150px;
-      width: 485px;
-      justify-content: center;
-      align-items: center;
+  justify-content: center;
+  align-items: center;
+  @media (min-width: 768px) {
+    height: 150px;
+    width: 485px;
+  }
+  
   &__wrapper {
     display: inline-flex;
     flex-direction: column;
+    
   }
 
   &__label {
@@ -31,9 +38,12 @@
 
   &__title {
     color: #505050;
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 21px;
     font-weight: 500;
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
   }
 
   &__caption {

@@ -8,7 +8,7 @@
   display: inline-flex;
   border-bottom: 1px solid #cacaca;
   width: 100%;
-
+  overflow: auto;
   &.vertical {
     flex-direction: column;
     border-bottom: none;

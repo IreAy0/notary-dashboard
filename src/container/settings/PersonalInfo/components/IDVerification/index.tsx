@@ -188,7 +188,7 @@ const IDVerification: FC<Props> = ({ user, nextStep, prevStep }: Props) => {
     <form onSubmit={formik.handleSubmit}>
       <p className="text--600 mb-2">ID Verification</p>
       <div className="grid grid__layout  pb-2 mb-2">
-        <div className="col-6">
+        <div className="col-6 mb-2">
           <Select
             placeholder="Select"
             label="Identity Type*"
@@ -198,9 +198,9 @@ const IDVerification: FC<Props> = ({ user, nextStep, prevStep }: Props) => {
             disabled={user?.user?.national_verification}
           />
         </div>
-        <div className="col-6">
+        <div className="col-6 mb-2">
           <div className="grid grid__layout gap-1" style={{alignItems: 'flex-end', width: '100%'}}>
-            <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7' } `}>
+            <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7 mb-2' } `}>
             <Input
           className='mb-0'
             // value={IDData}
@@ -218,7 +218,7 @@ const IDVerification: FC<Props> = ({ user, nextStep, prevStep }: Props) => {
           />
             </div>
 
- <div className={`${user?.user?.national_verification ? 'd-none' :  'col-3'} `}>
+ <div className={`${user?.user?.national_verification ? 'd-none' :  'col-3 mb-2'} `}>
           <Button
           className=" "
           type="submit"
