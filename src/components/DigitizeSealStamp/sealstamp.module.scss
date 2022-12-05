@@ -293,8 +293,8 @@ text {
 .parent {
   background-color: transparent;
   margin: 5px;
-  width: 55px;
-  height: 55px;
+  width: 30px;
+  height: 30px;
   position: relative;
   border: 2px solid black;
   border-radius: 50%;
@@ -347,7 +347,7 @@ text {
   /* align-items: flex-start; */
   /* 
   justify-content: space-between; */
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
 }
 

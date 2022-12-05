@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import styles from './button.module.scss';
 import Loader from '../Loader';
 
+
 export interface Props extends HTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   theme?: 'primary' | 'secondary' | 'plain' | 'reject' | 'reset' | 'grey';
@@ -16,6 +17,7 @@ export interface Props extends HTMLAttributes<HTMLButtonElement> {
   wide?: boolean;
   onClick?: () => void;
   align?: 'left' | 'center';
+  icon?: any
 }
 const Button = ({
   children,
@@ -30,6 +32,7 @@ const Button = ({
   onClick,
   loading,
   theme,
+  icon,
   ...props
 }: Props) => {
   const { className, ...args } = props;
@@ -52,6 +55,7 @@ const Button = ({
       {...args}
     >
       {loading ? <Loader /> : children}
+      {icon ||  null}
     </button>
   );
 };
@@ -67,7 +71,8 @@ Button.defaultProps = {
   wide: false,
   onClick: null,
   align: 'center',
-  height: null
+  height: null,
+  icon: null
 };
 
 export default Button;

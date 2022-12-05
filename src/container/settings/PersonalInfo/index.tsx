@@ -38,11 +38,11 @@ const PersonalInfo = () => {
        
       <div className="col-8 pt-2 " style={{backgroundColor: '#fff'}}>
       
-          {activeTabContent.label === tabsContent[1].label && <AddPersonalInfo  nextStep={() => setActiveTabContent(tabsContent[1])} />}
+          {activeTabContent.label === tabsContent[1].label && <AddPersonalInfo prevStep={() => setActiveTabContent(tabsContent[0])}  nextStep={() => setActiveTabContent(tabsContent[1])} />}
           {activeTabContent.label === tabsContent[0].label && (
-            <IDVerification prevStep={() => setActiveTabContent(tabsContent[0])} nextStep={() => setActiveTabContent(tabsContent[2])} user={user} />
+            <IDVerification nextStep={() => setActiveTabContent(tabsContent[2])} user={user} />
           )}
-          {activeTabContent.label === tabsContent[2].label && <DigitiseSignature user={user} />}
+          {activeTabContent.label === tabsContent[2].label && <DigitiseSignature prevStep={() => setActiveTabContent(tabsContent[1])} user={user} />}
 
 
       </div>

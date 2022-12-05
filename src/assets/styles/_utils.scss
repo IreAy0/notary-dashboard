@@ -60,7 +60,9 @@
 .mr-auto {
   margin-right: auto !important;
 }
-
+.m-auto {
+  margin: auto;
+}
 .text {
   &-dark {
     color: #363740;

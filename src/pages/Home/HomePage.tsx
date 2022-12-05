@@ -26,6 +26,7 @@ import Table from '../../components/Table';
 import Badge from '../../components/Badge';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import { ReactComponent as Empty } from '../../assets/icons/requestEmptyState.svg';
+// import MediaQuery from 'helpers/useMediaQuery';
 
 interface User {
   is_id_verified?: boolean;
@@ -199,6 +200,7 @@ const HomePage = () => {
             <h4 className={styles.table_container__header}>All Requests</h4>
           </div>
           <div className="mt-1">
+            {/* {MediaQuery()} */}
             <Table
               type="primary"
               tableData={requests?.slice(0, 5) || []}

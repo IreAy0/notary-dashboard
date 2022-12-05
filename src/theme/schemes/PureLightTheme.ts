@@ -1098,11 +1098,11 @@ export const PureLightTheme = createTheme({
         colorPrimary: {
           '& .MuiSwitch-thumb': {
             backgroundColor: colors.alpha.white[100]
-          },
-
-          '&.Mui-checked .MuiSwitch-thumb': {
-            backgroundColor: colors.primary.main
           }
+
+          // '&.Mui-checked .MuiSwitch-thumb': {
+          //   backgroundColor: colors.primary.main
+          // }
         }
       }
     },

@@ -6,7 +6,10 @@ import { doSignOut } from 're-ducks/auth';
 import { isAuthenticated } from 'utils';
 import { DateRangePicker } from 'react-date-range';
 import moment from 'moment';
-import { userRequestOverview } from 're-ducks/user';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch, { SwitchProps } from '@mui/material/Switch';
+import { editUserProfile, fetchUserProfile, userRequestOverview } from 're-ducks/user';
 import SelectBtnStyles from 'components/CustomSelect/customSelect.module.scss';
 import useTypedSelector from 'hooks/useTypedSelector';
 import Button from 'components/Button';
@@ -21,11 +24,14 @@ import {Box,
   IconButton,
   Tooltip,
   styled,
-  useTheme} from '@mui/material';
+  useTheme,
+  Typography} from '@mui/material';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import instance from 'services/axios';
+import toast from 'react-hot-toast';
 import HeaderUserbox from './Userbox';
 import styles from '../../../components/Header/Header.module.scss';
 import { SidebarContext } from '../../../contexts/SidebarContext';
@@ -48,6 +54,94 @@ const HeaderWrapper = styled(Box)(
         }
 `
 );
+
+
+
+const Android12Switch = styled(Switch)(({ theme }) => ({
+  padding: 8,
+  '& .MuiSwitch-track': {
+    borderRadius: 22 / 2,
+    '&:before, &:after': {
+      content: '""',
+      position: 'absolute',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      width: 16,
+      height: 16
+    },
+    '&:before': {
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+        theme.palette.getContrastText(theme.palette.primary.main)
+      )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+      left: 12
+    },
+    '&:after': {
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+        theme.palette.getContrastText(theme.palette.primary.main)
+      )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+      right: 12
+    }
+  },
+  '& .MuiSwitch-thumb': {
+    boxShadow: 'none',
+    width: 16,
+    height: 16,
+    margin: 2
+  }
+}));
+
+const IOSSwitch = styled((props: SwitchProps) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
+  width: 42,
+  height: 26,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    margin: 2,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
+        opacity: 1,
+        border: 0
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.5
+      }
+    },
+    '&.Mui-focusVisible .MuiSwitch-thumb': {
+      color: '#33cf4d',
+      border: '6px solid #fff'
+    },
+    '&.Mui-disabled .MuiSwitch-thumb': {
+      color:
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600]
+    },
+    '&.Mui-disabled + .MuiSwitch-track': {
+      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3
+    }
+  },
+  '& .MuiSwitch-thumb': {
+    boxSizing: 'border-box',
+    width: 22,
+    height: 22
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 26 / 2,
+    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+    opacity: 1,
+    transition: theme.transitions.create(['background-color'], {
+      duration: 500
+    })
+  }
+}));
+
+
 
 const ListWrapper = styled(Box)(
   ({ theme }) => `
@@ -116,6 +210,48 @@ function Header() {
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
   const { id } = useParams<{ id?: string }>();
   const onSignInPage = history.location.pathname.includes('sign-in');
+
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // instance.post('/')
+    dispatch(
+      editUserProfile(
+        {
+          is_online: event.target.checked
+        },
+        () => {
+          // setSubmitting(false);
+          toast.success('Profile updated successfully.'
+          )
+          // toast.success('Profile updated successfully');
+          // nextStep();
+          dispatch(
+            fetchUserProfile(
+              {},
+              () => {},
+              () => {}
+            )
+          );
+        },
+        (error) => {
+          // setSubmitting(false);
+          toast.error('Error updating profile', {
+            position: "top-right",
+            style: {
+              background: '#dc3545',
+              color: '#fff',
+              border: 'none',
+              padding: '16px'
+
+            }
+          })
+          toast.error(error);
+        }
+      )
+    );
+    setChecked(event.target.checked);
+  };
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
@@ -241,7 +377,7 @@ function Header() {
             display: { lg: 'none', xs: 'inline-block' }
           }}
         >
-          <Tooltip arrow title="Toggle Menu">
+          <Tooltip arrow title="Menu">
             <IconButton color="primary" onClick={toggleSidebar}>
               {!sidebarToggle ? (
                 <MenuTwoToneIcon fontSize="small" />
@@ -260,6 +396,7 @@ function Header() {
         alignItems="center"
         spacing={2}
       >
+       
         <ListWrapper
         sx={{
           display: {
@@ -290,6 +427,18 @@ function Header() {
                   </Button>
                 </div>
       )} */}
+        <FormGroup>
+       
+       <Stack direction="row" spacing={1} alignItems="center">
+        <Typography>Not Available</Typography>
+        <IOSSwitch sx={{ m: 1 }} checked={updatedUser?.is_online}
+      onChange={handleChangeSwitch}
+      inputProps={{ 'aria-label': 'controlled' }} />
+        <Typography>Available</Typography>
+      </Stack>
+      
+     
+    </FormGroup>
         <HeaderUserbox userProfile={updatedUser}/>
         
       </Box>

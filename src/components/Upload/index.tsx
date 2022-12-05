@@ -1,6 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Button from 'components/Button';
 import useTypedSelector from 'hooks/useTypedSelector';
-import { Divider } from '@mui/material';
+import { Divider, ListItemText, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+// import { IconButton } from 'material-ui';
+import CloseIcon from '@mui/icons-material/Close';
+import ListItem from '@mui/material/ListItem';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { getAllCompleteRequestAction } from 're-ducks/locker';
 import { fetchUserProfile } from 're-ducks/user';
@@ -8,6 +14,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import instance from 'services/axios';
+import IconButton from '@mui/material/IconButton';
 import styles from './Upload.module.scss';
 
 export interface Props {
@@ -28,58 +35,59 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
   const [fileBase64, setFileBase64] = useState<any>("")
   const [imageFiles, setImageFiles] = useState([]);
   const [images, setImages] = useState([]);
+  const [previewFiles, setPreviewFiles] = useState<any>([])
+  const [removed, setRemoved] = useState<any>(false)
+  const [errorMessage, setErrorMessage] = useState<any>("")
+  const [fileData, setFileData] = useState<any>({
+    "title": '',
+    "files": []
+  });
+
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { files } = e.target as HTMLInputElement;
+    const { files }: any = e.target as HTMLInputElement;
 
    
-    if (!!files && files.length) {
-      setFilename(files[0]);
+    for (let i = 0; i < files.length; i += 1) {
+      if(files[i].size > 2097152){
+        setErrorMessage("File is too big!")
 
-      // const { files } = e.target;
-      const validImageFiles: any = [];
-      for (let i = 0; i < files.length; i =+1 ) {
-        const file = files[i];
-        validImageFiles.push(file);
-      }
-      if (validImageFiles.length) {
-        setImageFiles(validImageFiles);
-      }
+        return
+
+      } 
+      const reader = new FileReader();
+      const params = files[i];
+      reader.onloadend = () => {
+        fileData.files.push(reader?.result)
+        setErrorMessage("")
+        if (!fileData.title || !fileData.title.trim()) {
+          fileData.title = params?.name.split('.').slice(0, -1).join('.');
+         
+        }
+        setPreviewFiles([...previewFiles, params.name])
+      };
+        
+      reader.readAsDataURL(params);
     }
+    e.target.value = ''
 
 
   };
 
-  useEffect(() => {
-    const images_new: any = []; const fileReaders:any = [];
-    let isCancel = false;
-    if (imageFiles.length) {
-      imageFiles.forEach((file) => {
-        const fileReader = new FileReader();
-        fileReaders.push(fileReader);
-        fileReader.onload = (e) => {
-          const { result }: any =  fileReader;
-          if (result) {
+  const removeItem = (i) => {
+    const filtered = fileData.files.filter((file, index) => index !== i)
+    const filteredPreview = previewFiles.filter((file, index) => index !== i)
+    setPreviewFiles(filteredPreview)
+    setFileData({...fileData, files: filtered});
+    setRemoved(!removed)
+  };
 
-            images_new.push(result)
-          }
-          if (images_new.length === imageFiles.length && !isCancel) {
-            setImages(images_new);
-          }
-        }
-        fileReader.readAsDataURL(file);
-      })
-    };
-    
-    return () => {
-      isCancel = true;
-      fileReaders.forEach(fileReader => {
-        if (fileReader.readyState === 1) {
-          fileReader.abort()
-        }
-      })
-    }
-  }, [imageFiles]);
-  
+  useEffect(() => { 
+    if (previewFiles.length === 0 || fileData.files.length === 0) {
+      setFileData({title: '', files: []})
+      setPreviewFiles([])
+    } 
+  }, [removed])
+
   const fetchAllCompleteRequest = useCallback(
     (nextPage: any = 1, itemsPerPage: any = 10) => {
       setLoading(true);
@@ -123,30 +131,21 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
     );
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if(user?.user?.access_locker_documents === false){
-  //     instance.get('/notary/notary-otp-locker')
-  //       .then(res => {
-  //         toast.success(res?.data?.message);
-  //         console.log(res, 'response')
-        
-  //       })
-  //   }
-  // },[user])
-
 
   const uploadDocument = () => {
     setLoading(true)
-    const fileData = {
-      "title": filename?.name,
-      "files": images
-    }
-    if(filename){
+    // const fileData = {
+    //   "title": filename?.name,
+    //   "files": images
+    // }
+    if(fileData.title){
       instance.post('/notary/notary-locker', fileData )
         .then((res: any) => {
           
           fetchAllCompleteRequest();
           toast.success(res?.data?.data?.message);
+          setFileData({title: '', files: []})
+          setPreviewFiles([])
           setImages([])
           setFilename('')
           setLoading(false)
@@ -160,6 +159,7 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
   
 
   return (
+    <div>
     <div className='flex flex__start flex__item-center'>       
       <div className={styles.upload__wrapper}>
       {!showPreview && (
@@ -174,38 +174,69 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
 <path d="M12.1569 26.9627C11.9171 26.7229 11.7373 26.4831 11.5575 26.2435C11.3777 26.0037 11.1979 25.7639 11.0778 25.5243C11.0178 25.524 11.0178 25.464 10.958 25.4042C10.7782 25.1644 10.6584 24.9246 10.5384 24.625C10.4186 24.3852 10.2986 24.0856 10.1788 23.8458C10.1788 23.7858 10.1188 23.726 10.1188 23.6659C10.0588 23.4261 9.93899 23.2463 9.87898 23.0065C9.87898 22.9465 9.81898 22.8867 9.81898 22.8267C9.75897 22.5271 9.63917 22.2873 9.63917 21.9874C9.63917 21.9274 9.63917 21.8676 9.57916 21.8076C9.51915 21.5678 9.51915 21.328 9.45936 21.0884V20.8486C9.45936 20.549 9.39936 20.2491 9.39936 19.9495C9.39936 14.1954 14.0748 9.45985 19.8891 9.45985C20.1887 9.45985 20.4885 9.45985 20.8481 9.51985H21.0279H21.2077L21.2079 0.228516H6.82201V6.10288H0.228516V29.0003H14.7346C13.7754 28.4609 12.9363 27.8015 12.1571 26.9624C12.2169 27.0222 12.2169 27.0222 12.1571 26.9624L12.1569 26.9627ZM9.3996 2.2068H18.5707V3.52544H9.3996V2.2068ZM9.3996 4.78414H18.5707V6.10278L9.3996 6.103V4.78414ZM2.20664 7.4217H14.6144V8.74035H2.20664V7.4217ZM2.20664 10.059H11.3778V11.3777L2.20664 11.3779V10.059ZM2.20664 12.6366H9.3996V13.9553H2.20664V12.6366ZM8.74002 19.1705H2.20664V17.8519H8.74002V19.1705ZM8.74002 16.593H2.20664V15.2743H8.74002V16.593Z" fill="black"/>
 <path d="M5.44249 0.228516H5.08288L2.80516 2.74602L1.00684 4.7839H5.44244L5.44249 0.228516Z" fill="black"/>
 </svg>
-
-            // <UploadFileIcon sx={{width:"48 !important", height:"48 !important ", color:'#003BB3'}} className={styles.upload__icon} fontSize='large'/>
-            // <svg className={styles.upload__icon} width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            //   <path
-            //     d="M42.227 10.999h-6.94v-.713a5.772 5.772 0 0 0-5.77-5.77H18.482a5.771 5.771 0 0 0-5.77 5.77v.713h-6.94A5.77 5.77 0 0 0 0 16.769v20.944a5.771 5.771 0 0 0 5.77 5.77h36.46a5.771 5.771 0 0 0 5.77-5.77V16.77a5.774 5.774 0 0 0-5.773-5.77Zm-18.23 26.499c-6.01 0-10.899-4.888-10.899-10.9 0-6.01 4.888-10.898 10.9-10.898 6.01 0 10.899 4.887 10.899 10.899 0 6.01-4.89 10.899-10.9 10.899Zm5.77-10.9a5.78 5.78 0 0 1-5.77 5.77 5.78 5.78 0 0 1-5.77-5.77c0-3.18 2.59-5.77 5.77-5.77 3.18 0 5.77 2.59 5.77 5.77Z"
-            //     fill="#003BB3"
-            //   />
-            // </svg>
             )}
             <div>
               <span className={styles.upload__title}>{placeholder}</span>
               {/* <br /> */}
-              <span className={styles.upload__caption}>{filename?.name || fileRule}</span>
+              <br />
+              <span className={styles.upload__meta}>
+            File should be max {maxFilesize} Mb
+          </span>
+          <Typography sx={{
+            color: 'red'
+          }} variant="body2" gutterBottom>
+        {errorMessage}
+      </Typography>
             </div>
             <input multiple onChange={(e) => handleFile(e)} className="sr-only" type="file" name="" id="upload-comp" />
           </label>
-          <span className={styles.upload__meta}>
+          {/* <span className={styles.upload__meta}>
             File should be max
              {maxFilesize}
 
             Mb
-          </span>
+          </span> */}
         </>
       )}
 
 
     </div>
     
-    <Button onClick={() => uploadDocument()} type='button' disabled={!filename || loading} loading={loading} size='sm' theme='primary'>Upload</Button>
+    <Button onClick={() => uploadDocument()} type='button' disabled={!fileData.title || loading} loading={loading} size='sm' theme='primary'>Upload</Button>
 
     </div>
-  
+  <div>
+  <Grid container spacing={2}>
+  <Grid item xs={12} md={6}>
+  <List sx={{ maxWidth: 400  }}>
+      {previewFiles.map((file, index) => (
+         <ListItem
+         // eslint-disable-next-line react/no-array-index-key
+         key={index}
+         sx={{
+           border: '1px solid #ccc',
+           borderRadius: '5px',
+           marginBottom: '10px'
+         }}
+         secondaryAction={
+           <IconButton onClick={() => removeItem(index)} sx={{"&:hover": {backgroundColor: "transparent" }}} edge="end" aria-label="delete">
+             <CloseIcon color="error"/>
+           </IconButton>
+         }
+       >
+         <ListItemText
+           primary={file}
+         />
+       </ListItem>
+      ))}
+      </List>
+  </Grid>
+     
+
+</Grid>
+
+  </div>
+  </div>
 
   );
 };
