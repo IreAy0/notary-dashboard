@@ -8,7 +8,8 @@ import { getAllCompleteRequestAction } from 're-ducks/locker';
 import useTypedSelector from 'hooks/useTypedSelector';
 import priceSplitter from 'helpers/priceSplitter';
 import { RootState } from 're-ducks/rootReducer';
-import { Box, Button, Modal, Typography, Divider } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, Modal, Typography, Divider, IconButton } from '@mui/material';
 import OTPModal from 'container/Modal/OTPModal';
 import instance from 'services/axios';
 import toast from 'react-hot-toast';
@@ -92,6 +93,18 @@ const MyTemplateTable = () => {
     [dispatch]
   );
 
+  const deleteDocument = useCallback((id: any = '') => {
+    instance.delete(`/notary/notary-locker/${id}`)
+      .then(res => {
+        fetchAllUploadedTemplates()
+        toast.success(res?.data?.data?.message);
+        
+      })
+      .catch(err => {
+        toast.error(`Couldn't delete Document, Please try again!`)
+      })
+  }, [fetchAllUploadedTemplates])
+
   useEffect(() => {
     fetchAllUploadedTemplates();
     // eslint-disable-next-line
@@ -132,13 +145,16 @@ const MyTemplateTable = () => {
         {(row: { [k: string]: any }) => (
           <>
               <td className="table__row-text center">
-                <Link to={`/locker/${row?.id}`} className="text--600 text--blue">
+                <Link to={`/locker/${row?.id}/document`} className="text--600 text--blue">
                   {row.title}
                 </Link>
                 <br />
                
               </td>
-              <td className="table__row-text center">{row?.phone}</td>
+              <td className="table__row-text center">
+                <IconButton onClick={() => deleteDocument(row?.id)} sx={{"&:hover": {backgroundColor: "transparent" }}} edge="end" aria-label="delete">
+               <DeleteIcon color="error"/>
+             </IconButton></td>
               <td className="table__row-text center">{row?.email}</td>
              
           </>

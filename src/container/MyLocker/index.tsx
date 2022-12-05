@@ -190,12 +190,13 @@ const MyLockerTable = () => {
 
   const columns = React.useMemo<GridColumns<Row>>(
     () => [
-      { field: 'title', headerName: 'Document Name', type: 'string' ,flex: 1, headerAlign: 'center',sortable: false, renderCell: (params: any) => (
-        <Link to={params?.is_the_owner_of_document ? `/locker/${params?.id}/document` :  `/locker/${params?.id}`} className="text--600 text--blue">
-          {/* /locker/${locker?.id}/document */}
-          {params?.is_the_owner_of_document}  {params?.value} 
-      </Link>
-      )},
+      { field: 'title', headerName: 'Document Name', type: 'string' ,flex: 1, headerAlign: 'center',sortable: false, 
+        renderCell: (params: any) => (
+        <Link to={params?.row?.is_the_owner_of_document === true ? `/locker/${params?.id}/document` :  `/locker/${params?.id}`} className="text--600 text--blue">
+         
+            {params.row.title}  
+        </Link>
+        )},
       { field: 'phone', headerName: 'Phone Number', type: 'number',headerAlign: 'center', flex: 1, sortable: false },
       { field: 'email', headerName:'Email', type: 'string' ,headerAlign: 'center', flex: 1,sortable: false},
       {

@@ -11,6 +11,7 @@ export interface TabsProps {
   user?: string | boolean | Date | any;
   hideButton?: boolean;
   uploadedText?: string;
+  prevStep?: () => void;
 }
 
 export type TabOption = {

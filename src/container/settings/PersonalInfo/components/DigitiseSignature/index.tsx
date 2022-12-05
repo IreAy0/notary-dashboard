@@ -19,9 +19,10 @@ interface Props {
   user: {
     [k: string]: string | boolean | Date | any;
   };
+  prevStep: () => void;
 }
 
-const DigitiseSignature: FC<Props> = ({ user }: Props) => {
+const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState<boolean>(false);
   const [currentSign, setCurrentSign] = useState<any>({});
@@ -50,7 +51,7 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
 
   const [activeTabContent, setActiveTabContent] = useState(tabsContent[0]);
 
-  const saveSignature = ({ type, category, file, done, fail }: any) => {
+  const saveSignature = ({ type, category, file, done, fail, nextTab }: any) => {
     setSaving(true);
     const queries = { type, category, file };
     if (!currentSign?.file_url) {
@@ -62,6 +63,8 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
             setSaving(false);
             setCurrentSign(data);
             done();
+            setActiveTabContent(nextTab);
+            console.log(nextTab, 'nextTab')
           },
           () => {
   
@@ -78,6 +81,7 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
             // console.log('error');
             fail();
             setSaving(false);
+
           }
         )
       );
@@ -129,6 +133,7 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
 
       {activeTabContent.label === 'Type' && (
         <TypeSignature
+          prevStep={prevStep}
           fileURL={currentSign}
           isSaving={saving}
           onSave={saveSignature}
@@ -138,7 +143,7 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
         />
       )}
       {activeTabContent.label === 'Draw' && (
-        <DrawSignature showAgreement isSaving={saving} onSave={saveSignature} fileURL={currentSign} fetching={fetchingFiles} />
+        <DrawSignature prevStep={prevStep} showAgreement isSaving={saving} onSave={saveSignature} fileURL={currentSign} fetching={fetchingFiles} />
       )}
       {/* {activeTabContent.label === 'Initials' && (
         <InitialSignature
@@ -149,10 +154,10 @@ const DigitiseSignature: FC<Props> = ({ user }: Props) => {
           user={user.user}
         />
       )} */}
-      {activeTabContent.label === 'Traditional Seal' && <SealWrapper fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
-      {activeTabContent.label === 'Digital Seal' && <DigitalSeal fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
+      {activeTabContent.label === 'Traditional Seal' && <SealWrapper prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
+      {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
 
-      {activeTabContent.label === 'Stamp' && <StampWrapper Save={saveSignature} isSaving={saving} showAgreement/>}
+      {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} isSaving={saving} showAgreement/>}
     </div>
   );
 };
