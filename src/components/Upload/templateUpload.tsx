@@ -93,6 +93,7 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
       setFileData({title: '', files: []})
       setPreviewFiles([])
     } 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [removed])
   
   const fetchAllCompleteRequest = useCallback(
@@ -143,7 +144,7 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
       // /api/v1/notary/document-templates
       instance.post('/notary/document-templates', fileData )
         .then(res => {
-          console.log(res)
+          
           toast.success('Template uploaded successfully');
           fetchAllCompleteRequest();
           setLoading(false)

@@ -64,7 +64,6 @@ const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
             setCurrentSign(data);
             done();
             setActiveTabContent(nextTab);
-            console.log(nextTab, 'nextTab')
           },
           () => {
   

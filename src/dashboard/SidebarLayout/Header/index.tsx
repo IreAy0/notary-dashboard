@@ -30,11 +30,11 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import instance from 'services/axios';
+import toast from 'react-hot-toast';
 import HeaderUserbox from './Userbox';
 import styles from '../../../components/Header/Header.module.scss';
 import { SidebarContext } from '../../../contexts/SidebarContext';
-import instance from 'services/axios';
-import toast from 'react-hot-toast';
 
 // background-color: ${alpha(theme.header.background, 0.95)};
 const HeaderWrapper = styled(Box)(
@@ -251,10 +251,7 @@ function Header() {
       )
     );
     setChecked(event.target.checked);
-    console.log(event.target.value)
   };
-
-  console.log('checked', checked)
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Button from 'components/Button';
 import useTypedSelector from 'hooks/useTypedSelector';
 import { Divider, ListItemText, Typography } from '@mui/material';
