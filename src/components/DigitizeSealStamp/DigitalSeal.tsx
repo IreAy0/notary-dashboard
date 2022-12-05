@@ -493,11 +493,9 @@ const space = Math.PI / 12;
      
         <div className={fetching ? 'signature__body--disabled mt-2' : ''} />
       {/* <img src={!uploadedSeal ? base64Url : uploadedSeal} alt="seal" /> */}
+       
         </div>
       </div>
-
-
-      
       {/* <canvas ref={canvas}></canvas> */}
       <div className="mt-1" />
       {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
