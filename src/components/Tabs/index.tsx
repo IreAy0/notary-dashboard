@@ -29,7 +29,9 @@ const Tabs = ({ tabs, active, setActive, type, size }: TabsProps) => {
             <span className={styles.tabs__id}>{index + 1}</span>
            
             <button
-            
+              style={{
+                whiteSpace: 'nowrap'
+              }}
               disabled={tab.disabled ?? false}
               type="button"
               onClick={(e) => {

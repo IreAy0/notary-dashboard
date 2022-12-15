@@ -101,6 +101,10 @@
       //   background: #ededed;
       }
   }
+  &__xs{
+    height: 25px;
+   padding: 10px 7px 10px 7px;
+  }
   &__sm {
     height: 34px;
   }
@@ -110,6 +114,7 @@
   &__lg {
     height: 56px;
   }
+
   &__xl {
     font-weight: 600;
     height: 62px;

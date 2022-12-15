@@ -13,8 +13,7 @@ import SignatureTabs from 'components/Tabs/signatureTab';
 // import 'react-toastify/dist/ReactToastify.css';
 import toast from 'react-hot-toast';
 import DigitalSeal from 'components/DigitizeSealStamp/DigitalSeal';
-import UploadSignature from 'components/Upload/UploadSignature';
-import InitialsSignature from 'components/InitialsSignature';
+import Seals from '../Seals';
 
 
 interface Props {
@@ -24,31 +23,21 @@ interface Props {
   prevStep: () => void;
 }
 
-const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
+const SealStamp: FC<Props> = ({ user, prevStep }: Props) => {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState<boolean>(false);
   const [currentSign, setCurrentSign] = useState<any>({});
   const [fetchingFiles, setFetchingFiles] = useState<boolean>(true);
 
   const tabsContent = [
+    
     {
-      label: 'Type'
+      label: 'Seal'
     },
     {
-      label: 'Draw'
-    },
-    {
-      label: 'Initials'
-    },
-    {
-      label: 'Upload'
+      label: 'Stamp'
     }
-    // {
-    //   label: 'Digital Seal'
-    // },
-    // {
-    //   label: 'Stamp'
-    // }
+    
   ];
 
   const [activeTabContent, setActiveTabContent] = useState(tabsContent[0]);
@@ -128,43 +117,27 @@ const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
     // }
   }, [dispatch, activeTabContent]);
 
+
   return (
     <div>
       <SignatureTabs type="horizontal" tabs={tabsContent} active={activeTabContent} setActive={(tab) => setActiveTabContent(tab)} />
-
-      {activeTabContent.label === 'Type' && (
-        <TypeSignature
-          prevStep={prevStep}
-          fileURL={currentSign}
-          isSaving={saving}
-          onSave={saveSignature}
-          fetching={fetchingFiles}
-          user={user.user}
-          signatureType="text"
-        />
-      )}
-      {activeTabContent.label === 'Draw' && (
-        <DrawSignature prevStep={prevStep} showAgreement isSaving={saving} onSave={saveSignature} fileURL={currentSign} fetching={fetchingFiles} />
-      )}
-      {activeTabContent.label === 'Initials' && (
-        <InitialsSignature
+      {/* {activeTabContent.label === 'Initials' && (
+        <InitialSignature
           onSave={saveSignature}
           fileURL={currentSign}
           isSaving={saving}
           fetching={fetchingFiles}
           user={user.user}
         />
-      )}
-      {activeTabContent.label === 'Upload' && <UploadSignature showAgreement prevStep={prevStep} isSaving={saving} fetching={fetchingFiles} fileURL={currentSign} onSave={saveSignature} maxFilesize={2} fileRule=" " label='Upload Signature' placeholder='Please click here to upload your signature'  />}
-
+      )} */}
+      {activeTabContent.label === 'Seal' && <Seals prevStep={prevStep} user={user}/>}
       {/* {activeTabContent.label === 'Traditional Seal' && <SealWrapper prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} */}
-      {/*  {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} 
+      {/* {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} */}
 
       {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} isSaving={saving} showAgreement/>}
-     */}
     </div>
   );
 };
 
-export default DigitiseSignature;
+export default SealStamp;
 
