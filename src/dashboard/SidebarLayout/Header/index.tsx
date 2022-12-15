@@ -430,11 +430,11 @@ function Header() {
         <FormGroup>
        
        <Stack direction="row" spacing={1} alignItems="center">
-        <Typography>Not Available</Typography>
+        <Typography>Offline</Typography>
         <IOSSwitch sx={{ m: 1 }} checked={updatedUser?.is_online}
       onChange={handleChangeSwitch}
       inputProps={{ 'aria-label': 'controlled' }} />
-        <Typography>Available</Typography>
+        <Typography>Online</Typography>
       </Stack>
       
      

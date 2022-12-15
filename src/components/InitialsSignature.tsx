@@ -3,7 +3,7 @@
 import React, { FC, useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TabsProps } from 'types/tabs.interface';
-import {  textToSignImage } from 'utils/textToImage';
+import {  textToImage, textToSignImage } from 'utils/textToImage';
 // import urlToImageObj from 'utils/urlToImageObj';
 import SignaturePolicy from 'container/document/SignaturePolicy';
 import toast from 'react-hot-toast';
@@ -14,7 +14,7 @@ import { Input } from './TextInput/TextInput';
 import styles from './RadioInput/RadioInput.module.scss';
 
 
-const TypeSignature: FC<TabsProps> = ({
+const InitialsSignature: FC<TabsProps> = ({
   fileURL,
   onSave,
   isSaving,
@@ -60,7 +60,7 @@ const TypeSignature: FC<TabsProps> = ({
 
   useEffect(() => {
     if (fileURL) {
-      setImageURL(fileURL?.Signature?.find(
+      setImageURL(fileURL?.Initial?.find(
         (signature) => signature?.category === "Type"
       )?.file || '');
     }
@@ -71,24 +71,23 @@ const TypeSignature: FC<TabsProps> = ({
   };
 
   const convertTextToImage = async () => {
-    const imageUrl = textToSignImage(text, `55px ${fontFamily}`, textColor);    
+    const imageUrl = textToImage(text, `55px ${fontFamily}`, textColor);    
     setImageURL(imageUrl);
-    // textToSignImage(text)  
+    // textToSignImage(text)
     onSave({
       file: imageUrl,
-      type: 'Signature',
+      type: 'Initial',
       category: 'Type',
 
       done: () => {
         setShowImage(true);
         setText('');
         setFontFamily('');
-       
         updateText('')
         toast.success('Signature created successfully.');
       },
       nextTab: {
-        label: 'Draw'
+        label: 'Upload'
       },
       content: text
     });
@@ -139,15 +138,15 @@ const TypeSignature: FC<TabsProps> = ({
     <div>
      
         <div className="grid grid__layout gap-1 pt-1">
-          <div className="col-4">
+          {/* <div className="col-4">
             <Input onChange={(e) => setFullName({...fullName, firstName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
           </div>
           <div className="col-4">
             <Input onChange={(e) => setFullName({...fullName, lastName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
-          </div>
-          {/* <div className="col-3">
-            <Input label="Initials*"  placeholder="EW" type="text" value={getInitials(getFullName())} />
           </div> */}
+          <div className="col-3">
+            <Input onChange={(e) => setFullName({...fullName, initials: e.target.value })}  label="Initials*"  placeholder="EW" type="text" value={fullName.initials} />
+          </div>
         </div>
      
       <div className="signature__body-wrapper">
@@ -169,10 +168,9 @@ const TypeSignature: FC<TabsProps> = ({
                 fontFamily: font,
                 fontSize: '70px',
                 color: textColor
-              }} type="radio" checked={index  === fontIndex} value={`${fullName.firstName  } ${  fullName.lastName}`} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
-              <label className='  w-full pr-2' htmlFor={`${fullName.firstName  } ${  fullName.lastName}`} >
-                {`${fullName.firstName  } ${  fullName.lastName}`} 
-               
+              }} type="radio" checked={index  === fontIndex} value={`${fullName.initials  } `} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
+              <label className='  w-full pr-2' htmlFor={`${fullName.initials  }`} >
+               {` ${  fullName.initials}`}  
                </label>
     </div>))}
         </div>
@@ -189,9 +187,9 @@ const TypeSignature: FC<TabsProps> = ({
               fontSize: '40px',
               color: textColor
             }} 
-            className={`${ fontFamily ? '' : 'd-none' } `}>
-           {`${fullName.firstName  } ${  fullName.lastName}`}
-            {/* <span >{`${fullName.initials}`} </span> */}
+            className={`${ fontFamily ? '' : 'd-none' }`}>
+              <p>{`${fullName.initials}`} </p>
+           
     </div>
         }
         <div />
@@ -216,8 +214,8 @@ const TypeSignature: FC<TabsProps> = ({
   );
 };
 
-TypeSignature.defaultProps = {
+InitialsSignature.defaultProps = {
   hideButton: false
 };
 
-export default TypeSignature;
+export default InitialsSignature;

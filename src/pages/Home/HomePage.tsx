@@ -15,6 +15,17 @@ import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import toast from 'react-hot-toast';
 import { Grid } from '@mui/material';
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import MediaQuery from 'helpers/useMediaQuery';
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import { RequestAcceptance } from 'types/requests';
 import { fetchUserProfile } from 're-ducks/user';
 import Profile from '../../assets/icons/icons/clientIcon.svg';
@@ -26,7 +37,6 @@ import Table from '../../components/Table';
 import Badge from '../../components/Badge';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import { ReactComponent as Empty } from '../../assets/icons/requestEmptyState.svg';
-// import MediaQuery from 'helpers/useMediaQuery';
 
 interface User {
   is_id_verified?: boolean;
@@ -200,8 +210,7 @@ const HomePage = () => {
             <h4 className={styles.table_container__header}>All Requests</h4>
           </div>
           <div className="mt-1">
-            {/* {MediaQuery()} */}
-            <Table
+            {MediaQuery().matchMD ? <Table
               type="primary"
               tableData={requests?.slice(0, 5) || []}
               headers={requestHeaders}
@@ -269,7 +278,97 @@ const HomePage = () => {
                   </td>
                 </>
               )}
-            </Table>
+            </Table> : <List sx={{ width: "100%" , padding: 0}}>
+      {requests?.slice(0, 5).map((value: any) => (
+        <ListItem key={value.id} sx={{width: "100%", padding: 0, marginBottom:'12px'}}>
+          <Card sx={{width: "100%", boxShadow: '0px 0px 16px rgba(137, 151, 164, 0.1)' }}>
+            <CardHeader
+              action={
+                <span className={classnames(
+                  Buttonstyles.btn,
+                  Buttonstyles.btn__primary,
+                  Buttonstyles.btn__xs
+                )}  >{value?.status}</span>
+             }
+              subheader={<p className="fs_xs">{format(parseISO(value?.schedule_session?.date), 'PPPP')}</p> }
+            />
+            <CardContent>
+              <Box
+                sx={{
+                  maxWidth: "400px",
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
+                <p className="fs_xs">Document Name</p>
+                <Link className="text--blue text--600 fs_xs text--right" to={`/requests/${value.id}`}>
+                      {' '}
+                      {value?.document_name || value?.schedule_session?.title || '-'}
+                    </Link>
+              </Box>
+              <Box
+                sx={{
+                  marginTop: '18px',
+                  maxWidth: "400px",
+                  display: "flex",
+                  textAlign: "left",
+                  justifyContent: "space-between"
+                }}
+              >
+                <p className="fs_xs">Time</p>
+                <p className="fs_xs text--right" style={checkForTime(value?.schedule_session?.immediate === true ? 'Immediate' : value?.start_time)}>{value?.schedule_session?.immediate === false ? value?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}</p>
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Stack direction="row" spacing={2}>
+               {value?.status === 'Awaiting' && (
+                 <>
+                  <button
+                    onClick={() => setSelectedRequest({ type: 'accept', id :value?.id , body: {
+                      "status": "Accepted",
+                      "schedule_session_id":  value?.schedule_session?.id,
+                      "schedule_session_request_id": value?.id
+                    } })}
+
+                    className="text--600 fs_xs text--coral px-1"
+                  >
+                    {value.status === 'Awaiting' && <span>Accept</span>}
+                  </button>
+
+                  <button
+                    onClick={() => setSelectedRequest({ type: 'reject', id :value?.id , body: {
+                      "status": "Rejected",
+                      "schedule_session_id":  value?.schedule_session?.id,
+                      "schedule_session_request_id": value?.id
+                    } })}
+                    className="text--600  fs_xs text--red px-1"
+                  >
+                    {value.status === 'Awaiting' && <span>Reject</span>}
+                  </button>
+                 </>
+               )}
+            {  value?.status === 'Accepted' && (
+              <>
+              <a href={value?.link} target="_blank" rel="noreferrer" className={classnames(
+                Buttonstyles.btn,
+                Buttonstyles.btn__primary,
+                Buttonstyles.btn__sm
+              )}  >Join Call</a>
+              </>
+            )}
+              
+            
+                {/* <Button variant="contained">Contained</Button>
+                <Button variant="contained">Status</Button> */}
+              </Stack>
+            </CardActions>
+          </Card>
+        </ListItem>
+      ))}
+    </List>
+    }
+            
+            
 
             {selectedRequest.type && (
               <ConfirmationModal

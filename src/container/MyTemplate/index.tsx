@@ -94,7 +94,8 @@ const MyTemplateTable = () => {
   );
 
   const deleteDocument = useCallback((id: any = '') => {
-    instance.delete(`/notary/notary-locker/${id}`)
+    instance.post(`/document-multiple-delete`, {documents: [{ "document_id": id,
+      "permanent_delete": true}]})
       .then(res => {
         fetchAllUploadedTemplates()
         toast.success(res?.data?.data?.message);

@@ -13,9 +13,10 @@ import SignatureTabs from 'components/Tabs/signatureTab';
 // import 'react-toastify/dist/ReactToastify.css';
 import toast from 'react-hot-toast';
 import DigitalSeal from 'components/DigitizeSealStamp/DigitalSeal';
-import UploadSignature from 'components/Upload/UploadSignature';
-import InitialsSignature from 'components/InitialsSignature';
-
+import SealTabs from 'components/Tabs/sealTab';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import seal from 'assets/img/red_seal-2.png';
+import seal_gray from 'assets/img/seal_gray.png';
 
 interface Props {
   user: {
@@ -24,7 +25,7 @@ interface Props {
   prevStep: () => void;
 }
 
-const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
+const Seals: FC<Props> = ({ user, prevStep }: Props) => {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState<boolean>(false);
   const [currentSign, setCurrentSign] = useState<any>({});
@@ -32,23 +33,14 @@ const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
 
   const tabsContent = [
     {
-      label: 'Type'
+      label: 'Traditional Seal',
+      icon: <img src={seal} alt="seal" />
     },
     {
-      label: 'Draw'
-    },
-    {
-      label: 'Initials'
-    },
-    {
-      label: 'Upload'
+      label: 'Digital Seal',
+      icon: <img src={seal_gray} alt="seal" />
     }
-    // {
-    //   label: 'Digital Seal'
-    // },
-    // {
-    //   label: 'Stamp'
-    // }
+    
   ];
 
   const [activeTabContent, setActiveTabContent] = useState(tabsContent[0]);
@@ -65,7 +57,7 @@ const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
             setSaving(false);
             setCurrentSign(data);
             done();
-            setActiveTabContent(nextTab);
+            // setActiveTabContent(nextTab);
           },
           () => {
   
@@ -128,43 +120,18 @@ const DigitiseSignature: FC<Props> = ({ user, prevStep }: Props) => {
     // }
   }, [dispatch, activeTabContent]);
 
+
   return (
     <div>
-      <SignatureTabs type="horizontal" tabs={tabsContent} active={activeTabContent} setActive={(tab) => setActiveTabContent(tab)} />
+      <SealTabs type="horizontal" tabs={tabsContent} active={activeTabContent} setActive={(tab: any) => setActiveTabContent(tab)} />
+      {activeTabContent.label === 'Traditional Seal' && <SealWrapper prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
+      {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
 
-      {activeTabContent.label === 'Type' && (
-        <TypeSignature
-          prevStep={prevStep}
-          fileURL={currentSign}
-          isSaving={saving}
-          onSave={saveSignature}
-          fetching={fetchingFiles}
-          user={user.user}
-          signatureType="text"
-        />
-      )}
-      {activeTabContent.label === 'Draw' && (
-        <DrawSignature prevStep={prevStep} showAgreement isSaving={saving} onSave={saveSignature} fileURL={currentSign} fetching={fetchingFiles} />
-      )}
-      {activeTabContent.label === 'Initials' && (
-        <InitialsSignature
-          onSave={saveSignature}
-          fileURL={currentSign}
-          isSaving={saving}
-          fetching={fetchingFiles}
-          user={user.user}
-        />
-      )}
-      {activeTabContent.label === 'Upload' && <UploadSignature showAgreement prevStep={prevStep} isSaving={saving} fetching={fetchingFiles} fileURL={currentSign} onSave={saveSignature} maxFilesize={2} fileRule=" " label='Upload Signature' placeholder='Please click here to upload your signature'  />}
 
-      {/* {activeTabContent.label === 'Traditional Seal' && <SealWrapper prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} */}
-      {/*  {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} 
-
-      {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} isSaving={saving} showAgreement/>}
-     */}
+      {/* {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} isSaving={saving} showAgreement/>} */}
     </div>
   );
 };
 
-export default DigitiseSignature;
+export default Seals;
 

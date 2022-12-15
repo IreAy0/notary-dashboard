@@ -33,6 +33,7 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
         });
       }
     }
+    
     const signature = sigCanvasRef.current.getTrimmedCanvas().toDataURL('image/png');
 
     if (onSave) {
@@ -67,7 +68,7 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
 
         },
         nextTab: {
-          label: 'Traditional Seal'
+          label: 'Initials'
         }
       });
     }
@@ -98,6 +99,7 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
     setIsDisabled(true);
     setImageURL(sigCanvasRef.current.getTrimmedCanvas().toDataURL('image/png'));
   }
+  
   const clearCanvas = () => {
     if (sigCanvasRef.current) {
       sigCanvasRef.current.clear();

@@ -8,6 +8,7 @@ import InfoTabs from 'components/Tabs/infoTab';
 import AddPersonalInfo from './components/AddPersonalInfo';
 import DigitiseSignature from './components/DigitiseSignature';
 import IDVerification from './components/IDVerification';
+import SealAndStamp from './components/SealAndStamp'
 
 const tabsContent = [
   {
@@ -19,6 +20,9 @@ const tabsContent = [
   
   {
     label: 'Digitise signature'
+  },
+  {
+    label: 'Seal & Stamp'
   }
 ];
 
@@ -43,6 +47,7 @@ const PersonalInfo = () => {
             <IDVerification nextStep={() => setActiveTabContent(tabsContent[2])} user={user} />
           )}
           {activeTabContent.label === tabsContent[2].label && <DigitiseSignature prevStep={() => setActiveTabContent(tabsContent[1])} user={user} />}
+          {activeTabContent.label === tabsContent[3].label && <SealAndStamp prevStep={() => setActiveTabContent(tabsContent[2])} user={user} />}
 
 
       </div>

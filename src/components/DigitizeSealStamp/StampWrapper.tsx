@@ -261,7 +261,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
       done: () => {
         setCompanyStamp({ file_url: '', file_id: ''})
         setIsDisabled(true)
-        history.push('/')
+        // history.push('/')
         toast.success('Seal Uploaded successfully.', {
           position: "top-right",
           style: {

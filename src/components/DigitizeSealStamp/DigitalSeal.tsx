@@ -289,9 +289,9 @@ const [sealColor, setSealColor] = useState<any>('grey');
             }
           })
         }, 
-        nextTab: {
-          label: 'Stamp'
-        },
+        // nextTab: {
+        //   label: 'Stamp'
+        // },
         fail: () => {
            toast.error('Please generate a seal or stamp', {
               position: "top-right",
@@ -397,7 +397,7 @@ const space = Math.PI / 12;
 
             <div className={styles.payment__option_content}>
               <div className={styles.parent} style={{borderColor: "rgb(152, 152, 152)"}}>
-                <div className={styles.child1} style={{borderColor: "rgb(152, 152, 152)"}}></div>
+                <div className={styles.child1} style={{borderColor: "rgb(152, 152, 152)", backgroundColor: "rgb(152, 152, 152)"}}></div>
               </div>
             </div>
           </label>
@@ -406,7 +406,7 @@ const space = Math.PI / 12;
             <div className={styles.payment__option_content}>
              
               <div className={styles.parent} style={{borderColor: "#36935b"}}>
-                <div className={styles.child1} style={{borderColor: "#36935b"}}></div>
+                <div className={styles.child1} style={{borderColor: "#36935b", backgroundColor: "#36935b"}}></div>
               </div>
             </div>
           </label>
@@ -415,7 +415,7 @@ const space = Math.PI / 12;
             <div className={styles.payment__option_content}>
               
               <div className={styles.parent} style={{borderColor: "#fac77a"}} >
-                <div className={styles.child1} style={{borderColor: "#fac77a"}}></div>
+                <div className={styles.child1} style={{borderColor: "#fac77a", backgroundColor:  "#fac77a" }}></div>
               </div>
             </div>
           </label>
@@ -477,7 +477,7 @@ const space = Math.PI / 12;
        
       </div>
       <div className="container col-5 m-auto">
-        <span className="text--red text--700 ">* Kindly click ‘here’ before saving</span>
+        <span className="text--black text--400 ">* Kindly click ‘here’ before saving</span>
         <Button
         className="my-1"
         theme="primary"
@@ -486,7 +486,7 @@ const space = Math.PI / 12;
         loading={loading}
         disabled={loading === true}
         icon={uploadedSeal ? <CheckMark className='ml-1'/> : null }
-        wide={true}
+        // wide={true}
       >
        {uploadedSeal ? 'Adopted' : 'Adopt'}
       </Button>

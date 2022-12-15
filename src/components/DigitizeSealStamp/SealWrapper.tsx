@@ -14,7 +14,12 @@ import styles from './sealstamp.module.scss';
 import EditButton from './EditButton';
 import Button from '../Button';
 import { Input } from '../TextInput/TextInput';
-import seal from 'assets/img/red_seal-2.png';
+import red_seal from 'assets/img/red_seal-2.png';
+import gold_seal from 'assets/img/goldSeal.png';
+import CheckMark from 'assets/icons/CheckMark';
+import SealImage from './SealImage';
+import { Radio } from '@mui/material';
+import { pink } from '@mui/material/colors';
 // import SealImage from './SealImage';
 interface User {
   team_role_code?: string | null;
@@ -49,12 +54,14 @@ const SealWrapper = ({ setSignature, actionType, requestData, showAgreement, fet
     notary_number: '',
   });
 const [base64Url, setBase64Url] = useState<any>('');
+const [sealColor, setSealColor] = useState<any>('red');
 
   // const canvas = useRef();
   const canvas = useRef<any>()
   const sealImage = useRef<any>()
   let ctx: any = null;
 
+  
 
   const dispatch = useDispatch();
 
@@ -208,9 +215,10 @@ const [base64Url, setBase64Url] = useState<any>('');
   }, [dispatch, setCompanySeal, user]);
 
   const saveHtmlAsImage = () => {
+    setLoading(true)
     if (sealImage.current) {
       html2canvas(sealImage.current, { allowTaint: true }).then((canvas) => {
-       
+        setLoading(false)
         const url = canvas.toDataURL('image/png');
       
         setUploadedSeal(url)
@@ -252,9 +260,9 @@ const [base64Url, setBase64Url] = useState<any>('');
             }
           })
         }, 
-        nextTab: {
-          label: 'Digital Seal'
-        },
+        // nextTab: {
+        //   label: 'Digital Seal'
+        // },
         fail: () => {
            toast.error('Please generate a seal or stamp', {
               position: "top-right",
@@ -280,7 +288,7 @@ const [base64Url, setBase64Url] = useState<any>('');
 
     // get context of the canvas
     ctx = canvasEle.getContext("2d");
-  }, [fullName]);
+  }, [fullName, sealColor]);
 
 
   useEffect(() => {
@@ -295,20 +303,18 @@ const [base64Url, setBase64Url] = useState<any>('');
 const r = 111;
 const space = Math.PI / 16;
 
- 
-
   const updateCanvas = (text, x, y, radius, space, top, fontSize) => {
   
   
-    draw3dText(ctx, "", canvas.current.width / 2, 120, 5);
+    draw3dText(ctx, "", canvas?.current?.width / 2, 120, 5);
 
     ctx.font = "normal " + fontSize + " verdana ";
     ctx.beginPath();
 // ctx.arc(155, 155, r, 0, Math.pow(r, 2), false);
-ctx.fillStyle = "#c1353f";
-ctx.closePath();
+    ctx.closePath();
+    ctx.fillStyle = sealColor  === 'red' ? "#c1353f" : sealColor === 'gold' ? "#afa162" :  null ;
 
-
+    console.log(ctx, sealColor);
     // ctx.beginPath();
     // ctx.arc(150, 150, r, 0, Math.pow(r, 2), false);
     // ctx.closePath();
@@ -342,7 +348,7 @@ ctx.closePath();
     var n;
     // draw bottom layers
     for (n = 0; n < textDepth; n++) {
-        context.fillText(text, x - n, y - n);
+        context?.fillText(text, x - n, y - n);
     }
     // draw top layer with shadow casting over
     // bottom layers
@@ -350,15 +356,27 @@ ctx.closePath();
     context.shadowBlur = 2;
     context.shadowOffsetX = 2;
     context.shadowOffsetY = 2;
-    context.fillText(text, x - n, y - n);
+    context?.fillText(text, x - n, y - n);
   };
 
   useEffect(() => {
    updateCanvas(`${fullName?.firstName} ${fullName?.lastName}`, 130, 155, r, space, 1, "1.3em");
     updateCanvas(`SCN:${fullName?.notary_number}`, 130, 145, r, space, 0, "1.3em");
-  } , [fullName])
+  } , [fullName, sealColor])
 
-  
+
+  function onChangeValue(event) {
+    setSealColor(event.target.value);
+  }
+
+  const controlProps = (item: string) => ({
+    checked: sealColor === item,
+    onChange: onChangeValue,
+    value: item,
+    name: 'color-radio-button-demo',
+    inputProps: { 'aria-label': item },
+  });
+
   return (
     <div>
       
@@ -379,7 +397,40 @@ ctx.closePath();
             />
           </div>
         </div>
-    
+       
+        <div className={styles.payment__options} onChange={onChangeValue}>
+         
+          <label className={styles.payment__option} htmlFor="color-red">
+            <input name="sealColor" v-model="sealColor"  type="radio" id="color-red" value="red" checked={sealColor == "red"} />
+            <div className={styles.payment__option_content}>
+             
+              <div className={styles.parent} style={
+                {
+                borderColor: `${sealColor == "red" ? "#B01414" : 'transparent'}`
+               }
+                }>
+                <div className={styles.child1} style={{borderColor: "#B01414", backgroundColor: "#B01414"}}></div>
+              </div>
+            </div>
+          </label>
+          <label className={styles.payment__option} htmlFor="color-gold">
+            <input name="sealColor" v-model="sealColor" type="radio" id="color-gold" value="gold" checked={sealColor == "gold"} />
+            <div className={styles.payment__option_content}>
+              
+              <div className={styles.parent} style={
+                {
+                  borderColor:`${sealColor == "gold" ? "#DBB601" : 'transparent'}`
+                }
+                } >
+                <div className={styles.child1} style={{borderColor: "#DBB601", backgroundColor: "#DBB601"}}></div>
+              </div>
+            </div>
+          </label>
+
+          <div className="preview">
+            {/* <img v-if="data.file"  className="img-fluid" alt="Seal" /> */}
+          </div>
+        </div>
       <div className="signature__body-wrapper grid grid__layout gap-1 pt-1">
         {/* <div className={styles.upload__div}>
           <EditButton show={companySeal.file_url !== ''} onClick={() => setEditSeal(true)} disabled={false} />
@@ -415,7 +466,7 @@ ctx.closePath();
       <div className="col-7 ">
         <div ref={sealImage} className="position-relative" style={{width : '380px', position: "relative"}} >
           <div  id="coy_number"  style={{
-             
+            //  {sealColor == 'red' ? "#c1353f" : sealColor == 'gold' ? "#afa162" : ''}
               position: "absolute",
               top: "38%",
               left: "-48px",
@@ -425,14 +476,16 @@ ctx.closePath();
               width: "480px",
               textAlign: "center",
               textTransform: "uppercase",
-              color: "#c1353f",
+              color: sealColor  === 'red' ? "#c1353f" : sealColor == 'gold' ? "#afa162" :  '' ,
               textShadow: "2px 2px 2px #464444",
               /* color: blue; */
               /* color: #c1353f; */
               /* text-shadow: 3px 1px 0px #000; */
             
           }}> <span> Notary<br />  Public </span> </div>
-          <img style={{maxWidth : '380px' }} className="" width="380" height="380" src={seal} alt="seal" />
+          {/* src={seal} */}
+          {/* : sealColor == 'green' ? seal_green : sealColor == 'orange' ? seal_orange : */}
+          <img style={{maxWidth : '380px' }} className="" width="380" height="380" src={`${sealColor == 'red' ? red_seal : sealColor == 'gold' ? gold_seal : ''}`}  alt="seal" />
           <canvas  width="300" height="300"  ref={canvas} id="canvas"  style={{
               transform: "translate(-48%, -50%)",
               position: "absolute",
@@ -443,25 +496,25 @@ ctx.closePath();
     
        
       </div>
-      <div className="container col-5">
-      <span className="text--black text--700">* Kindly click ‘here’ before saving</span>
+      <div className="container col-5 m-auto">
+      <span className="text--black text--400">* Kindly click ‘here’ before saving</span>
         <Button
-        className="mb-1"
+        className="my-1"
         theme="primary"
         width={161}
         onClick={() => saveHtmlAsImage()}
         loading={loading}
+        disabled={loading === true}
         // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
-       
+        icon={uploadedSeal ? <CheckMark className='ml-1'/> : null }
       >
-       Adopt
+         {uploadedSeal ? 'Adopted' : 'Adopt'}
+      
       </Button>
       <div className={fetching ? 'signature__body--disabled mt-2' : ''} />
-      <img src={!uploadedSeal ? base64Url : uploadedSeal} alt="seal" />
+      {/* <img src={!uploadedSeal ? base64Url : uploadedSeal} alt="seal" /> */}
         </div>
       </div>
-
-
       
       {/* <canvas ref={canvas}></canvas> */}
       <div className="mt-1" />
