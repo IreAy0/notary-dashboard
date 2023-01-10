@@ -32,7 +32,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
   
   const idleTimer = useIdleTimer({ 
     onIdle,
-    timeout: 1000 * 60 * 5,
+    timeout: 4200000,
     promptTimeout: 0  
   })
 

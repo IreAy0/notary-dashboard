@@ -121,10 +121,13 @@ const InitialsSignature: FC<TabsProps> = ({
       setIsDisabled(true);
     } else if (showAgreement && (isSaving || !acceptPolicy)) {
       setIsDisabled(true);
-    } else {
+    }  else if (showAgreement && (!imageURL || !acceptPolicy)){
+      setIsDisabled(true);
+    }
+    else {
       setIsDisabled(false);
     }
-  }, [text, isSaving, showImage, acceptPolicy, showAgreement]);
+  }, [text, isSaving, showImage, acceptPolicy, showAgreement, imageURL]);
 
   const onChange = ( e: any, fontType: any, index): void => {
     setFontFamily(fontType);

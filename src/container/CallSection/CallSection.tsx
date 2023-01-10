@@ -18,6 +18,7 @@ import { Divider , useTheme } from '@mui/material';
 import styles from 'layouts/layouts.module.scss';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
+import MediaQuery from 'helpers/useMediaQuery';
 import style from './callsection.module.scss';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import Table from '../../components/Table';
@@ -70,7 +71,9 @@ const CallSection = ({ data }: BodyProps) => {
             >
               {(row: { [k: string]: any }) => (
                 <>
-                 <td className="table__row-text center">
+                 <td style={{
+                   display:  MediaQuery().matchMD ? '' : 'none'
+                 }} className="table__row-text center">
                     <p className="text--blue text--600">Next Meeting</p>
                     </td>
                   <td className="table__row-text center text-dark text--600">
@@ -78,8 +81,10 @@ const CallSection = ({ data }: BodyProps) => {
                       {' '}
                       {row?.document_name || row?.schedule_session?.title || '-'}
                     </Link>
-                    <br />
-                    <p className='mt-1'>{format(parseISO(row?.schedule_session?.date), 'PPPP')} - {row?.schedule_session?.start_time?.slice(0, 5)}
+                   
+                    <p style={{
+                      display:  MediaQuery().matchMD ? 'block' : 'none'
+                    }} className='mt-1'>{format(parseISO(row?.schedule_session?.date), 'PPPP')} - {row?.schedule_session?.start_time?.slice(0, 5)}
 </p>
                   </td>
                 

@@ -210,7 +210,8 @@ const HomePage = () => {
             <h4 className={styles.table_container__header}>All Requests</h4>
           </div>
           <div className="mt-1">
-            {MediaQuery().matchMD ? <Table
+            {MediaQuery().matchMD ? 
+            <Table
               type="primary"
               tableData={requests?.slice(0, 5) || []}
               headers={requestHeaders}
@@ -278,7 +279,8 @@ const HomePage = () => {
                   </td>
                 </>
               )}
-            </Table> : <List sx={{ width: "100%" , padding: 0}}>
+            </Table> : 
+            <List sx={{ width: "100%" , padding: 0}}>
       {requests?.slice(0, 5).map((value: any) => (
         <ListItem key={value.id} sx={{width: "100%", padding: 0, marginBottom:'12px'}}>
           <Card sx={{width: "100%", boxShadow: '0px 0px 16px rgba(137, 151, 164, 0.1)' }}>

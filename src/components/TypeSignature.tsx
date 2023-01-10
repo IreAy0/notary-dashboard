@@ -122,10 +122,13 @@ const TypeSignature: FC<TabsProps> = ({
       setIsDisabled(true);
     } else if (showAgreement && (isSaving || !acceptPolicy)) {
       setIsDisabled(true);
-    } else {
+    }  else if (showAgreement && (!imageURL || !acceptPolicy)){
+      setIsDisabled(true);
+    }
+    else {
       setIsDisabled(false);
     }
-  }, [text, isSaving, showImage, acceptPolicy, showAgreement]);
+  }, [text, isSaving, showImage, acceptPolicy, showAgreement, imageURL]);
 
   const onChange = ( e: any, fontType: any, index): void => {
     setFontFamily(fontType);
@@ -140,7 +143,7 @@ const TypeSignature: FC<TabsProps> = ({
      
         <div className="grid grid__layout gap-1 pt-1">
           <div className="col-4">
-            <Input onChange={(e) => setFullName({...fullName, firstName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
+            <Input onChange={(e) => setFullName({...fullName, firstName: e.target.value })} label="First Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
           </div>
           <div className="col-4">
             <Input onChange={(e) => setFullName({...fullName, lastName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
