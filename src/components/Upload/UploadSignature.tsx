@@ -175,10 +175,10 @@ const UploadSignature = ({ label, placeholder, fileRule, iconName, showAgreement
           );
           toast.success('Signature created successfully.');
 
+        },
+        nextTab: {
+          label: 'Upload'
         }
-        // nextTab: {
-        //   label: 'Traditional Seal'
-        // }
       });
     }
   };

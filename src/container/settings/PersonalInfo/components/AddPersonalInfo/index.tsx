@@ -3,7 +3,7 @@ import Button from 'components/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import Select from 'components/Select';
+import SelectNew from 'components/Select';
 import { Input } from 'components/TextInput/TextInput';
 import toast from 'react-hot-toast';
 import { editUserProfile } from 're-ducks/user/user.action';
@@ -12,6 +12,10 @@ import { fetchUserProfile } from 're-ducks/user';
 import { stateList } from 'mocks/state';
 import SelectInput from 'components/Select/select';
 import instance from 'services/axios';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { FormControl, InputLabel } from '@mui/material';
+import classNames from 'classnames';
+import input_styles from 'components/TextInput/input.module.scss';
 import styles from './personalinfo.module.scss';
 
 interface Props {
@@ -62,8 +66,8 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
   ];
 
   const [selectGender, setSelectedGender] = useState({
-    name: userProfile?.gender ,
-    id: userProfile?.gender 
+    name: '' ,
+    id: ''
   });
 
   const [selectState, setSelectedState] = useState({
@@ -71,8 +75,14 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
     id: ''
   });
 
-  const handleCountryChange = (e: any) => {
+  const handleChangeGender = (event: SelectChangeEvent) => {
+    setSelectedGender({
+      name: event?.target?.value,
+      id: event?.target?.value
+    });
+  }
 
+  const handleCountryChange = (e: any) => {
    
     setSelectedCountry({ name: e.name, id: e.id })
     instance.get(`/countries/${e.id}`).then((res) => {
@@ -116,7 +126,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
       phone: userProfile?.phone || '',
       notary_commission_number: userProfile?.notary_commission_number || '',
       address: userProfile?.address || '',
-      gender: selectGender.name || '' ,
+      gender: userProfile?.gender || '' ,
       country_id: selectCountry.id || '',
       state_id: selectState.id || ''
 
@@ -137,10 +147,10 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             last_name: values.last_name,
             email: values.email,
             phone: phoneNumber,
-            gender: selectGender?.id,
+            gender: values?.gender,
             notary_commission_number: values.notary_commission_number,
             address: values.address,
-            state_id: selectState?.id,
+            state_id: values?.state_id,
             country_id: selectCountry?.id
           },
           () => {
@@ -232,7 +242,25 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
           <PhoneNumInput onChange={handleOnChange} value={phoneNumber} />
         </div>
         <div className="col-6">
-          <Select label="Gender" placeholder="Select" options={genderOptions} selected={selectGender} handleChange={setSelectedGender} />
+        <FormControl sx={{ width: '100%' }}>
+        <label className={classNames(input_styles.input__label, styles.text)} htmlFor='gender'>
+          <span className="flex flex__item-center">
+           Gender
+          </span>
+      </label>
+       
+        <Select  id='gender' name="gender" onChange={formik.handleChange} native value={formik.values.gender } >
+          <option value="" >
+           Select a gender {selectGender.name}
+          </option>
+          {genderOptions.map(gender => (
+            <option value={gender.id}>{gender.name}</option>
+          ))}
+          
+        </Select>
+     
+      </FormControl>
+          {/* <Select label="Gender" placeholder="Select" options={genderOptions} selected={selectGender} handleChange={setSelectedGender} /> */}
         </div>
         
         <div className="col-6">
@@ -257,28 +285,65 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             name="address"
             id="GetProfile__Address"
             onChange={formik.handleChange}
-            disabled={userProfile?.address}
+            // disabled={userProfile?.address}
             value={formik.values.address}
           />
           {formik.errors.address ? <div className={styles.error}>{formik.errors.address}</div> : null}
         </div>
         <div className="col-6">
-          <Select
+          {/* <SelectNew
             label="Country*"
             placeholder="Select"
             options={country}
             selected={selectCountry}
             handleChange={handleCountryChange}
-          />
+          /> */}
+           <FormControl sx={{ width: '100%' }}>
+        <label className={classNames(input_styles.input__label, styles.text)} htmlFor='country_id'>
+      
+          <span className="flex flex__item-center">
+          Country
+          </span>
+      </label>
+       
+        <Select  id='country_id' name="country_id" onChange={formik.handleChange} native value={formik.values.country_id } >
+          <option value="" >
+           Select a Country
+          </option>
+          {country.map((c: any) => (
+            <option value={c.id}>{c.name}</option>
+          ))}
+          
+        </Select>
+     
+      </FormControl>
         </div>
         <div className="col-6">
-          <Select 
+          {/* <Select 
           label="State*" 
           placeholder="Select" 
           options={states} 
           selected={selectState}
           handleChange={handleStateChange}
-           />
+           /> */}
+           <FormControl sx={{ width: '100%' }}>
+        <label className={classNames(input_styles.input__label, styles.text)} htmlFor='state_id'>
+          <span className="flex flex__item-center">
+          States
+          </span>
+      </label>
+       
+        <Select  id='state_id' name="state_id" onChange={formik.handleChange} native value={formik.values.state_id } >
+          <option value="" >
+           Select a state
+          </option>
+          {states?.map((state: any) => (
+            <option value={state?.id}>{state?.name}</option>
+          ))}
+          
+        </Select>
+     
+      </FormControl>
         </div>
       </div>
       <div className={styles.btn}>
@@ -308,7 +373,8 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
           theme="primary"
           
           loading={submitting}
-          disabled={!selectState?.name || !selectGender?.name || !selectCountry?.id || !formik.isValid || submitting}
+          // !selectState?.name || !selectGender?.name || !selectCountry?.id || !formik.isValid || 
+          disabled={submitting}
         >
           Save and Continue
         </Button>

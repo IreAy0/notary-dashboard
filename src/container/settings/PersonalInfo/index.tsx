@@ -42,9 +42,9 @@ const PersonalInfo = () => {
        
       <div className="col-8 pt-2 " style={{backgroundColor: '#fff'}}>
       
-          {activeTabContent.label === tabsContent[1].label && <AddPersonalInfo prevStep={() => setActiveTabContent(tabsContent[0])}  nextStep={() => setActiveTabContent(tabsContent[1])} />}
+          {activeTabContent.label === tabsContent[1].label && <AddPersonalInfo prevStep={() => setActiveTabContent(tabsContent[0])}  nextStep={() => setActiveTabContent(tabsContent[2])} />}
           {activeTabContent.label === tabsContent[0].label && (
-            <IDVerification nextStep={() => setActiveTabContent(tabsContent[2])} user={user} />
+            <IDVerification nextStep={() => setActiveTabContent(tabsContent[1])} user={user} />
           )}
           {activeTabContent.label === tabsContent[2].label && <DigitiseSignature prevStep={() => setActiveTabContent(tabsContent[1])} user={user} />}
           {activeTabContent.label === tabsContent[3].label && <SealAndStamp prevStep={() => setActiveTabContent(tabsContent[2])} user={user} />}

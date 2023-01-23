@@ -66,13 +66,18 @@ const TemplateUpload = ({ label, placeholder, fileRule, iconName, maxFilesize, s
       const reader = new FileReader();
       const params = files[i];
       reader.onloadend = () => {
-        fileData.files.push(reader?.result)
+        setFileData({
+          files: [reader?.result]
+        })
         setErrorMessage("")
         if (!fileData.title || !fileData.title.trim()) {
-          fileData.title = params?.name.split('.').slice(0, -1).join('.');
-         
+          // fileData.title = params?.name.split('.').slice(0, -1).join('.');
+          setFileData({
+            title:  params?.name.split('.').slice(0, -1).join('.'),
+            files: [reader?.result]
+          })
         }
-        setPreviewFiles([...previewFiles, params.name])
+        setPreviewFiles([params.name])
       };
         
       reader.readAsDataURL(params);
