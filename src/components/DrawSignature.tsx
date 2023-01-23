@@ -118,10 +118,13 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
       setIsDisabled(true);
     } else if (showAgreement && (isSaving || !acceptPolicy)) {
       setIsDisabled(true);
-    } else {
+    }  else if (showAgreement && (!imageURL || !acceptPolicy)){
+      setIsDisabled(true);
+    }
+    else {
       setIsDisabled(false);
     }
-  }, [isSaving, showImage, acceptPolicy, showAgreement]);
+  }, [isSaving, showImage, acceptPolicy, showAgreement, imageURL]);
 
   return (
     <div>
