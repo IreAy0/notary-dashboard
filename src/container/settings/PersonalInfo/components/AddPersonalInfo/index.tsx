@@ -15,8 +15,8 @@ import instance from 'services/axios';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { FormControl, InputLabel } from '@mui/material';
 import classNames from 'classnames';
-import styles from './personalinfo.module.scss';
 import input_styles from 'components/TextInput/input.module.scss';
+import styles from './personalinfo.module.scss';
 
 interface Props {
   nextStep: () => void;
