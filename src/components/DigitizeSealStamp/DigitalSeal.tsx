@@ -365,7 +365,6 @@ const space = Math.PI / 12;
 
     }
 
-    console.log(sealImage.current, 'ctx');
     // base64Url.value = canvas.toDataURL("image/png");
     ctx.restore();
   };

@@ -34,13 +34,14 @@ const SecuritySetUp = () => {
           then: Yup.string().oneOf([Yup.ref('newPassword')], 'Password do not match')
         })
     }),
+    
     onSubmit: (values) => {
       setSubmitting(true);
       dispatch(
         doChangePasswordAction(
           {
-            oldPassword: values.oldPassword,
-            newPassword: values.newPassword
+            current_password: values.oldPassword,
+            password: values.newPassword
           },
           () => {
             setSubmitting(false);
