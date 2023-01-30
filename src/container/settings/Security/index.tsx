@@ -34,6 +34,7 @@ const SecuritySetUp = () => {
           then: Yup.string().oneOf([Yup.ref('newPassword')], 'Password do not match')
         })
     }),
+    
     onSubmit: (values) => {
       setSubmitting(true);
       dispatch(
