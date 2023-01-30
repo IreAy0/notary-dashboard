@@ -15,7 +15,7 @@ const serveFile = (req, res) => {
 app.all('/*', serveFile);
 
 app.listen(port, () => {
-  console.log(`server is running on ${port}...`);
+  (`server is running on ${port}...`);
 });
 
 module.exports = app;

@@ -240,7 +240,6 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
     // setSignature(companyStamp?.file_url);
   };
 
-  console.log(companyStamp, 'stamp')
 
   useEffect(() => {
     if (!showAgreement) {
@@ -253,7 +252,6 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
   }, [acceptPolicy, showAgreement]);
 
   const onSave = () => {
-    console.log("onSave called", companyStamp?.file_url)
     Save({
       file: companyStamp?.file_url,
       type: 'NotaryStamp',

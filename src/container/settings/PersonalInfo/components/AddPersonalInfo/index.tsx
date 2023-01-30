@@ -200,7 +200,6 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
       setStates(res?.data?.data)
     }
     );
-    console.log(e.target.value)
 
   };
 

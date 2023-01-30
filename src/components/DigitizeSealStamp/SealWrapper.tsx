@@ -65,14 +65,12 @@ const [sealColor, setSealColor] = useState<any>('red');
 
   const dispatch = useDispatch();
 
-  console.log(fileURL, 'fileURL')
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
       return
     }
     const objectUrl = URL.createObjectURL(selectedFile)
-    console.log(objectUrl);
 
     
     setPreview(objectUrl);
@@ -314,7 +312,6 @@ const space = Math.PI / 16;
     ctx.closePath();
     ctx.fillStyle = sealColor  === 'red' ? "#c1353f" : sealColor === 'gold' ? "#afa162" :  null ;
 
-    console.log(ctx, sealColor);
     // ctx.beginPath();
     // ctx.arc(150, 150, r, 0, Math.pow(r, 2), false);
     // ctx.closePath();
