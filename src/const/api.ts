@@ -1,7 +1,8 @@
 export default {
   SIGNIN: 'user/login',
   SIGNUP: 'user/register',
-  CHANGE_PASSWORD: 'notary/auth/change-password',
+  // /api/v1/user/change/password
+  CHANGE_PASSWORD: 'user/change/password',
   SIGNOUT: 'auth/logout',
   RESET_PASSWORD: 'notary/auth/reset-password',
   SET_PASSWORD: 'notary/auth/set-password',

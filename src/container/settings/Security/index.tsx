@@ -39,8 +39,8 @@ const SecuritySetUp = () => {
       dispatch(
         doChangePasswordAction(
           {
-            oldPassword: values.oldPassword,
-            newPassword: values.newPassword
+            current_password: values.oldPassword,
+            password: values.newPassword
           },
           () => {
             setSubmitting(false);
