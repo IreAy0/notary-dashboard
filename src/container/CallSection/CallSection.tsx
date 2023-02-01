@@ -37,26 +37,8 @@ const CallSection = ({ data }: BodyProps) => {
 
   // console.log(data.filter(item => item.status === 'Accepted'), 'home')
 
-  const filtered = data.filter(item => item.status === 'Accepted')
-  const handleSessionLink = () => {
-    // dispatch(
-    //   getSessionLink(
-    //     {
-    //       request_id: requests?.request_id,
-    //       type: "notary",
-    //       participant_id: user?.id
-    //     },
-    //     (res:any) => {
-    //       const token:any = new URL(res?.session_url)?.searchParams?.get('token');
-    //       localStorage?.setItem('accessToken', token);
-    //       window.location.href = res?.session_url;
-    //     },
-    //     (error) => {
-    //       toast.error(error)
-    //     }
-    //   )
-    // )
-  }
+  const filtered = data?.filter(item => item.status === 'Accepted')
+  
 
   return (
     <section className="pt-2">
@@ -71,9 +53,7 @@ const CallSection = ({ data }: BodyProps) => {
             >
               {(row: { [k: string]: any }) => (
                 <>
-                 <td style={{
-                   display:  MediaQuery().matchMD ? '' : 'none'
-                 }} className="table__row-text center">
+                 <td  className="table__row-text center">
                     <p className="text--blue text--600">Next Meeting</p>
                     </td>
                   <td className="table__row-text center text-dark text--600">
@@ -83,7 +63,7 @@ const CallSection = ({ data }: BodyProps) => {
                     </Link>
                    
                     <p style={{
-                      display:  MediaQuery().matchMD ? 'block' : 'none'
+                     
                     }} className='mt-1'>{format(parseISO(row?.schedule_session?.date), 'PPPP')} - {row?.schedule_session?.start_time?.slice(0, 5)}
 </p>
                   </td>
