@@ -158,7 +158,7 @@ export default function Request() {
         () => {
           // fetchRequest();
           setLoading(true);
-      fetchRequest(activeTabContent.title);
+          fetchRequest(activeTabContent.title);
           toast.success(`Request ${selectedRequest.type === 'accept' ? 'accepted' : 'rejected'} successfully`);
           setSelectedRequest({} as RequestAcceptance);
         },

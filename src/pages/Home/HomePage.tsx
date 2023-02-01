@@ -130,7 +130,7 @@ const HomePage = () => {
 
   const fetchAllRequest = useCallback((status: string = '') => {
     const params = {
-      status: status === 'all' ? '' : status,
+      status: status === 'all' ? '' : status
     };
     setLoading(true);
     dispatch(
