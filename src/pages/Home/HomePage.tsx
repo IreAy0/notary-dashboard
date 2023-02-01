@@ -128,9 +128,9 @@ const HomePage = () => {
     setUpdatedUser({ ...user, ...userProfile });
   }, [userProfile, user]);
 
-  const fetchAllRequest = useCallback(() => {
+  const fetchAllRequest = useCallback((status: string = '') => {
     const params = {
-      status: ''
+      status: status === 'all' ? '' : status,
     };
     setLoading(true);
     dispatch(
@@ -149,7 +149,7 @@ const HomePage = () => {
   useEffect(() => {
     setLoading(true);
     fetchAllRequest();
-  }, [ dispatch, fetchAllRequest, userProfile ]);
+  }, [ fetchAllRequest, userProfile ]);
 
   const confirmOrRejectRequest = () => {
     dispatch(
@@ -235,8 +235,8 @@ const HomePage = () => {
                   </td>
                   <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
 
-                  <td className="table__row-text center" style={checkForTime(row?.schedule_session?.immediate === true ? 'Immediate' : row?.start_time)}>
-                    {row?.schedule_session?.immediate === false ? row?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                  <td className="table__row-text center" style={checkForTime(row?.schedule_session?.immediate === 1 ? 'Immediate' : row?.start_time)}>
+                    {row?.schedule_session?.immediate === 0 ? row?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
                   </td>
                   <td className="table__row-text center">
                     {row?.status === 'Awaiting' && (
@@ -368,8 +368,7 @@ const HomePage = () => {
         </ListItem>
       ))}
     </List>
-    }
-            
+    }  
             
 
             {selectedRequest.type && (

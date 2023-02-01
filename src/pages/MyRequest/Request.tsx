@@ -156,7 +156,9 @@ export default function Request() {
           ...selectedRequest
         },
         () => {
-          fetchRequest();
+          // fetchRequest();
+          setLoading(true);
+      fetchRequest(activeTabContent.title);
           toast.success(`Request ${selectedRequest.type === 'accept' ? 'accepted' : 'rejected'} successfully`);
           setSelectedRequest({} as RequestAcceptance);
         },
@@ -231,8 +233,8 @@ export default function Request() {
                 </td>
                 {/* {format(parseISO(row?.call_date), 'PPPP')} */}
                 <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
-                <td className="table__row-text center" style={checkForTime(row?.schedule_session?.immediate === true ? 'Immediate' : row?.start_time)}>
-                  {row?.schedule_session?.immediate === false ? row?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                <td className="table__row-text center" style={checkForTime(row?.schedule_session?.immediate === 1 ? 'Immediate' : row?.start_time)}>
+                  {row?.schedule_session?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                 </td>
                 <td className="table__row-text center">
                   {row?.status === 'Awaiting' && (
