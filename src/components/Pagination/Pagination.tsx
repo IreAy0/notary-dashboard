@@ -85,7 +85,7 @@ const Pagination = ({ currentPage, total, perPage, fetchPage }: Props) => {
               {page}
             </button>
           ) : (
-            <span className="mx-1">{page}</span>
+            <span key={page} className="mx-1">{page}</span>
           )
         )}
         <button
