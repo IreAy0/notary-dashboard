@@ -85,9 +85,7 @@ const CallSection = ({ data }: BodyProps) => {
                   </td>
                 
                   <td className="table__row-text center">
-                    
-                  {/* https://tonote-virtual-notary.netlify.app/notary/session-prep/98611050-ed26-417b-b242-781388fa349e */}
-                    <a 
+                  <a 
                     href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}`} 
                     target="_blank" rel="noreferrer" 
                     className={classnames(
