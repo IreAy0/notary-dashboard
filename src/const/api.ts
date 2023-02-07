@@ -40,9 +40,11 @@ export default {
   COMPLETE_SESSION: '/request/complete-session',
 
   GET_ALL_UPLOADED_TEMPLATE: '/notary/document-templates',
-
+  // /api/v1/custom-affidavit-request/{id}
   GET_SESSION_LINK: 'request/join-call?',
   UPLOAD_DOC: 'document/upload',
+  UPLOAD_CUSTOM_DOC: 'custom-affidavit-request',
+
   UPLOAD_TEMP: 'document/upload-template',
 
   RETRACT_DOC: 'document/retract',

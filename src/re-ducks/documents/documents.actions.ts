@@ -12,7 +12,8 @@ import {
   SEND_DOCUMENT,
   DELETE_SIGNERS,
   UPLOAD_FILE,
-  CAN_UPLOAD_SEAL_AND_STAMP
+  CAN_UPLOAD_SEAL_AND_STAMP,
+  UPLOAD_CUSTOM_DOCUMENT
 } from './documents.types';
 
 import { SignatureObj } from './documents.interface';
@@ -33,6 +34,13 @@ export const fetchDocSigners = (payload: object, cb: (signers: User[]) => void, 
 
 export const uploadDocument = (payload: object, cb: (r: any) => void, cbError: (error: string) => void) => ({
   type: UPLOAD_DOCUMENT,
+  payload,
+  cb,
+  cbError
+});
+
+export const uploadCustomDocument = (payload: object, cb: (r: any) => void, cbError: (error: string) => void) => ({
+  type: UPLOAD_CUSTOM_DOCUMENT,
   payload,
   cb,
   cbError

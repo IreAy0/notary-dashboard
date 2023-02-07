@@ -23,7 +23,7 @@ function* getAllRequest(action: any): any {
 
     const res: any = yield call(() => api.get(`${API.REQUEST}?${queryFormatter(data.params)}`));
     if (res.status === 200) {
-      yield put({ type: SAVE_ALL_REQUEST, payload: res.data.data });
+      yield put({ type: SAVE_ALL_REQUEST, payload: res.data});
       cb();
     }
   } catch (err: any) {

@@ -13,7 +13,8 @@ import {
   SEND_DOCUMENT,
   DELETE_SIGNERS,
   UPLOAD_FILE,
-  CAN_UPLOAD_SEAL_AND_STAMP
+  CAN_UPLOAD_SEAL_AND_STAMP,
+  UPLOAD_CUSTOM_DOCUMENT
 } from './documents.types';
 import api from '../../services/api';
 
@@ -62,6 +63,23 @@ function* uploadDocs(action: any): any {
     cbError(alert);
   }
 }
+
+function* uploadCustomDocs(action: any): any {
+  try {
+    const { cb } = action;
+
+    const res: any = yield call(() => api.post(API.UPLOAD_CUSTOM_DOC, action.payload));
+
+    if (res.status === 201) {
+      cb(res.data.data);
+    }
+  } catch (err: any) {
+    const { cbError } = action;
+    const alert = err?.response?.data?.message || '';
+    cbError(alert);
+  }
+}
+
 
 function* sendDocument(action: any): any {
   try {
@@ -195,6 +213,7 @@ function* sealAndStampEligibility(action: any): any {
 
 function* watchDocsSaga() {
   yield takeEvery(UPLOAD_DOCUMENT, uploadDocs);
+  yield takeEvery(UPLOAD_CUSTOM_DOCUMENT, uploadCustomDocs);
   yield takeEvery(ADD_SIGNERS, addSigners);
   yield takeEvery(FETCH_SIGNERS, fetchSigners);
   yield takeEvery(FETCH_DOC_SIGNERS, fetchDocSigners);

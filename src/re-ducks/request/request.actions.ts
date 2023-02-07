@@ -19,6 +19,12 @@ export const getAllRequestAction = (payload: object, cb: (success: string) => vo
   cbError
 });
 
+export const getTodaysRequest = (payload: object, cb: (success: string) => void, cbError: (error: string) => void) => ({
+  type: GET_ALL_REQUEST,
+  payload,
+  cb,
+  cbError
+});
 export const getRequestCountAction = (cb: (success: any) => void, cbError: (error: string) => void) => ({
   type: GET_REQUEST_COUNT,
   cb,

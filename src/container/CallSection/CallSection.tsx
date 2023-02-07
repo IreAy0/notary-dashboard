@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
-// import Table from '@mui/material/Table';
-
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -19,6 +17,7 @@ import styles from 'layouts/layouts.module.scss';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import MediaQuery from 'helpers/useMediaQuery';
+import api from 'services/api';
 import style from './callsection.module.scss';
 import Buttonstyles from '../../components/Button/button.module.scss';
 import Table from '../../components/Table';
@@ -32,10 +31,29 @@ interface BodyProps {
 const CallSection = ({ data }: BodyProps) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [nextRequest, setNextRequest] = useState([])
+
   // const { requests } = data;
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
-
+  const start =  new Date().getTime()
+  const end=new Date()
+  end.setHours(23,59,59,999)
+  end.getTime()
   // console.log(data.filter(item => item.status === 'Accepted'), 'home')
+
+  useEffect(() => {
+    api.get('notary/notary-virtual-session-today')
+      .then(res => 
+      {
+        setNextRequest(res?.data)
+      }
+      )
+      .catch(err =>{
+        toast.success(`Error Fetching requests`);
+
+      } );
+
+  }, [])
 
   const filtered = data?.filter(item => item.status === 'Accepted')
   
@@ -46,7 +64,7 @@ const CallSection = ({ data }: BodyProps) => {
           <div className="">
             <Table
               type="primary"
-              tableData={filtered || []}
+              tableData={nextRequest || []}
               headers={[]}
               loading={false}
               showSecondary
@@ -59,19 +77,19 @@ const CallSection = ({ data }: BodyProps) => {
                   <td className="table__row-text center text-dark text--600">
                     <Link className="text-dark text--600" to={`/requests/${row.id}`}>
                       {' '}
-                      {row?.document_name || row?.schedule_session?.title || '-'}
+                      {row?.document_name || row?.title || '-'}
                     </Link>
                    
                     <p style={{
                      
-                    }} className='mt-1'>{format(parseISO(row?.schedule_session?.date), 'PPPP')} - {row?.schedule_session?.start_time?.slice(0, 5)}
-</p>
+                    }} className='mt-1'> {row?.date} - { row?.start_time?.slice(0, 5)}</p>
                   </td>
                 
                   <td className="table__row-text center">
-                    
-                   
-                    <a href={row?.link} target="_blank" rel="noreferrer" className={classnames(
+                  <a 
+                    href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}`} 
+                    target="_blank" rel="noreferrer" 
+                    className={classnames(
                       Buttonstyles.btn,
                       Buttonstyles.btn__accept,
                       Buttonstyles.btn__sm
