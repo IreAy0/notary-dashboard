@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
-// import Table from '@mui/material/Table';
-
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -50,7 +48,10 @@ const CallSection = ({ data }: BodyProps) => {
         setNextRequest(res?.data)
       }
       )
-      .catch(err => console.log(err, 'err') );
+      .catch(err =>{
+        toast.success(`Error Fetching requests`);
+
+      } );
 
   }, [])
 
