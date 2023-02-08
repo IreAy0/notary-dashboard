@@ -14,6 +14,7 @@ import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import toast from 'react-hot-toast';
+import { getToken } from 'utils/getToken';
 import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
@@ -278,7 +279,7 @@ const HomePage = () => {
                       {row?.schedule_session.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}`}
+                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -378,7 +379,7 @@ const HomePage = () => {
                           {value?.schedule_session.status === 'Accepted' && (
                             <>
                               <a
-                                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${value?.schedule_session?.id}`}
+                                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${value?.schedule_session?.id}?token=${getToken()}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}

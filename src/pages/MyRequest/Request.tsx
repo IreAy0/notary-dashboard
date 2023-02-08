@@ -11,6 +11,8 @@ import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import Pagination from 'components/Pagination';
 import Table from 'components/Table';
 import Badge from 'components/Badge';
+import { getToken } from 'utils/getToken';
+
 import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -280,7 +282,7 @@ export default function Request() {
                       {row?.schedule_session.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}`}
+                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
