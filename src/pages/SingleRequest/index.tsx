@@ -430,7 +430,7 @@ const SingleRequest = () => {
           {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now' && !loading ? (
             <div className={classNames(styles.join_button, 'mt-1')}>
               <a
-                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}?token=${getToken()}`}
+                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}`}
                 target="_blank"
                 rel="noreferrer"
                 className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
