@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { singleRequestHeaders } from 'mocks/table';
 import classNames from 'classnames';
 import Button from 'components/Button';
+import { getToken } from 'utils/getToken';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import { getRequestDetails, confirmRequest, cancelNotaryRequest, getSessionLink } from 're-ducks/request';
@@ -48,7 +49,7 @@ const SingleRequest = () => {
   const [request, setRequest] = useState<any>({});
   const [document, setDocument] = useState<any>([]);
   const [documentId, setDocumentId] = useState<any>('');
-  const [files, setFiles] = useState<FileList | null>(null);
+  // const [files, setFiles] = useState<FileList | null>(null);
   const [fileInfos, setFileInfos] = useState<FileInfo[]>([]);
   const [customFiles, setCustomFiles] = useState<any>([]);
   const [selectedRequest, setSelectedRequest] = useState<RequestAcceptance>({} as RequestAcceptance);
@@ -84,16 +85,18 @@ const SingleRequest = () => {
   useEffect(fetchRequestDetails, [fetchRequestDetails]);
 
   const fetchDocumentDetails = useCallback(() => {
-    instance
-      .get(`/documents/${documentId}`)
-      .then((res: any) => {
-        setDocument(res.data.data);
-        // toast.success('Updates Successfully');
-      })
-      .catch((err) => {
-        setLoading(false);
-        // toast.error(err?.response?.data?.data?.message);
-      });
+    if (documentId) {
+      instance
+        .get(`/documents/${documentId}`)
+        .then((res: any) => {
+          setDocument(res.data.data);
+          // toast.success('Updates Successfully');
+        })
+        .catch((err) => {
+          setLoading(false);
+          // toast.error(err?.response?.data?.data?.message);
+        });
+    }
   }, [documentId]);
 
   useEffect(fetchDocumentDetails, [fetchDocumentDetails]);
@@ -151,14 +154,16 @@ const SingleRequest = () => {
   }, [dispatch]);
 
   const uploadDocument = (file) => {
+    setLoading(true);
     if (file) {
+      const files = file;
       instance
-        .put(`/custom-affidavit-request/${request?.schedule_session_id}`, { file })
+        .put(`/custom-affidavit-request/${request?.schedule_session_id}`, { files })
         .then((res: any) => {
           fetchDocumentDetails();
           fetchRequestDetails();
           toast.success('Updates Successfully');
-          setFiles(null);
+          // setFiles(null);
           setFileInfos([]);
           setCustomFiles([]);
           setLoading(false);
@@ -172,17 +177,17 @@ const SingleRequest = () => {
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles: any = event.target.files;
-    setFiles(selectedFiles);
+    // setFiles(selectedFiles);
     const FileInfos: FileInfo[] = [];
     for (let i = 0; i < selectedFiles.length; i++) {
-      const file = selectedFiles[i];
+      const files = selectedFiles[i];
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(files);
       await new Promise<void>((resolve: any) => {
         reader.onload = () => {
           const base64 = reader.result as string;
 
-          FileInfos.push({ name: file.name, base64 });
+          FileInfos.push({ name: files.name, base64 });
           customFiles.push(base64);
           // setCustomFiles([...customFiles, base64])
           resolve();
@@ -210,12 +215,12 @@ const SingleRequest = () => {
     ];
 
     instance
-      .post(`/notary/notary-document-multiple-delete`, documents)
+      .post(`/notary/notary-document-multiple-delete`, { documents })
       .then((res: any) => {
         fetchDocumentDetails();
         fetchRequestDetails();
         toast.success('Updates Successfully');
-        setFiles(null);
+        // setFiles(null);
         setFileInfos([]);
         setCustomFiles([]);
         setLoading(false);
@@ -225,6 +230,7 @@ const SingleRequest = () => {
         toast.error(err?.response?.data?.data?.message);
       });
   };
+
   const confirmationText = selectedRequest.type === 'accept' ? 'Yes, Accept' : 'Reject';
 
   const handleSessionLink = () => {
@@ -338,22 +344,13 @@ const SingleRequest = () => {
               {request?.schedule_session?.request_type === 'Custom' && (
                 <div style={{}}>
                   {document.documentUploads?.length >= 1 ? (
-                    <>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'flex-end'
-                        }}
-                      >
-                        <button onClick={() => handleDelete()}>
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M5.06544 1.72033H4.91683C4.99856 1.72033 5.06544 1.65346 5.06544 1.57172V1.72033H10.7128V1.57172C10.7128 1.65346 10.7796 1.72033 10.8614 1.72033H10.7128V3.05786H12.0503V1.57172C12.0503 0.915964 11.5171 0.382812 10.8614 0.382812H4.91683C4.26107 0.382812 3.72792 0.915964 3.72792 1.57172V3.05786H5.06544V1.72033ZM14.4281 3.05786H1.3501C1.02129 3.05786 0.755646 3.3235 0.755646 3.65231V4.24677C0.755646 4.3285 0.822522 4.39538 0.904259 4.39538H2.02629L2.48514 14.111C2.51486 14.7445 3.03872 15.2442 3.67219 15.2442H12.106C12.7413 15.2442 13.2633 14.7463 13.2931 14.111L13.7519 4.39538H14.8739C14.9557 4.39538 15.0225 4.3285 15.0225 4.24677V3.65231C15.0225 3.3235 14.7569 3.05786 14.4281 3.05786ZM11.963 13.9066H3.81523L3.36567 4.39538H12.4125L11.963 13.9066Z"
-                              fill="#E3959A"
-                            />
-                          </svg>
-                        </button>
-                      </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '10px',
+                        justifyContent: 'space-between'
+                      }}
+                    >
                       <div>
                         <img src={externalTab} alt="Icon" />
                         <Link
@@ -363,9 +360,17 @@ const SingleRequest = () => {
                           {request?.document_name}
                         </Link>
                       </div>
-                    </>
+                      <button onClick={() => handleDelete()}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M5.06544 1.72033H4.91683C4.99856 1.72033 5.06544 1.65346 5.06544 1.57172V1.72033H10.7128V1.57172C10.7128 1.65346 10.7796 1.72033 10.8614 1.72033H10.7128V3.05786H12.0503V1.57172C12.0503 0.915964 11.5171 0.382812 10.8614 0.382812H4.91683C4.26107 0.382812 3.72792 0.915964 3.72792 1.57172V3.05786H5.06544V1.72033ZM14.4281 3.05786H1.3501C1.02129 3.05786 0.755646 3.3235 0.755646 3.65231V4.24677C0.755646 4.3285 0.822522 4.39538 0.904259 4.39538H2.02629L2.48514 14.111C2.51486 14.7445 3.03872 15.2442 3.67219 15.2442H12.106C12.7413 15.2442 13.2633 14.7463 13.2931 14.111L13.7519 4.39538H14.8739C14.9557 4.39538 15.0225 4.3285 15.0225 4.24677V3.65231C15.0225 3.3235 14.7569 3.05786 14.4281 3.05786ZM11.963 13.9066H3.81523L3.36567 4.39538H12.4125L11.963 13.9066Z"
+                            fill="#E3959A"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   ) : (
-                    <Button size="sm" theme="primary">
+                    <Button size="sm" theme="primary" disabled={loading === true}>
                       <label
                         style={{
                           color: '#fff',
@@ -383,16 +388,28 @@ const SingleRequest = () => {
                       {fileInfos.map((fileInfo, index) => (
                         <div
                           style={{
-                            fontSize: '14px',
-                            color: ''
+                            fontSize: '12px',
+                            color: '#003bb3',
+                            marginTop: '10px'
                           }}
                         >
-                          {/* <button  onClick={() => handleDelete(index)}>
-     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
- <path d="M5.06544 1.72033H4.91683C4.99856 1.72033 5.06544 1.65346 5.06544 1.57172V1.72033H10.7128V1.57172C10.7128 1.65346 10.7796 1.72033 10.8614 1.72033H10.7128V3.05786H12.0503V1.57172C12.0503 0.915964 11.5171 0.382812 10.8614 0.382812H4.91683C4.26107 0.382812 3.72792 0.915964 3.72792 1.57172V3.05786H5.06544V1.72033ZM14.4281 3.05786H1.3501C1.02129 3.05786 0.755646 3.3235 0.755646 3.65231V4.24677C0.755646 4.3285 0.822522 4.39538 0.904259 4.39538H2.02629L2.48514 14.111C2.51486 14.7445 3.03872 15.2442 3.67219 15.2442H12.106C12.7413 15.2442 13.2633 14.7463 13.2931 14.111L13.7519 4.39538H14.8739C14.9557 4.39538 15.0225 4.3285 15.0225 4.24677V3.65231C15.0225 3.3235 14.7569 3.05786 14.4281 3.05786ZM11.963 13.9066H3.81523L3.36567 4.39538H12.4125L11.963 13.9066Z" fill="#E3959A"/>
- </svg>
-     </button> */}
-                          <li key={fileInfo.name}>{fileInfo.name}</li>
+                          <li
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between'
+                            }}
+                            key={fileInfo.name}
+                          >
+                            {fileInfo.name}
+                            {/* <button onClick={() => handleDelete()}>
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M5.06544 1.72033H4.91683C4.99856 1.72033 5.06544 1.65346 5.06544 1.57172V1.72033H10.7128V1.57172C10.7128 1.65346 10.7796 1.72033 10.8614 1.72033H10.7128V3.05786H12.0503V1.57172C12.0503 0.915964 11.5171 0.382812 10.8614 0.382812H4.91683C4.26107 0.382812 3.72792 0.915964 3.72792 1.57172V3.05786H5.06544V1.72033ZM14.4281 3.05786H1.3501C1.02129 3.05786 0.755646 3.3235 0.755646 3.65231V4.24677C0.755646 4.3285 0.822522 4.39538 0.904259 4.39538H2.02629L2.48514 14.111C2.51486 14.7445 3.03872 15.2442 3.67219 15.2442H12.106C12.7413 15.2442 13.2633 14.7463 13.2931 14.111L13.7519 4.39538H14.8739C14.9557 4.39538 15.0225 4.3285 15.0225 4.24677V3.65231C15.0225 3.3235 14.7569 3.05786 14.4281 3.05786ZM11.963 13.9066H3.81523L3.36567 4.39538H12.4125L11.963 13.9066Z"
+                              fill="#E3959A"
+                            />
+                          </svg>
+                        </button> */}
+                          </li>
                         </div>
                       ))}
                     </ul>
@@ -402,7 +419,7 @@ const SingleRequest = () => {
             </div>
               ) : null}
 
-          <div className={styles.session_container__document_time}>
+              <div className={styles.session_container__document_time}>
             <p className={styles.session_container__title}>Meeting timeframe</p>
             {!loading && (
               <span className={styles.session_container__timeframe}>
@@ -414,7 +431,6 @@ const SingleRequest = () => {
             <div className={classNames(styles.join_button, 'mt-1')}>
               <a
                 href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}`}
-
                 target="_blank"
                 rel="noreferrer"
                 className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}

@@ -17,6 +17,7 @@ import styles from 'layouts/layouts.module.scss';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import MediaQuery from 'helpers/useMediaQuery';
+import { getToken } from 'utils/getToken';
 import api from 'services/api';
 import style from './callsection.module.scss';
 import Buttonstyles from '../../components/Button/button.module.scss';
@@ -55,7 +56,7 @@ const CallSection = ({ data }: BodyProps) => {
 
   }, [])
 
-  const filtered = data?.filter(item => item.status === 'Accepted')
+  const filtered = nextRequest?.filter((item: any) => item?.status === 'Accepted')
   
 
   return (
@@ -64,7 +65,7 @@ const CallSection = ({ data }: BodyProps) => {
           <div className="">
             <Table
               type="primary"
-              tableData={nextRequest || []}
+              tableData={filtered || []}
               headers={[]}
               loading={false}
               showSecondary
