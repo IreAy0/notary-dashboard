@@ -88,7 +88,7 @@ const CallSection = ({ data }: BodyProps) => {
                 
                   <td className="table__row-text center">
                   <a 
-                    href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}`} 
+                    href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}?token=${getToken}`} 
                     target="_blank" rel="noreferrer" 
                     className={classnames(
                       Buttonstyles.btn,
