@@ -312,7 +312,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
         </div>
       )}
       <div style={{flexDirection : 'column'}} className="signature__body-wrapper ">
-      <div>
+      <div className="mt-2">
       <Grid container spacing={2}>
   <Grid item xs={12} md={7}>
   <Box ref={stampImage} sx={{ width: {
@@ -330,13 +330,13 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
         >
         
         <Typography sx={{ fontSize: 16, borderBottom: "2px solid black", padding: "7px", textAlign: "center", textTransform:"uppercase", fontWeight: "bold"}}  gutterBottom>
-          Notary Public
+          COMMISSIONER FOR OATHS
         </Typography>
         <Paper elevation={0}>
           <Box sx={{  padding: "7px", textAlign: "center", borderBottom: "2px solid black" }}>
            
             <Typography sx={{ fontSize: 17, fontWeight: "bold", display: "flex", justifyContent: "space-evenly", alignItems: "center"}} gutterBottom>
-            <StarIcon fontSize='small'></StarIcon> <span>{`${updatedUser?.first_name} ${updatedUser?.last_name}`}</span>   <StarIcon fontSize='small'></StarIcon>
+            <StarIcon fontSize='small'></StarIcon> <span>Commissioner {`${updatedUser?.first_name} ${updatedUser?.last_name}`}</span>   <StarIcon fontSize='small'></StarIcon>
             </Typography>
             <Typography sx={{ fontSize: 14, fontWeight: "bold" }} gutterBottom>
              SCN. {`${updatedUser?.notary_commission_number || '' } `}

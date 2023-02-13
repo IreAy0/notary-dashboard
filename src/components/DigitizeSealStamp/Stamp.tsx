@@ -23,12 +23,12 @@ const Stamp = ({ actionType, requestData }: any) => {
     <div className={styles.company_stamp}>
       <div className={styles.company_stamp_inner}>
         <div className={styles.company_location}>
-          <span>NOTARY PUBLIC</span>
+          <span>COMMISSIONER FOR OATHS</span>
         </div>
         <div className={styles.company_info}>
           <div className={styles.company_info_top}>
             <Star className={styles.star_logo} />
-            <h3>{`${userProfile.first_name} ${userProfile.last_name}`}</h3>
+            <h3> Commissioner {`${userProfile.first_name} ${userProfile.last_name}`}</h3>
             <Star className={styles.star_logo} />
           </div>
           <div className={styles.company_info_bottom}>SCNo. {formatCommissionNumber(userProfile.commission_number)}</div>

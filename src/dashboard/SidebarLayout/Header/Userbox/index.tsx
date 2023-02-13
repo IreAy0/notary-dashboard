@@ -87,7 +87,7 @@ function HeaderUserbox({userProfile}) {
           <UserBoxText>
             <UserBoxLabel variant="body1">{`${userProfile?.first_name} ${userProfile?.last_name}`}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {userProfile.role}
+              {/* {userProfile.role} */} C.F.O
             </UserBoxDescription>
           </UserBoxText>
         </Hidden>
@@ -113,7 +113,7 @@ function HeaderUserbox({userProfile}) {
           <UserBoxText>
             <UserBoxLabel variant="body1">{`${userProfile?.first_name} ${userProfile?.last_name}`}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-            {userProfile.role}
+            {/* {userProfile.role} */} C.F.O
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -123,7 +123,7 @@ function HeaderUserbox({userProfile}) {
           <div className={menuStyles.header}>
                     <div className="flex flex__spaced flex__item-center">
                       <div>
-                        <strong className="text--capitalize">Notary </strong>&nbsp;
+                        <strong className="text--capitalize">C.F.O </strong>&nbsp;
                         <small className={`text--${userProfile?.national_verification === true ? 'green' : 'red'}`}>
                           { verifiedUser}
                         </small>
