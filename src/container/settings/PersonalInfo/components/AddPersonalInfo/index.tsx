@@ -119,7 +119,8 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
       address: userProfile?.address || '',
       gender: userProfile?.gender || '',
       country_id: selectCountry.id || '',
-      state_id: selectState.id || ''
+      state_id: selectState.id || '',
+      dob: userProfile?.dob || ''
 
     },
     validationSchema: Yup.object({
@@ -142,7 +143,8 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             notary_commission_number: values.notary_commission_number,
             address: values.address,
             state_id: values?.state_id,
-            country_id: selectCountry?.id
+            country_id: selectCountry?.id,
+            dob: values?.dob
           },
           () => {
             setSubmitting(false);
@@ -271,8 +273,20 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
           </FormControl>
           {/* <Select label="Gender" placeholder="Select" options={genderOptions} selected={selectGender} handleChange={setSelectedGender} /> */}
         </div>
-
         <div className="col-6">
+          <Input
+            label="Date of Birth"
+            type="date"
+            placeholder="dob"
+            id="dob"
+            name="dob"
+            onChange={formik.handleChange}
+            value={formik.values.dob}
+            // disabled={userProfile?.national_verification}
+          />
+          {/* {formik.errors.notary_commission_number ? <div className={styles.error}>{formik.errors.notary_commission_number}</div> : null} */}
+        </div>
+        <div className="col-12">
           <Input
             label="Notary Commision No.*"
             type="text"
@@ -322,7 +336,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
                 Select a Country
               </option>
               {country.map((c: any) => (
-                <option value={c.id}>{c.name}</option>
+                <option  value={c.id}>{c.name}</option>
               ))}
 
             </Select>

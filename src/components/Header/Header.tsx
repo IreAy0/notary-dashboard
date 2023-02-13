@@ -191,7 +191,7 @@ const Header = () => {
                       <div className={styles.header__profile}>
                         <Avatar withInidicator name={`${updatedUser?.first_name} ${updatedUser?.last_name}`} />
                         <div className="flex flex__item-center mr-1">
-                          <strong className=" mr-1 text--capitalize">Notary Public</strong>
+                          <strong className=" mr-1 text--capitalize">C.F.O</strong>
                           <Caret />
                         </div>
                       </div>
@@ -202,7 +202,7 @@ const Header = () => {
                   <div className={menuStyles.header}>
                     <div className="flex flex__spaced flex__item-center">
                       <div>
-                        <strong className="text--capitalize">Notary</strong>&nbsp;
+                        <strong className="text--capitalize">C.F.O</strong>&nbsp;
                         <small className={`text--${updatedUser?.national_verification === true ? 'green' : 'red'}`}>
                           {updatedUser?.national_verification === false ? 'FAILED' : verifiedUser}
                         </small>

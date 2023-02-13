@@ -14,6 +14,7 @@ import styles from './sealstamp.module.scss';
 import EditButton from './EditButton';
 import Button from '../Button';
 import { Input } from '../TextInput/TextInput';
+import cfoSeal from 'assets/img/cfo_seal.png';
 import red_seal from 'assets/img/red_seal-2.png';
 import gold_seal from 'assets/img/goldSeal.png';
 import CheckMark from 'assets/icons/CheckMark';
@@ -298,8 +299,8 @@ const [sealColor, setSealColor] = useState<any>('red');
   }, [fileURL]);
 
 
-const r = 111;
-const space = Math.PI / 16;
+const r = 132;
+const space = Math.PI / 5;
 
   const updateCanvas = (text, x, y, radius, space, top, fontSize) => {
   
@@ -310,8 +311,8 @@ const space = Math.PI / 16;
     ctx.beginPath();
 // ctx.arc(155, 155, r, 0, Math.pow(r, 2), false);
     ctx.closePath();
-    ctx.fillStyle = sealColor  === 'red' ? "#c1353f" : sealColor === 'gold' ? "#afa162" :  null ;
-
+    // ctx.fillStyle = sealColor  === 'red' ? "#c1353f" : sealColor === 'gold' ? "#afa162" :  null ;
+    ctx.fillStyle = '#000'
     // ctx.beginPath();
     // ctx.arc(150, 150, r, 0, Math.pow(r, 2), false);
     // ctx.closePath();
@@ -357,8 +358,8 @@ const space = Math.PI / 16;
   };
 
   useEffect(() => {
-   updateCanvas(`${fullName?.firstName} ${fullName?.lastName}`, 130, 155, r, space, 1, "1.3em");
-    updateCanvas(`SCN:${fullName?.notary_number}`, 130, 145, r, space, 0, "1.3em");
+  //  updateCanvas(`${fullName?.firstName} ${fullName?.lastName}`, 130, 155, r, space, 1, "1.3em");
+    updateCanvas(`SCN:${fullName?.notary_number}`, 130, 155, r, space, 0, "1.1em");
   } , [fullName, sealColor])
 
 
@@ -395,7 +396,7 @@ const space = Math.PI / 16;
           </div>
         </div>
        
-        <div className={styles.payment__options} onChange={onChangeValue}>
+        {/* <div className={styles.payment__options} onChange={onChangeValue}>
          
           <label className={styles.payment__option} htmlFor="color-red">
             <input name="sealColor" v-model="sealColor"  type="radio" id="color-red" value="red" checked={sealColor == "red"} />
@@ -425,9 +426,8 @@ const space = Math.PI / 16;
           </label>
 
           <div className="preview">
-            {/* <img v-if="data.file"  className="img-fluid" alt="Seal" /> */}
           </div>
-        </div>
+        </div> */}
       <div className="signature__body-wrapper grid grid__layout gap-1 pt-1">
         {/* <div className={styles.upload__div}>
           <EditButton show={companySeal.file_url !== ''} onClick={() => setEditSeal(true)} disabled={false} />
@@ -473,16 +473,20 @@ const space = Math.PI / 16;
               width: "480px",
               textAlign: "center",
               textTransform: "uppercase",
-              color: sealColor  === 'red' ? "#c1353f" : sealColor == 'gold' ? "#afa162" :  '' ,
+              // color: sealColor  === 'red' ? "#c1353f" : sealColor == 'gold' ? "#afa162" :  '' ,
+              color: '#000',
               textShadow: "2px 2px 2px #464444",
               /* color: blue; */
               /* color: #c1353f; */
               /* text-shadow: 3px 1px 0px #000; */
             
-          }}> <span> Notary<br />  Public </span> </div>
+          }}>
+             {/* <span> Notary<br />  Public </span>  */}
+             </div>
           {/* src={seal} */}
           {/* : sealColor == 'green' ? seal_green : sealColor == 'orange' ? seal_orange : */}
-          <img style={{maxWidth : '380px' }} className="" width="380" height="380" src={`${sealColor == 'red' ? red_seal : sealColor == 'gold' ? gold_seal : ''}`}  alt="seal" />
+          {/* src={`${sealColor == 'red' ? red_seal : sealColor == 'gold' ? gold_seal : ''}`} */}
+          <img style={{maxWidth : '380px' }} className="" width="380" height="380" src={`${cfoSeal}`}   alt="seal" />
           <canvas  width="300" height="300"  ref={canvas} id="canvas"  style={{
               transform: "translate(-48%, -50%)",
               position: "absolute",
