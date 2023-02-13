@@ -97,7 +97,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
   // },[user?.user?.access_locker_documents])
 
   return (
-    <Modal isOpen={isOpen} isClose={isClose}>
+    <Modal isOpen={isOpen} isClose={isClose} width={400}>
       <div className={styles.otpModalContainer}>
         
         <h2 className={styles.otpModalContainer__title}>Enter OTP  <a style={{float: 'right'}} href="/">close</a></h2>
