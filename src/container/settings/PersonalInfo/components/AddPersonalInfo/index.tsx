@@ -57,9 +57,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
       ...selectCountry,
       id: userProfile?.state?.country_id
     })
-  }, [userProfile])
-
-  console.log(selectCountry, 'country', userProfile?.state)
+  }, [userProfile, selectCountry])
 
 
   const handleValueLimit = (e: any) => e?.target?.value
