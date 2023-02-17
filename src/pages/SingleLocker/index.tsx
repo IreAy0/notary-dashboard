@@ -170,20 +170,20 @@ const SingleDetailLocker = () => {
               </div>
             )}
             <div className={styles.session_container__document_time}>
-              <p className={styles.session_container__title}>Notary Fee</p>
-              <p>N {Number(mockRequest?.notary_fee).toFixed(2)}</p>
+              <p className={styles.session_container__title}>Session Fee</p>
+              <p>N {Number(locker?.total).toFixed(2)}</p>
             </div>
             <div className={styles.session_container__document_time}>
               <p className={styles.session_container__title}>Transaction Cost</p>
-              <p>N {Number(mockRequest?.total_fee).toFixed(2)}</p>
+              <p>N {Number(locker?.transaction_paid).toFixed(2)}</p>
             </div>
-            <div className={styles.session_container__video_session}>
+            {/* <div className={styles.session_container__video_session}>
               <img src={VideoIcon} alt="" />
               <br/>
               <a className={styles.session_container__link} href={mockRequest?.video_url} target="blank">
               <span> {mockRequest?.video_url?.substring(0, 30)}....</span>
               </a>
-            </div>
+            </div> */}
           </div>
           <div className="mt-1">
             <Table type="primary" tableData={locker?.participants || []} headers={singleRequestHeaders} loading={false}>

@@ -130,7 +130,7 @@ function HeaderUserbox({userProfile}) {
                       </div>
                       <span className="flex flex__item-center">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
                     </div>
-                    <div className={menuStyles.label__max}>
+                    {/* <div className={menuStyles.label__max}>
                       <span className={menuStyles.label}>
                         Personal: <br />
                       </span>
@@ -139,7 +139,7 @@ function HeaderUserbox({userProfile}) {
                       </strong>
                       <br />
                       <span title={userProfile.email}>{userProfile.email}</span>
-                    </div>
+                    </div> */}
                   </div>
           </ListItem>
           

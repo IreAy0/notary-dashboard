@@ -312,7 +312,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
         </div>
       )}
       <div style={{flexDirection : 'column'}} className="signature__body-wrapper ">
-      <div>
+      <div className="mt-2">
       <Grid container spacing={2}>
   <Grid item xs={12} md={7}>
   <Box ref={stampImage} sx={{ width: {
