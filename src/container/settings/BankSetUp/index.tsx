@@ -95,8 +95,6 @@ const BankAccountSetUp = () => {
       setSubmitting(true);
       dispatch(
         uploadBankDetails(
-         
-          
           {
             "bank_id": selectedBank?.id,
             "bank_account_name": values.account_name,
