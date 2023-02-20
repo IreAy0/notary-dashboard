@@ -116,7 +116,7 @@ const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
 
 
       {docUrl ? (
-        <div className={isCentered ? styles.page__center : ''} style={{ width: `${docWidth}px` }} key={doc?.id}>
+        <div className={isCentered ? styles.page__center : ''} style={{ width: `${docWidth}px` , margin: 'auto' }} key={doc?.id}>
            
             {!doc ? <DocumentLoader /> : 
           <FileViewer

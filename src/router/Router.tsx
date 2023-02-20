@@ -20,6 +20,7 @@ import LockerDocument from 'pages/SingleLocker/Document';
 // import NotarySession from 'pages/Session';
 import VerifyExpired from 'pages/Auth/VerifyExpired';
 import Certificate from 'pages/Certificate';
+import Redirect from 'pages/Auth/Redirect';
 import SessionErrorPage from 'pages/SessionErrorPage';
 import { appRoutePaths } from './Router.utils';
 import PrivateRoute from './PrivateRoute';
@@ -32,6 +33,7 @@ const Router: FC = () => (
     <PrivateRoute exact path={appRoutePaths.settings} component={Settings} />
     <PrivateRoute exact path={appRoutePaths.requestDocument} component={RequestDocument} />
     <PrivateRoute exact path={appRoutePaths.lockerDocument} component={LockerDocument} />
+    <Route exact path={appRoutePaths.redirect} component={Redirect} />
 
     <Route exact path={appRoutePaths.signUp} component={SignUp} />
     <Route exact path={appRoutePaths.signIn} component={SignIn} />
