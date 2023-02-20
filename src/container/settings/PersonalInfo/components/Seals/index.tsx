@@ -35,7 +35,7 @@ const Seals: FC<Props> = ({ user, prevStep }: Props) => {
     {
       label: 'Traditional Seal',
       icon: <img src={seal} alt="seal" />
-    },
+    }
     // {
     //   label: 'Digital Seal',
     //   icon: <img src={seal_gray} alt="seal" />
