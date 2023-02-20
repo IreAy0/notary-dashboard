@@ -126,7 +126,31 @@ const BankAccountSetUp = () => {
           },
           (error: any) => {
             setSubmitting(false);
-            toast.error(error?.data?.error, {
+            if(error.data.code === 403){
+              toast.error('Server Error', {
+                position: "top-right",
+                style: {
+                  background: '#dc3545',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '16px'
+  
+                }
+              })
+            }
+            else if(error.data.code === 422){
+              toast.error('Saving failed, Please check all fields', {
+                position: "top-right",
+                style: {
+                  background: '#dc3545',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '16px'
+  
+                }
+              })
+            }
+            else {toast.error('Error Saving', {
               position: "top-right",
               style: {
                 background: '#dc3545',
@@ -135,7 +159,7 @@ const BankAccountSetUp = () => {
                 padding: '16px'
 
               }
-            })
+            })}
           }
         )
       );
