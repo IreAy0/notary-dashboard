@@ -35,11 +35,11 @@ const Seals: FC<Props> = ({ user, prevStep }: Props) => {
     {
       label: 'Traditional Seal',
       icon: <img src={seal} alt="seal" />
-    },
-    {
-      label: 'Digital Seal',
-      icon: <img src={seal_gray} alt="seal" />
     }
+    // {
+    //   label: 'Digital Seal',
+    //   icon: <img src={seal_gray} alt="seal" />
+    // }
     
   ];
 
@@ -125,7 +125,7 @@ const Seals: FC<Props> = ({ user, prevStep }: Props) => {
     <div>
       <SealTabs type="horizontal" tabs={tabsContent} active={activeTabContent} setActive={(tab: any) => setActiveTabContent(tab)} />
       {activeTabContent.label === 'Traditional Seal' && <SealWrapper prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
-      {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>}
+      {/* {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} */}
 
 
       {/* {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} isSaving={saving} showAgreement/>} */}
