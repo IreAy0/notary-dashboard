@@ -54,7 +54,7 @@ const SealStamp: FC<Props> = ({ user, prevStep }: Props) => {
             setSaving(false);
             setCurrentSign(data);
             done();
-            setActiveTabContent(nextTab);
+            // setActiveTabContent(nextTab);
           },
           () => {
   

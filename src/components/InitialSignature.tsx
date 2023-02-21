@@ -88,7 +88,7 @@ const InitialSignature: FC<TabsProps> = ({ showAgreement, onSave, fileURL, isSav
         />
       </div>
 
-      {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+      {/* {showAgreement && <SignaturePolicy policy={""} acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} policy={''} />} */}
 
       <div className="bb-1 mb-2" />
       <Button className="mb-1" disabled={isDisabled} theme="primary" width={161} onClick={() => convertTextToImage()}>

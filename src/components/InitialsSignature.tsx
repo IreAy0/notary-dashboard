@@ -159,6 +159,7 @@ const InitialsSignature: FC<TabsProps> = ({
             {fonts.map((font, index) => ( <div 
             role="button"
             tabIndex={0}
+            key={font+1}
             onClick={(e) => onChange(e, font, index)}
             // ref={(element) =>{ refs.current[index] = element}}
             style={{
@@ -171,7 +172,7 @@ const InitialsSignature: FC<TabsProps> = ({
                 fontFamily: font,
                 fontSize: '70px',
                 color: textColor
-              }} type="radio" checked={index  === fontIndex} value={`${fullName.initials  } `} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
+              }} type="radio" onChange={()=>{}} checked={index  === fontIndex} value={`${fullName.initials  } `} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
               <label className='  w-full pr-2' htmlFor={`${fullName.initials  }`} >
                {` ${  fullName.initials}`}  
                </label>
@@ -199,7 +200,7 @@ const InitialsSignature: FC<TabsProps> = ({
           {/* <img src={fileURL} alt="signature file"  /> */}
       </div>
     </div>
-       <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />
+       {/* <SignaturePolicy policy={""} acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} /> */}
 
       <div className="bb-1 mb-2" />
       <Button onClick={prevStep} type="button" theme="grey" variant="outline" style={{borderRadius: '50%'}} className='mr-2'>

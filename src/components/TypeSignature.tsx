@@ -120,7 +120,11 @@ const TypeSignature: FC<TabsProps> = ({
   useEffect(() => {
     if (!showAgreement && (!text || isSaving || showImage)) {
       setIsDisabled(true);
-    } else if (showAgreement && (isSaving || !acceptPolicy)) {
+    }
+    else if (acceptPolicy === false) {
+      setIsDisabled(true);
+    }
+    else if (showAgreement && (isSaving || !acceptPolicy)) {
       setIsDisabled(true);
     }  else if (showAgreement && (!imageURL || !acceptPolicy)){
       setIsDisabled(true);
@@ -130,12 +134,14 @@ const TypeSignature: FC<TabsProps> = ({
     }
   }, [text, isSaving, showImage, acceptPolicy, showAgreement, imageURL]);
 
+
   const onChange = ( e: any, fontType: any, index): void => {
     setFontFamily(fontType);
     setFontIndex(index);
     updateText(e.currentTarget.textContent)
-    
   };
+
+
 
 
   return (
@@ -160,6 +166,7 @@ const TypeSignature: FC<TabsProps> = ({
             {fonts.map((font, index) => ( <div 
             role="button"
             tabIndex={0}
+            key={font+1}
             onClick={(e) => onChange(e, font, index)}
             // ref={(element) =>{ refs.current[index] = element}}
             style={{
@@ -172,7 +179,7 @@ const TypeSignature: FC<TabsProps> = ({
                 fontFamily: font,
                 fontSize: '70px',
                 color: textColor
-              }} type="radio" checked={index  === fontIndex} value={`${fullName.firstName  } ${  fullName.lastName}`} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
+              }} type="radio" onChange={()=>{}} checked={index  === fontIndex} value={`${fullName.firstName  } ${  fullName.lastName}`} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
               <label className='  w-full pr-2' htmlFor={`${fullName.firstName  } ${  fullName.lastName}`} >
                 {`${fullName.firstName  } ${  fullName.lastName}`} 
                
@@ -201,7 +208,7 @@ const TypeSignature: FC<TabsProps> = ({
           {/* <img src={fileURL} alt="signature file"  /> */}
       </div>
     </div>
-       <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />
+       <SignaturePolicy policy='By selecting this signature, I agree that it is as valid as my hand-written signature to the extent allowed by law' acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />
 
       <div className="bb-1 mb-2" />
       <Button onClick={prevStep} type="button" theme="grey" variant="outline" style={{borderRadius: '50%'}} className='mr-2'>

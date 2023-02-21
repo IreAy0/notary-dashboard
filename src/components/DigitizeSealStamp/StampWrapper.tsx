@@ -21,6 +21,7 @@ import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import Grid from '@mui/material/Grid';
+import CheckMark from 'assets/icons/CheckMark';
 
 interface User {
   team_role_code?: string | null;
@@ -297,7 +298,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
               placeholder="Emily R. Waren"
               type="text"
               value={`${updatedUser?.first_name} ${updatedUser?.last_name}`}
-             
+              onChange={()=>{}}
             />
           </div>
           <div className="col-6">
@@ -306,7 +307,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
               placeholder="059678456"
               type="text"
               value={`${updatedUser?.notary_commission_number || '' } `}
-              
+              onChange={()=>{}}
             />
           </div>
         </div>
@@ -368,14 +369,17 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
         theme="primary"
         width={161}
         onClick={() => saveHtmlAsImage()}
-        
+        loading={loading}
+        disabled={loading === true}
+        // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
+        icon={companyStamp?.file_url ? <CheckMark className='ml-1'/> : null }
         // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
        
       >
-       Adopt
+                {companyStamp?.file_url ? 'Adopted' : 'Adopt'}
       </Button>
       {/* <div className={fetching ? 'signature__body--disabled mt-2' : ''} /> */}
-      <img src={companyStamp?.file_url} alt="seal" />
+    {companyStamp?.file_url &&  <img src={companyStamp?.file_url} alt="seal" />}
         </div>
   </Grid>
  
@@ -386,7 +390,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
       </div>
       
         <div className="mt-1" />
-        {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+        {showAgreement && <SignaturePolicy policy='By clicking adopt, I agree that this seal is as valid as my traditional seal to the extent allowed by law' acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
 
         <div className="bb-1 mb-2" />
         <div>

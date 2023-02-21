@@ -4,9 +4,10 @@ import { Input } from 'components/TextInput/TextInput';
 interface Props {
   acceptPolicy: boolean;
   setAcceptPolicy: (acceptPolicy: boolean) => void;
+  policy: string
 }
 
-const SignaturePolicy = ({ acceptPolicy, setAcceptPolicy }: Props) => (
+const SignaturePolicy = ({ acceptPolicy, setAcceptPolicy, policy }: Props) => (
   <div className="flex mb-1">
     <Input
       type="checkbox"
@@ -16,8 +17,8 @@ const SignaturePolicy = ({ acceptPolicy, setAcceptPolicy }: Props) => (
       onChange={() => setAcceptPolicy(!acceptPolicy)}
     />
     <span className="text--sm">
-      By signing this document with my electronic signature. I agree that the signature is as valid as my hand writen signature to the
-      extent allowed by law
+      {policy}
+      {/* By selecting this signature, I agree that it is as valid as my hand-written signature to the extent allowed by law */}
     </span>
   </div>
 );
