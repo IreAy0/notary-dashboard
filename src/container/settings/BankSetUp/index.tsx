@@ -251,7 +251,6 @@ const BankAccountSetUp = () => {
     setValidateAccountNumber(false);
   };
 
-  console.log('selectedAccount', selectedBank)
   return (
     <form id="Bank" onSubmit={formik.handleSubmit}>
       <div className="grid grid__layout  pt-2">
@@ -261,7 +260,7 @@ const BankAccountSetUp = () => {
           <span className="flex flex__item-center">
             Bank Name*
           </span>
-          {selectedBank?.length >= 1? 'true' : 'false'}
+          {/* {selectedBank?.length >= 1? 'true' : 'false'} */}
           <Select 
           isSearchable 
           // name="bank_id" 
