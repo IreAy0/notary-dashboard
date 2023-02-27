@@ -394,15 +394,15 @@ const SingleRequest = () => {
                     <span className="text--600 text--blue">
                       {row?.first_name} {row?.last_name}
                     </span>
-                    ({row?.role === 'Signer' ? 'Signer' : isSigner})
+                    ({row?.role})
                   </td>
                   <td className="table__row-text center">{row?.phone}</td>
                   <td className="table__row-text center">{row?.email}</td>
-                  <td className="table__row-text center">
-                    {/* <Badge size="md" theme={badgeType(row?.status.toString())} type="secondary">
+                  {/* <td className="table__row-text center">
+                    <Badge size="md" theme={badgeType(row?.status.toString())} type="secondary">
                       {row?.status}
-                    </Badge> */}
-                  </td>
+                    </Badge>
+                  </td> */}
                 </>
               );
             }}

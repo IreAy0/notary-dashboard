@@ -35,10 +35,12 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
   const dispatch = useDispatch();
 
   const [identityType, setIdentityType] = useState<{ name: string, id: string }>(
-    { name: user?.user?.identity_type ,
-    
-      id: user?.user?.identity_type }
-    
+    {
+      name: user?.user?.identity_type,
+
+      id: user?.user?.identity_type
+    }
+
   );
 
 
@@ -65,8 +67,8 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
         }
       )
     );
-  
-    
+
+
   }, [dispatch]);
 
   const handleVerifyID = (e: any) => {
@@ -80,8 +82,8 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
           dispatch(
             fetchUserProfile(
               {},
-              () => {},
-              () => {}
+              () => { },
+              () => { }
             )
           );
           toast.success('ID updated successfully');
@@ -94,27 +96,29 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
       )
     );
   };
-  
+
   useEffect(() => {
     const { bvn, id_type }: any = { ...user.user };
     setIDData(user?.user?.identity_number);
-    
-    setIdentityType({ name: user?.user?.identity_type ,
-      
-      id: user?.user?.identity_type })
+
+    setIdentityType({
+      name: user?.user?.identity_type,
+
+      id: user?.user?.identity_type
+    })
     // setIdentityType(() => ({ name: id_type ? matchID(id_type, 'id') : '' }));
     // setIDData({ bvn: bvn ?? '', id_type: id_type ?? '' });
-    
+
   }, [user]);
 
   const formik = useFormik({
     initialValues: {
-      identity_type: identityType.id, 
+      identity_type: identityType.id,
       identity_number: user?.user?.identity_number
 
     },
     validationSchema: Yup.object({
-      
+
       identity_number: Yup.number()
         .min(10, "Must be more than 10 characters")
         .required("This field is requried")
@@ -123,19 +127,19 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
       setSubmitting(true);
       dispatch(
         updateUserIDAction(
-          
+
           {
 
             type: values.identity_type,
-            value:` ${values.identity_number}`
+            value: ` ${values.identity_number}`
           },
           () => {
             setSubmitting(false);
             dispatch(
               fetchUserProfile(
                 {},
-                () => {},
-                () => {}
+                () => { },
+                () => { }
               )
             );
             toast.success('ID updated successfully');
@@ -198,47 +202,47 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
           />
         </div>
         <div className="col-6 mb-2">
-          <div className="grid grid__layout gap-1" style={{alignItems: 'flex-end', width: '100%'}}>
-            <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7 mb-2' } `}>
-            <Input
-          className='mb-0'
-            // value={IDData}
-           
-            label="ID Number*"
-            
-            placeholder="ID"
-            type="number"
-            name="identity_number"
-            onChange={formik.handleChange}
-            value={formik.values.identity_number}
-            disabled={user?.user?.national_verification}
-            // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
-            verifiedCheck={user?.user?.national_verification}
-          />
+          <div className="grid grid__layout gap-1" style={{ alignItems: 'flex-end', width: '100%' }}>
+            <div className={`${user?.user?.national_verification ? 'col-12' : 'col-7 mb-2'} `}>
+              <Input
+                className='mb-0'
+                // value={IDData}
+
+                label="ID Number*"
+
+                placeholder="ID"
+                type="number"
+                name="identity_number"
+                onChange={formik.handleChange}
+                value={formik.values.identity_number}
+                disabled={user?.user?.national_verification}
+                // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
+                verifiedCheck={user?.user?.national_verification}
+              />
             </div>
 
- <div className={`${user?.user?.national_verification ? 'd-none' :  'col-3 mb-2'} `}>
-          <Button
-          className=" "
-          type="submit"
-          loading={submitting}
-          // disabled={!IDData.bvn || !IDData.id_type || submitting || !!user.is_verified_profile || user?.user?.is_id_verified}
-          theme="primary"
-          width={161}
-          variant="outline"
-        >
-          Verify Now
-        </Button>
-        </div>
+            <div className={`${user?.user?.national_verification ? 'd-none' : 'col-3 mb-2'} `}>
+              <Button
+                className=" "
+                type="submit"
+                loading={submitting}
+                // disabled={!IDData.bvn || !IDData.id_type || submitting || !!user.is_verified_profile || user?.user?.is_id_verified}
+                theme="primary"
+                width={161}
+                variant="outline"
+              >
+                Verify Now
+              </Button>
+            </div>
           </div>
-          
+
         </div>
-       
+
       </div>
       <div className="flex flex__end">
-       
-      
-        
+
+
+
         <Button
           className=""
           type="button"

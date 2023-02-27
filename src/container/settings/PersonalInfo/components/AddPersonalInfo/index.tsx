@@ -52,12 +52,12 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
     );
   }, [dispatch]);
 
-  useEffect(() => {
-    setSelectCountry({
-      ...selectCountry,
-      id: userProfile?.state?.country_id
-    })
-  }, [userProfile, selectCountry])
+  // useEffect(() => {
+  //   setSelectCountry({
+  //     ...selectCountry,
+  //     id: userProfile?.state?.country_id
+  //   })
+  // }, [userProfile, selectCountry, dispatch])
 
 
   const handleValueLimit = (e: any) => e?.target?.value
@@ -103,7 +103,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
 
     setSelectCountry({ name: userProfile?.country?.name, id: userProfile?.state?.country_id })
     setSelectedState({ name: userProfile?.state?.name, id: userProfile?.state?.id })
-  }, [userProfile]);
+  }, [userProfile, dispatch]);
 
 
   const handleOnChange = (value: any) => {
