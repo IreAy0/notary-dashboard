@@ -15,7 +15,7 @@ import toast from 'react-hot-toast';
 import DigitalSeal from 'components/DigitizeSealStamp/DigitalSeal';
 import SealTabs from 'components/Tabs/sealTab';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
-import seal from 'assets/img/red_seal-2.png';
+import seal from 'assets/img/cfo_seal.png';
 import seal_gray from 'assets/img/seal_gray.png';
 
 interface Props {

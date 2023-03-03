@@ -87,7 +87,7 @@ function HeaderUserbox({userProfile}) {
           <UserBoxText>
             <UserBoxLabel variant="body1">{`${userProfile?.first_name} ${userProfile?.last_name}`}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {userProfile.role}
+              {/* {userProfile.role} */} C.F.O
             </UserBoxDescription>
           </UserBoxText>
         </Hidden>
@@ -113,7 +113,7 @@ function HeaderUserbox({userProfile}) {
           <UserBoxText>
             <UserBoxLabel variant="body1">{`${userProfile?.first_name} ${userProfile?.last_name}`}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-            {userProfile.role}
+            {/* {userProfile.role} */} C.F.O
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -123,14 +123,14 @@ function HeaderUserbox({userProfile}) {
           <div className={menuStyles.header}>
                     <div className="flex flex__spaced flex__item-center">
                       <div>
-                        <strong className="text--capitalize">Notary </strong>&nbsp;
+                        <strong className="text--capitalize">C.F.O </strong>&nbsp;
                         <small className={`text--${userProfile?.national_verification === true ? 'green' : 'red'}`}>
                           { verifiedUser}
                         </small>
                       </div>
                       <span className="flex flex__item-center">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
                     </div>
-                    {/* <div className={menuStyles.label__max}>
+                    <div className={menuStyles.label__max}>
                       <span className={menuStyles.label}>
                         Personal: <br />
                       </span>
@@ -139,7 +139,7 @@ function HeaderUserbox({userProfile}) {
                       </strong>
                       <br />
                       <span title={userProfile.email}>{userProfile.email}</span>
-                    </div> */}
+                    </div>
                   </div>
           </ListItem>
           
