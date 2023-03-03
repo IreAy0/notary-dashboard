@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import generateCurrentMonth from 'utils/generateCurrentMonth';
 // import Button from '@mui/material/Button';
+import moment from 'moment';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from 'components/Button';
@@ -170,8 +171,8 @@ const PreviewCalendar = () => {
                         {row?.day}
                       </TableCell>
                       <TableCell style={{borderBottom:"none"}} align="left">
-                       
-                            { row.date }
+                       {moment(row.date).format('LL')}
+                            {/* { row.date } */}
                           
                         </TableCell>
                       <TableCell style={{borderBottom:"none"}} align="left">

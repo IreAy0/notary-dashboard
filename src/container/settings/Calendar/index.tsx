@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import generateCurrentMonth from 'utils/generateCurrentMonth';
 // import Button from '@mui/material/Button';
+import moment from 'moment';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from 'components/Button';
@@ -68,6 +69,7 @@ const days = [
 ];
 
 const Calendar = (editData) => {
+  const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState<any>();
   const [selectedDays, setSelectedDays] = useState<any>([]);
   const [disableSaveButton,setDisableSaveButton] = useState<any>(false);
@@ -82,6 +84,8 @@ const Calendar = (editData) => {
     start_time: '',
     end_time: ''
   });
+  const current_day = moment().day()
+  const current_time = moment().format("HH:mm:ss")
   const [weekDays, setWeekDays] = useState<any>([]);
 
 
@@ -100,6 +104,7 @@ const Calendar = (editData) => {
 
   const addTableRows = () => {
     const rowsInput = {
+      id: '',
       day: '',
       date: '',
       start_time: '',
@@ -108,10 +113,26 @@ const Calendar = (editData) => {
     setRowsData([...rowsData, rowsInput]);
   };
 
+  const filterDays = days.filter(day => day.id === current_day.toString() || day.id >= current_day.toString())
+  const filterTime = timeSlots.filter(time => time >= current_time.toString() || time === current_time.toString())
+
   const deleteTableRows = (index) => {
     const rows = [...rowsData];
     rows.splice(index, 1);
     setRowsData(rows);
+  };
+
+  const handleDuplicateRow = (newRow) => {
+    // setRowsData([...rowsData, newRow]);
+
+    const newData = [...rowsData];
+    const index = newData.findIndex((item) => item === newRow);
+    const data_item = newData[index];
+    const newId = Math.max(...newData.map((item) => item)) + 1; // generate new id
+    const newItem = { ...data_item, id: newId }; // duplicate item with new id
+    newData.splice(index + 1, 0, newItem); // insert duplicated item after the original item
+    setRowsData(newData);
+
   };
 
   const handleChange = (index, event: SelectChangeEvent<typeof calendarData>) => {
@@ -121,14 +142,12 @@ const Calendar = (editData) => {
     if (name === 'day') {
       const next =  getNextDay(value)
       rowsInput[index].date = next.toDateString();
-    
     }
+    // console.log(rowsInput, 'day', value)
     setRowsData(rowsInput);
   };
 
-  const dispatch = useDispatch();
-
-
+  // console.log(rowsData, 'rows')
   useEffect(() => {
     // query.has('edit')
     if(query.has('edit')){
@@ -201,6 +220,7 @@ const Calendar = (editData) => {
   };
 
 
+
   return (
     <>
       <div>
@@ -228,8 +248,8 @@ const Calendar = (editData) => {
                
                 <TableBody>
                   {rowsData.map((row, index) => (
-                    <>
-                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  
+                     <TableRow key={index+1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         <Select
                           displayEmpty
@@ -244,16 +264,16 @@ const Calendar = (editData) => {
                           <MenuItem disabled value="">
                             <em>Select day</em>
                           </MenuItem>
-                          {days.map(({ name}) => (
-                            <MenuItem key={name} value={name}>
-                              {name}
+                          {days.map(day => (
+                            <MenuItem disabled={day.id < current_day.toString()} key={day.id} value={day.name}>
+                              {day.name}
                             </MenuItem>
                           ))}
                         </Select>
                       </TableCell>
                       <TableCell align="center"><MenuItem disabled >
-                            
-                            {row.date ? row.date : <em>Date</em>}
+                            {/* {moment(row.date).format('LL')} */}
+                            {row.date ? moment(row.date).format('LL') : <em>Date</em>}
                           </MenuItem> </TableCell>
                       <TableCell align="center">
                         <Select
@@ -266,11 +286,11 @@ const Calendar = (editData) => {
                             name: 'start_time'
                           }}
                         >
-                          <MenuItem disabled value="">
+                          <MenuItem value="">
                             <em>Select start time</em>
                           </MenuItem>
                           {timeSlots.map((name) => (
-                            <MenuItem key={name} value={name}>
+                            <MenuItem disabled={name <= current_time.toString() || name === current_time.toString()} key={name} value={name}>
                               {name}
                             </MenuItem>
                           ))}
@@ -291,7 +311,7 @@ const Calendar = (editData) => {
                             <em>Select end time</em>
                           </MenuItem>
                           {timeSlots.map((name) => (
-                            <MenuItem key={name} value={name}>
+                            <MenuItem disabled={name <= current_time.toString() || name === current_time.toString()} key={name} value={name}>
                               {name}
                             </MenuItem>
                           ))}
@@ -302,8 +322,11 @@ const Calendar = (editData) => {
                           <CloseIcon fontSize="medium" />
                         </Button>
                       </TableCell>
+                      <TableCell align="center">
+                        <button onClick={() => handleDuplicateRow(row)}>Duplicate</button>
+                      </TableCell>
                     </TableRow>
-                    </>
+                   
                    
                   ))}
                 </TableBody>

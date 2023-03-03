@@ -183,10 +183,10 @@ const HomePage = () => {
 
   return (
     <Dashboard>
-      {/* {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please  <Link style={{
+      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please  <Link style={{
         fontWeight: 'bold',
         textDecoration: 'underline'
-      }} to='/settings/Personal_info'>Click here</Link> to complete your profile</Alert> : null} */}
+      }} to='/settings/Personal_info'>Click here</Link> to complete your profile</Alert> : null}
       {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
       <section>
         <div className=" pt-2">
