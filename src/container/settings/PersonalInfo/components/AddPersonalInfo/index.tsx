@@ -27,9 +27,9 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
   const [userProfile, setUserProfile] = useState<any>();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState<any>(userProfile?.phone);
-  const [selectCountry, setSelectedCountry] = useState({
-    name: userProfile?.country?.name,
-    id: userProfile?.country?.id
+  const [selectCountry, setSelectCountry] = useState({
+    name: '',
+    id: ''
 
   });
   const [states, setStates] = useState([])
@@ -50,12 +50,14 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
         }
       )
     );
-    // instance.get("/countries").then((res) => {
-
-    //   setCountry(res?.data?.data)
-    // });
-
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   setSelectCountry({
+  //     ...selectCountry,
+  //     id: userProfile?.state?.country_id
+  //   })
+  // }, [userProfile, selectCountry, dispatch])
 
 
   const handleValueLimit = (e: any) => e?.target?.value
@@ -92,7 +94,6 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
     setSelectedGender({ name: gender, id: gender });
     setPhoneNumber(phone);
     instance.get("/countries").then((res) => {
-
       setCountry(res?.data?.data)
     });
 
@@ -100,9 +101,9 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
       setStates(res?.data?.data);
     });
 
-    setSelectedCountry({ name: userProfile?.country?.name, id: userProfile?.country?.id })
+    setSelectCountry({ name: userProfile?.country?.name, id: userProfile?.state?.country_id })
     setSelectedState({ name: userProfile?.state?.name, id: userProfile?.state?.id })
-  }, [userProfile]);
+  }, [userProfile, dispatch]);
 
 
   const handleOnChange = (value: any) => {
@@ -189,11 +190,11 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
   });
 
   useEffect(() => {
-    instance.get(`/countries/${formik.values.country_id}`).then((res) => {
+    instance.get(`/countries/${formik?.values?.country_id}`).then((res) => {
       setStates(res?.data?.data)
     }
     );
-  }, [formik.values.country_id])
+  }, [formik?.values?.country_id, selectCountry.id])
 
   const handleCountryChange = (e: any) => {
 
@@ -262,10 +263,10 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
 
             <Select id='gender' name="gender" onChange={formik.handleChange} native value={formik.values.gender} >
               <option value="" >
-                Select a gender {selectGender.name}
+                Select a gender 
               </option>
               {genderOptions.map(gender => (
-                <option value={gender.id}>{gender.name}</option>
+                <option key={gender.id} value={gender.id}>{gender.name}</option>
               ))}
 
             </Select>
@@ -288,7 +289,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
         </div>
         <div className="col-12">
           <Input
-            label="Notary Commision No.*"
+            label="Supreme Court Number*"
             type="text"
             placeholder="Notary No."
             id="GetProfile__CommissionNo"
@@ -331,12 +332,12 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
 
             <Select id='country_id' name="country_id" onChange={
               formik.handleChange
-            } native value={formik.values.country_id} >
+            } native value={formik?.values?.country_id} >
               <option value="" >
                 Select a Country
               </option>
               {country.map((c: any) => (
-                <option  value={c.id}>{c.name}</option>
+                <option key={c.id}  value={c.id}>{c.name}</option>
               ))}
 
             </Select>
@@ -363,7 +364,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
                 Select a state
               </option>
               {states?.map((state: any) => (
-                <option value={state?.id}>{state?.name}</option>
+                <option key={state?.id} value={state?.id}>{state?.name}</option>
               ))}
 
             </Select>

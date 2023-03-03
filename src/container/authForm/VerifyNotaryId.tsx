@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Select from 'components/Select';
 import Modal from 'components/Modal/Modal';
 import toast from 'react-hot-toast';
@@ -11,6 +12,8 @@ import { fetchUserProfile, updateUserIDAction } from 're-ducks/user';
 import * as Yup from 'yup';
 import styles from './sign.module.scss';
 import RegistrationForms from './RegistrationForm';
+import Cancel from '../../assets/icons/close-icon.svg';
+
 
 export interface Props {
   isOpen: boolean;
@@ -22,10 +25,24 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
   const [openStatusModal, setOpenStatusModal] = useState<boolean>(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const dispatch = useDispatch();
+  const history = useHistory()
   const [selectIdType, setSelectIdType] = useState({
     id: '',
     name: ''
   });
+
+  const [identityType, setIdentityType] = useState<{ name: string, id: string }>(
+    {
+      name: '',
+      id: ''
+    }
+
+  );
+  const IDTypes = [
+    { name: 'BVN', id: 'bvn' },
+    { name: 'NIN', id: 'nin' },
+    { name: 'Drivers License', id: 'drivers_license' }
+  ];
 
   const idTypeOption = [
     { name: 'Drivers License', id: 'drivers_license' },
@@ -34,25 +51,39 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      id_number: '',
-      id_type: ''
+      // identity_number: '',
+      identity_type: '',
+      identity_number: ''
     },
     validationSchema: Yup.object({
-      id_number: Yup.string().required('Identification Number is required')
+      identity_number: Yup.number()
+        .min(10, "Must be more than 10 characters")
+        .required("This field is requried")
     }),
     onSubmit: (values, { resetForm }) => {
       setLoading(true);
       dispatch(
         updateUserIDAction(
           {
-            id_type: selectIdType?.id.toLowerCase(),
-            id_number: values.id_number.toString()
+            type: selectIdType?.id.toLowerCase(),
+            value: `${values.identity_number}`
           },
           () => {
             toast.success('Id Verified Successfully.');
             resetForm();
-            setOpenStatusModal(!openStatusModal);
+            // setOpenStatusModal(!openStatusModal);
+            dispatch(
+              fetchUserProfile(
+                {},
+                () => {},
+                () => {}
+              )
+            );
+            isClose();
             setLoading(false);
+            window.location.href = "/settings/Personal_Info"
+            // history.push('/settings/Personal_info')
+            
           },
           (error: any) => {
             toast.error(error);
@@ -63,34 +94,54 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
     }
   });
 
+  const matchID = (name: string, key: string) => {
+    const data: any = IDTypes.find((IDType: any) => IDType[key] === name);
+
+    return data[key === 'id' ? 'name' : 'id'];
+  };
+
+  const handleIdentityType = ({ name }: { name: string }) => {
+    const matchedID = matchID(name, 'name');
+    setIdentityType({ name, id: matchedID });
+    // setIDData((prevState: any) => ({ ...prevState, id_type: matchedID }));
+  };
+
   const closeStatusModal = () => {
     isClose();
     dispatch(
       fetchUserProfile(
         {},
-        () => {},
-        () => {}
+        () => { },
+        () => { }
       )
     );
   }
-  
+
   return (
     <div>
       {openStatusModal && (
         <StatusModal isOpen={openStatusModal} isClose={() => setOpenStatusModal(!openStatusModal)} handleClose={closeStatusModal} />
       )}
       {!openStatusModal && (
-        <Modal isOpen={isOpen} isClose={isClose} width={900}>
-          <RegistrationForms handleClose={() => isClose()} setDisabledButton={setDisabledButton} />
+        <Modal isOpen={isOpen} isClose={isClose} >
+          <div className={styles.title_wrapper}>
+            <h3 className={styles.auth_wrapper__smallTitle}>Welcome!</h3>
+            <Button onClick={isClose} theme="plain">
+              <img src={Cancel} alt="" />
+            </Button>
+          </div>
+          <p className={styles.auth_wrapper__details}>Please Verify your ID</p>
           <form className={styles.form} onSubmit={formik.handleSubmit}>
             <div className={styles.container}>
               <div className={styles.container__innerWrapper1}>
                 <div>
                   <Select
-                    label="Identification Type"
-                    options={idTypeOption}
+                    placeholder="Select"
+                    label="Identity Type*"
+                    options={IDTypes}
                     selected={selectIdType}
                     handleChange={(e: any) => setSelectIdType(e)}
+                  // disabled={user?.user?.national_verification}
                   />
                 </div>
               </div>
@@ -98,23 +149,29 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
                 <div>
                   <Input
                     placeholder="10000000001"
-                    name="id_number"
+                    name="identity_number"
                     label="Identification Number*"
                     type="number"
-                    id="SignUp__Number"
+                    id="identity_number"
                     onChange={formik.handleChange}
-                    value={formik.values.id_number}
+                    value={formik.values.identity_number}
                   />
-                  {formik.errors.id_number ? <div className={styles.error}>{formik.errors.id_number}</div> : null}
+                  {formik.errors.identity_number ? <div className={styles.error}>{formik.errors.identity_number}</div> : null}
                 </div>
               </div>
             </div>
+            
             <div className={styles.auth_wrapper__sideBtn}>
-              <Button theme="primary" size="lg" type="submit" disabled={disabledButton === true || !formik.dirty} loading={loading}>
+              <Button theme="primary" size="lg" type="submit"
+                disabled={!formik.values.identity_number || !selectIdType?.id}
+                // disabled={disabledButton === true || !formik.dirty} 
+                loading={loading}>
                 Submit
               </Button>
             </div>
           </form>
+          {/* <RegistrationForms handleClose={() => isClose()} setDisabledButton={setDisabledButton} /> */}
+
         </Modal>
       )}
     </div>
