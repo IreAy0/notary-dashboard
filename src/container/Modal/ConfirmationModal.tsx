@@ -19,7 +19,7 @@ const ConfirmationModal = ({ action, isOpen, isClose, buttonCaption }: Props) =>
       <div className={styles.container}>
         <h3 className={styles.container__header}>Confirm Action</h3>
         <p className={styles.container__caption}>
-          Are you sure you want to {buttonCaption.toLowerCase().includes('cancel') ? 'cancel' : toggleText } this session?
+          Are you sure you want to {buttonCaption.toLowerCase().includes('cancel') ? 'cancel' : toggleText } this notary session?
         </p>
         <div className="flex flex__center pt-2">
           <Button

@@ -258,8 +258,6 @@ const SingleRequest = () => {
             )}
               </div>
   </Grid>
-
-  { request?.schedule_session?.request_type === 'Custom' && 
   <Grid item xs={16} md={11}>
   <div style={{
     border: '1px solid #003bb3',
@@ -276,8 +274,6 @@ const SingleRequest = () => {
             )}
           </div>
   </Grid>
-  }
-  
 </Grid>
            
         <div className={styles.session_container}>

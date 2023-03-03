@@ -20,7 +20,6 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
 import MediaQuery from 'helpers/useMediaQuery';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -115,21 +114,18 @@ const HomePage = () => {
 
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
 
-  useEffect(() => {
-    if (!updatedUser?.national_verification) {
-      setIsCloseModal(true);
-    }
-    if (updatedUser?.national_verification) {
-      setIsCloseModal(false);
-    }
-  }, [updatedUser?.national_verification, userProfile, setIsCloseModal]);
-
-
+  // useEffect(() => {
+  //   if (!user?.is_id_verified) {
+  //     setIsCloseModal(true);
+  //   }
+  //   if (userProfile?.is_id_verified) {
+  //     setIsCloseModal(false);
+  //   }
+  // }, [user?.is_id_verified, userProfile?.is_id_verified, setIsCloseModal]);
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
   }, [userProfile, user]);
-
 
   const fetchAllRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
@@ -183,11 +179,7 @@ const HomePage = () => {
 
   return (
     <Dashboard>
-      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please  <Link style={{
-        fontWeight: 'bold',
-        textDecoration: 'underline'
-      }} to='/settings/Personal_info'>Click here</Link> to complete your profile</Alert> : null}
-      {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
+      {/* {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />} */}
       <section>
         <div className=" pt-2">
           <Grid container spacing={2}>

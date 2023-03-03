@@ -116,10 +116,9 @@ const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
 
 
       {docUrl ? (
-        <div className={isCentered ? styles.page__center : ''} style={{ width: `${docWidth}px`, margin: 'auto' }} key={doc?.id}>
+        <div className={isCentered ? styles.page__center : ''} style={{ width: `${docWidth}px` }} key={doc?.id}>
            
-          {!doc ? <DocumentLoader /> : 
-          <div className="new">
+            {!doc ? <DocumentLoader /> : 
           <FileViewer
             fileType={fileType}
             filePath={docUrl}
@@ -127,8 +126,6 @@ const DocumentViewer = ({ doc, docWidth, type, isCentered }: Props) => {
             errorComponent={CustomErrorComponent}
             unsupportedComponent={CustomErrorComponent}
           />
-          </div>
-          
         }
         </div>
       ) : (
