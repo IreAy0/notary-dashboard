@@ -167,7 +167,10 @@ const RegistrationForms = ({ handleClose, setDisabledButton }: Props) => {
                 {formik.errors.commission_number ? <div className={styles.error}>{formik.errors.commission_number}</div> : null}
               </div>
               <div>
-                <Select label="Gender" options={genderOption} selected={selectGender} handleChange={setSelectGender} />
+                <Select label="Gender" 
+                options={genderOption} 
+                selected={selectGender} 
+                handleChange={setSelectGender} />
               </div>
             </div>
             <div className={styles.container__innerWrapper2}>

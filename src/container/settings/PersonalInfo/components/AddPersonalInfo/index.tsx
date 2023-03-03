@@ -52,12 +52,12 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
     );
   }, [dispatch]);
 
-  useEffect(() => {
-    setSelectCountry({
-      ...selectCountry,
-      id: userProfile?.state?.country_id
-    })
-  }, [userProfile, selectCountry])
+  // useEffect(() => {
+  //   setSelectCountry({
+  //     ...selectCountry,
+  //     id: userProfile?.state?.country_id
+  //   })
+  // }, [userProfile, selectCountry, dispatch])
 
 
   const handleValueLimit = (e: any) => e?.target?.value
@@ -103,7 +103,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
 
     setSelectCountry({ name: userProfile?.country?.name, id: userProfile?.state?.country_id })
     setSelectedState({ name: userProfile?.state?.name, id: userProfile?.state?.id })
-  }, [userProfile]);
+  }, [userProfile, dispatch]);
 
 
   const handleOnChange = (value: any) => {
@@ -263,7 +263,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
 
             <Select id='gender' name="gender" onChange={formik.handleChange} native value={formik.values.gender} >
               <option value="" >
-                Select a gender {selectGender.name}
+                Select a gender 
               </option>
               {genderOptions.map(gender => (
                 <option key={gender.id} value={gender.id}>{gender.name}</option>
