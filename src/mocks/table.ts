@@ -1076,12 +1076,12 @@ export const singleRequestHeaders = [
     sortable: false,
     key: 'email'
   },
-  {
-    text: 'Status',
-    alignment: 'center',
-    sortable: false,
-    key: 'edited'
-  }
+  // {
+  //   text: 'Status',
+  //   alignment: 'center',
+  //   sortable: false,
+  //   key: 'edited'
+  // }
 ];
 
 export const certificateData = {

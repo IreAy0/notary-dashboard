@@ -200,11 +200,11 @@ const SingleDetailLocker = () => {
                     </td>
                     <td className="table__row-text center">{row?.user?.phone|| 'N/A'}</td>
                     <td className="table__row-text center">{row?.user?.email || 'N/A'}</td>
-                    <td className="table__row-text center" style={{ color: '#458FFF', fontWeight: '600', cursor: 'pointer' }} aria-hidden>
+                    {/* <td className="table__row-text center" style={{ color: '#458FFF', fontWeight: '600', cursor: 'pointer' }} aria-hidden>
                       <Badge size="md" theme={badgeType(row?.status?.toString())} type="secondary">
                         {row?.status}
                       </Badge>
-                    </td>
+                    </td> */}
                   </>
                 );
               }}

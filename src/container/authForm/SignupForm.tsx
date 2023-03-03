@@ -133,27 +133,7 @@ const SignUpForm = () => {
             />
             {formik.errors.email ? <div className={styles.error}>{formik.errors.email}</div> : null}
           </div>
-          <div className={classNames(styles.phoneLabelWrapper, 'pt-1')} >
-            <p className={styles.phoneLabel}>Role*</p>
-            <Select style={{
-              width : '100%',
-              borderRadius : '4px'
-            }} id='role' name="role" onChange={formik.handleChange} native value={formik.values.role} >
-              <option value="" >
-                Select a Role
-              </option>
-              <option value="Notary" >
-                Notary Public
-              </option>
-              <option value="Notary" >
-                Commisioner for oaths
-              </option>
-              {/* {genderOptions.map(gender => (
-                <option value={gender.id}>{gender.name}</option>
-              ))} */}
-
-            </Select>          
-          </div>
+          
           
           <div className={classNames(styles.phoneLabelWrapper, 'pt-1')} >
             <p className={styles.phoneLabel}>Phone Number*</p>
