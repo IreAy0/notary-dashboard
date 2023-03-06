@@ -32,7 +32,8 @@ const SignInForm = () => {
         doSignIn(
           {
             email: values.email,
-            password: values.password
+            password: values.password,
+            entry_point: 'Notary'
           },
           () => {
             const token = localStorage.getItem('accessToken');
