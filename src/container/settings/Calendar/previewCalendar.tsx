@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import generateCurrentMonth from 'utils/generateCurrentMonth';
 // import Button from '@mui/material/Button';
+import moment from 'moment';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from 'components/Button';
@@ -143,7 +144,7 @@ const PreviewCalendar = () => {
           padding: '10px'
         }}
       >
-        {`Schedule for (${availableTimes?.data?.[0]?.date} - ${availableTimes?.data?.[availableTimes?.data?.length - 1]?.date}) `}
+        Schedule
        <Link className='fs_sm' to='/settings/Calendar?edit' >
            Edit
         </Link>
@@ -170,10 +171,8 @@ const PreviewCalendar = () => {
                         {row?.day}
                       </TableCell>
                       <TableCell style={{borderBottom:"none"}} align="left">
-                       
-                            { row.date }
-                          
-                        </TableCell>
+                       {moment(row.date).format('LL')}
+                      </TableCell>
                       <TableCell style={{borderBottom:"none"}} align="left">
                         {row?.start_time}
                       </TableCell>

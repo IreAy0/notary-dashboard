@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Metrics from 'components/MetricCard';
 import { RootState } from 're-ducks/rootReducer';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import useTypedSelector from 'hooks/useTypedSelector';
 import VerifyNotaryId from 'container/authForm/VerifyNotaryId';
@@ -116,10 +116,10 @@ const HomePage = () => {
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
 
   useEffect(() => {
-    if (!updatedUser?.national_verification) {
+    if (!userProfile?.national_verification) {
       setIsCloseModal(true);
     }
-    if (updatedUser?.national_verification) {
+    if (userProfile?.national_verification) {
       setIsCloseModal(false);
     }
   }, [updatedUser?.national_verification, userProfile, setIsCloseModal]);
@@ -183,10 +183,10 @@ const HomePage = () => {
 
   return (
     <Dashboard>
-      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please  <Link style={{
+      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please <NavLink style={{
         fontWeight: 'bold',
         textDecoration: 'underline'
-      }} to='/settings/Personal_info'>Click here</Link> to complete your profile</Alert> : null}
+      }} to='/settings/Personal_Info'>Click here</NavLink> to complete your profile</Alert> : null}
       {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
       <section>
         <div className=" pt-2">
