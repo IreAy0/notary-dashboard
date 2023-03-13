@@ -219,7 +219,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             name="first_name"
             onChange={formik.handleChange}
             value={formik.values.first_name}
-            disabled={userProfile?.national_verification}
+            // disabled={userProfile?.national_verification}
           />
           {formik.errors.first_name ? <div className={styles.error}>{formik.errors.first_name}</div> : null}
         </div>
@@ -232,7 +232,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             name="last_name"
             onChange={formik.handleChange}
             value={formik.values.last_name}
-            disabled={userProfile?.national_verification}
+            // disabled={userProfile?.national_verification}
           />
           {formik.errors.last_name ? <div className={styles.error}>{formik.errors.last_name}</div> : null}
         </div>

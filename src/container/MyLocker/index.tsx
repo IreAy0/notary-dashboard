@@ -232,7 +232,7 @@ const MyLockerTable = () => {
 
   useEffect(() => {
     if(user?.user?.access_locker_documents === false){
-      instance.get('/notary/notary-otp-locker')
+      instance.get('/document-otp-locker')
         .then(res => {
           toast.success(res?.data?.message);
         

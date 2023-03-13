@@ -43,7 +43,7 @@ const SignInForm = () => {
             setLoading(false);
           },
           (error: any) => {
-            toast.error(error.message);
+            toast.error(error);
             setLoading(false);
           }
         )

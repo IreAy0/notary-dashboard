@@ -97,7 +97,7 @@ const HomePage = () => {
   const user: User = useTypedSelector((state: RootState) => state?.auth?.signIn);
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const { requests }: any = useTypedSelector((state) => state?.request);
-  // const userProfile = useTypedSelector((state: any) => state.user);
+  const user_profile = useTypedSelector((state: any) => state.user);
 
   useEffect(() => {
     dispatch(
@@ -116,19 +116,18 @@ const HomePage = () => {
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
 
   useEffect(() => {
-    if (!userProfile?.national_verification) {
+    if (!user_profile?.national_verification) {
       setIsCloseModal(true);
-    }
-    if (userProfile?.national_verification) {
+    } else if (user_profile?.national_verification) {
       setIsCloseModal(false);
     }
-  }, [updatedUser?.national_verification, userProfile, setIsCloseModal]);
+  }, [user_profile, setIsCloseModal]);
 
 
 
   useEffect(() => {
-    setUpdatedUser({ ...user, ...userProfile });
-  }, [userProfile, user]);
+    setUpdatedUser({ ...user, ...user_profile });
+  }, [user_profile, user]);
 
 
   const fetchAllRequest = useCallback(
@@ -179,7 +178,7 @@ const HomePage = () => {
     );
   };
 
-  // console.log(requests, dashboardOverview, 'home1', userProfile, updatedUser, user)
+  // console.log(userProfile, isCloseModal)
 
   return (
     <Dashboard>
@@ -187,7 +186,7 @@ const HomePage = () => {
         fontWeight: 'bold',
         textDecoration: 'underline'
       }} to='/settings/Personal_Info'>Click here</NavLink> to complete your profile</Alert> : null}
-      {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
+      {isCloseModal  && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
       <section>
         <div className=" pt-2">
           <Grid container spacing={2}>
