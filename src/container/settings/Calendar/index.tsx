@@ -20,6 +20,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Tooltip from '@mui/material/Tooltip';
 import { Theme, useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
@@ -318,9 +319,12 @@ const Calendar = (editData) => {
                         </Select>
                       </TableCell>
                       <TableCell align="center">
-                        <Button theme='reject' size="sm" onClick={() => deleteTableRows(index)} color="error">
+                      <Tooltip title="Delete">
+                      <Button theme='reject' size="sm" onClick={() => deleteTableRows(index)} color="error">
                           <CloseIcon fontSize="medium" />
                         </Button>
+                    </Tooltip>
+                        
                       </TableCell>
                       <TableCell align="center">
                         <button onClick={() => handleDuplicateRow(row)}>Duplicate</button>
