@@ -50,20 +50,20 @@ instance.interceptors.response.use(
       return error;
     }
 
-    const originalConfig = error.config;
-    if (error.response) {
-      if (error.response.status === 401 && error.config && !originalConfig._retry) {
-        originalConfig._retry = true;
-        store.dispatch(
-          doSignOut(() => {
-            history.push('../../auth/sign-in');
-          }, /* isWithRequest */ false)
-        );
-        if (error.response.status === 500) {
-          // TODO: handle server error
-        }
-      }
-    }
+    // const originalConfig = error.config;
+    // if (error.response) {
+    //   // if (error.response.status === 401 && error.config && !originalConfig._retry) {
+    //   //   originalConfig._retry = true;
+    //   //   store.dispatch(
+    //   //     doSignOut(() => {
+    //   //       history.push('../../auth/sign-in');
+    //   //     }, /* isWithRequest */ false)
+    //   //   );
+    //   //   if (error.response.status === 500) {
+    //   //     // TODO: handle server error
+    //   //   }
+    //   }
+    // }
 
     return Promise.reject(error);
   }

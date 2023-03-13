@@ -31,7 +31,6 @@ function* doSignIn(action: any): any {
     if (res.status === 200) {
      
       localStorage.setItem('accessToken', res.data.token);
-
       saveToken(res.data.token);
       window.location.reload();
       axios.defaults.headers.Authorization = res.data.token;
@@ -41,7 +40,7 @@ function* doSignIn(action: any): any {
     }
   } catch (err: any) {
     const { cbError } = action;
-    const alert = err?.response?.data || '';
+    const alert = err?.response?.data.errors.root || 'Incorrect email or password';
     cbError(alert);
   }
 }

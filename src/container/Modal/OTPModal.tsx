@@ -81,7 +81,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
   };
 
   const resendOtp = () => {
-    instance.get('/notary/notary-otp-locker')
+    instance.get('/document-otp-locker')
       .then(res => {
         toast.success(res?.data?.message);
     
