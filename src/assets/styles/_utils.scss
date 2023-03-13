@@ -132,10 +132,15 @@
     }
   }
 }
-$borders: ('t', 'r', 'b', 'l');
+$borders: ('t', 'r', 'b', 'l', 'a');
 
 @for $i from 1 through 10 {
   @each $value in $borders {
+    @if $value == a {
+      .b#{$value}-#{$i} {
+        border: #{$i}px solid #cacaca;
+      }
+    }
     @if $value == t {
       .b#{$value}-#{$i} {
         border-top: #{$i}px solid #cacaca;
@@ -154,6 +159,38 @@ $borders: ('t', 'r', 'b', 'l');
     @if $value == l {
       .b#{$value}-#{$i} {
         border-left: #{$i}px solid #cacaca;
+      }
+    }
+  }
+}
+
+$radius: ('t', 'r', 'b', 'l', 'a');
+
+@for $i from 1 through 20 {
+  @each $value in $radius {
+    @if $value == a {
+      .rounded-#{$value}-#{$i} {
+        border-radius: #{$i}px ;
+      }
+    }
+    @if $value == t {
+      .rounded-#{$value}-#{$i} {
+        border-radius: #{$i}px ;
+      }
+    }
+    @if $value == r {
+      .rounded-#{$value}-#{$i} {
+        border-radius: #{$i}px ;
+      }
+    }
+    @if $value == b {
+      .rounded-#{$value}-#{$i} {
+        border-radius: #{$i}px ;
+      }
+    }
+    @if $value == l {
+      .rounded-#{$value}-#{$i} {
+        border-radius: #{$i}px ;
       }
     }
   }
