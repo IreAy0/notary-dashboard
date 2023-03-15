@@ -391,7 +391,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
       </div>
       
         <div className="mt-1" />
-        {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+        {showAgreement && <SignaturePolicy policy='By clicking adopt, I agree that this seal is as valid as my traditional seal to the extent allowed by law' acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
 
         <div className="bb-1 mb-2" />
         <div>
