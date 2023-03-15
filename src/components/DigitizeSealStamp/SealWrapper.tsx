@@ -531,8 +531,8 @@ const space = Math.PI / 16;
         theme="primary"
         width={161}
         onClick={() => onSave()}
-        // loading={loading}
-        loading={isSaving}
+        loading={loading}
+        // loading={isSaving}
         // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
         disabled={isDisabled || !uploadedSeal}
       >

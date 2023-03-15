@@ -1,18 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import Tabs from 'components/Tabs';
 import { useDispatch } from 'react-redux';
-import TypeSignature from 'components/TypeSignature';
-import DrawSignature from 'components/DrawSignature';
-import InitialSignature from 'components/InitialSignature';
-import SealWrapper from 'components/DigitizeSealStamp/SealWrapper';
 import StampWrapper from 'components/DigitizeSealStamp/StampWrapper';
 import { editUserSignature, saveUserSignature, fetchUserSignature } from 're-ducks/user/user.action';
 import SignatureTabs from 'components/Tabs/signatureTab';
-// import toast from 'react-hot-toast';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-import toast from 'react-hot-toast';
-import DigitalSeal from 'components/DigitizeSealStamp/DigitalSeal';
 import Seals from '../Seals';
 
 
@@ -30,7 +21,6 @@ const SealStamp: FC<Props> = ({ user, prevStep }: Props) => {
   const [fetchingFiles, setFetchingFiles] = useState<boolean>(true);
 
   const tabsContent = [
-    
     {
       label: 'Seal'
     },
@@ -42,7 +32,7 @@ const SealStamp: FC<Props> = ({ user, prevStep }: Props) => {
 
   const [activeTabContent, setActiveTabContent] = useState(tabsContent[0]);
 
-  const saveSignature = ({ type, category, file, done, fail, nextTab }: any) => {
+  const saveSignature = ({ type, category, file, done, fail }: any) => {
     setSaving(true);
     const queries = { type, category, file };
     if (!currentSign?.file_url) {
@@ -54,7 +44,7 @@ const SealStamp: FC<Props> = ({ user, prevStep }: Props) => {
             setSaving(false);
             setCurrentSign(data);
             done();
-            setActiveTabContent(nextTab);
+            // setActiveTabContent(nextTab);
           },
           () => {
   
@@ -121,20 +111,8 @@ const SealStamp: FC<Props> = ({ user, prevStep }: Props) => {
   return (
     <div>
       <SignatureTabs type="horizontal" tabs={tabsContent} active={activeTabContent} setActive={(tab) => setActiveTabContent(tab)} />
-      {/* {activeTabContent.label === 'Initials' && (
-        <InitialSignature
-          onSave={saveSignature}
-          fileURL={currentSign}
-          isSaving={saving}
-          fetching={fetchingFiles}
-          user={user.user}
-        />
-      )} */}
       {activeTabContent.label === 'Seal' && <Seals prevStep={prevStep} user={user}/>}
-      {/* {activeTabContent.label === 'Traditional Seal' && <SealWrapper prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} */}
-      {/* {activeTabContent.label === 'Digital Seal' && <DigitalSeal prevStep={prevStep} fileURL={currentSign} fetching={fetchingFiles} Save={saveSignature} isSaving={saving} showAgreement/>} */}
-
-      {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} isSaving={saving} showAgreement/>}
+      {activeTabContent.label === 'Stamp' && <StampWrapper prevStep={prevStep} Save={saveSignature} user={user} isSaving={saving} showAgreement/>}
     </div>
   );
 };
