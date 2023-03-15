@@ -215,7 +215,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
           <div className="rounded-a-8 ba-1 flex flex__center flex__item-center"
             style={{width:"100px",height:"100px"}}
             >
-        {userProfile?.image.includes('user') ? <img  width="100" src={userProfile?.image} alt={userProfile?.first_name}/> : <PersonIcon  sx={{ fontSize: 40 }}/> }
+        {userProfile?.image.includes('user') ? <img  width="100" src={userProfile?.image} alt={userProfile?.first_name}/> : <PersonIcon color="primary" sx={{ fontSize: '3rem' }}/> }
         </div>
         <div>
           <h3   className='text--600 fs_xl text--capitalize'>{userProfile?.first_name} {userProfile?.last_name}</h3>

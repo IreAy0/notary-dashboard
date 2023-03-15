@@ -199,7 +199,7 @@ const InitialsSignature: FC<TabsProps> = ({
           {/* <img src={fileURL} alt="signature file"  /> */}
       </div>
     </div>
-       <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />
+       {/* <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} /> */}
 
       <div className="bb-1 mb-2" />
       <Button onClick={prevStep} type="button" theme="grey" variant="outline" style={{borderRadius: '50%'}} className='mr-2'>
