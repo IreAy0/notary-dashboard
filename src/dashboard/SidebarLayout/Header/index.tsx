@@ -262,23 +262,22 @@ function Header() {
       token: getToken()
     };
     socket.connect();
-    socket.on("connected", (data) => {console.log('socket connected')});
+    socket.on("connected", (data) => {
+      // eslint-disable-next-line no-console
+      console.log('socket connected')
+    });
     socket.on("NOTARY_NEW_REQUEST", (data) => {
       const request = JSON.parse(data)
       if(request.id === userProfile.id){
         toast.success('You have a new request', {
           position: "top-right",
           duration: 10000
-          // style: {
-          //   background: '#23C552',
-          //   color: '#fff',
-          //   border: 'none !important' ,
-          //   padding: '16px'
-          // }
         })
         fetchRequest()
       }
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
