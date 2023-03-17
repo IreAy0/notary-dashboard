@@ -86,7 +86,6 @@ const ShareDocumentModal = ({ isOpen, isClose, id }: any) => {
        
         <p className={styles.otpModalContainer__text}>
           please enter the email you want to share this document with.
-          {id}
         </p>
         <form>
           <Input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
