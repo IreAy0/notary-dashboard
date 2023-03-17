@@ -21,7 +21,6 @@ import Avatar from '../Avatar';
 import { ReactComponent as Logo } from '../../assets/icons/tonote-logo-blue.svg';
 import { ReactComponent as Logout } from '../../assets/icons/logout.svg';
 // import { ReactComponent as HideMenuIcon } from '../../assets/icons/hideMenuIcon.svg';
-
 import { ReactComponent as Tick } from '../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../assets/icons/alertErrorIcon.svg';
 import { ReactComponent as Setting } from '../../assets/icons/navSettings.svg';
@@ -53,6 +52,9 @@ const Header = () => {
   const handleSignout = () => {
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
+
+
+
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);

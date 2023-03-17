@@ -120,7 +120,7 @@ export default function Request() {
   const [activeTabContent, setActiveTabContent] = useState(tabs[0]);
 
   const fetchRequest = useCallback(
-    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
       const params = {
         status: status === 'all' ? '' : status,
         page: nextPage === 0 ? 1 : nextPage,
@@ -403,7 +403,7 @@ export default function Request() {
             )}
 
             <div className="pt-2">
-              {!loading && requests?.data?.length > 10 && (
+              {!loading && requests?.data?.length >= 10 && (
                 <Pagination
                   currentPage={requests?.meta?.current_page}
                   total={requests?.meta?.total}
