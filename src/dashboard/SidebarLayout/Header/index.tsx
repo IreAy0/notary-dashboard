@@ -1,9 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { doSignOut } from 're-ducks/auth';
 // import { Menu } from '@headlessui/react';
 import { isAuthenticated } from 'utils';
+import { getToken } from 'utils/getToken';
+import socket from 'utils/socket'
+import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import { DateRangePicker } from 'react-date-range';
 import moment from 'moment';
 import FormGroup from '@mui/material/FormGroup';
@@ -55,40 +58,6 @@ const HeaderWrapper = styled(Box)(
 `
 );
 
-
-
-const Android12Switch = styled(Switch)(({ theme }) => ({
-  padding: 8,
-  '& .MuiSwitch-track': {
-    borderRadius: 22 / 2,
-    '&:before, &:after': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: 16,
-      height: 16
-    },
-    '&:before': {
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        theme.palette.getContrastText(theme.palette.primary.main)
-      )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
-      left: 12
-    },
-    '&:after': {
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        theme.palette.getContrastText(theme.palette.primary.main)
-      )}" d="M19,13H5V11H19V13Z" /></svg>')`,
-      right: 12
-    }
-  },
-  '& .MuiSwitch-thumb': {
-    boxShadow: 'none',
-    width: 16,
-    height: 16,
-    margin: 2
-  }
-}));
 
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -260,6 +229,57 @@ function Header() {
   const handleSignout = () => {
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
+
+  const fetchRequest = useCallback(
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+      const params = {
+        status: status === 'all' ? '' : status,
+        page: nextPage === 0 ? 1 : nextPage,
+        per_page: itemsPerPage
+        // search: searchValue.toLowerCase()
+      };
+      // setLoading(true);
+      // setDataPerPage(itemsPerPage);
+      dispatch(
+        getAllRequestAction(
+          { params },
+          () => {
+            // setLoading(false);
+          },
+          (error) => {
+            toast.error(error);
+            // setLoading(false);
+          }
+        )
+      );
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    socket.auth = {
+      username:`${userProfile.first_name}-${userProfile.last_name}`,
+      token: getToken()
+    };
+    socket.connect();
+    socket.on("connected", (data) => {
+      // eslint-disable-next-line no-console
+      console.log('socket connected')
+    });
+    socket.on("NOTARY_NEW_REQUEST", (data) => {
+      const request = JSON.parse(data)
+      if(request.id === userProfile.id){
+        toast.success('You have a new request', {
+          position: "top-right",
+          duration: 10000
+        })
+        fetchRequest()
+      }
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
