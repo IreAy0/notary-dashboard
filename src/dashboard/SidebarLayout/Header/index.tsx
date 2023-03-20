@@ -38,7 +38,7 @@ import toast from 'react-hot-toast';
 import HeaderUserbox from './Userbox';
 import styles from '../../../components/Header/Header.module.scss';
 import { SidebarContext } from '../../../contexts/SidebarContext';
-
+import mySound from '../../../assets/sounds/notification.mp3'
 // background-color: ${alpha(theme.header.background, 0.95)};
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -57,8 +57,6 @@ const HeaderWrapper = styled(Box)(
         }
 `
 );
-
-
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
@@ -109,9 +107,6 @@ const IOSSwitch = styled((props: SwitchProps) => (
     })
   }
 }));
-
-
-
 const ListWrapper = styled(Box)(
   ({ theme }) => `
         .MuiTouchRipple-root {
@@ -255,6 +250,10 @@ function Header() {
     },
     [dispatch]
   );
+  const playSound = () => {
+    const audio = new Audio(mySound);
+    audio.play();
+  }
 
   useEffect(() => {
     socket.auth = {
@@ -262,16 +261,24 @@ function Header() {
       token: getToken()
     };
     socket.connect();
-    socket.on("connected", (data) => {
+    socket.on("connected", ( ) => {
       // eslint-disable-next-line no-console
       console.log('socket connected')
     });
+
     socket.on("NOTARY_NEW_REQUEST", (data) => {
       const request = JSON.parse(data)
       if(request.id === userProfile.id){
+        playSound()
         toast.success('You have a new request', {
           position: "top-right",
-          duration: 10000
+          duration: 15000,
+          style:{
+            padding: '1.5rem',
+            fontSize: '1.2rem',
+            color: '#63d246',
+            fontWeight:'bolder'
+          }
         })
         fetchRequest()
       }
@@ -438,7 +445,7 @@ function Header() {
       </ListWrapper>
       </Stack>
       <Box display="flex" alignItems="center">
-      <div>{headerFilter()}</div>
+      <div >{headerFilter()}</div>
       {/* {showRange && (
                 <div style={{ transform: 'scale(0.88)', position: 'absolute', top: '4rem', right: '1rem' }}>
                   <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
@@ -456,8 +463,6 @@ function Header() {
       inputProps={{ 'aria-label': 'controlled' }} />
         <Typography>Online</Typography>
       </Stack>
-      
-     
     </FormGroup>
         <HeaderUserbox userProfile={updatedUser}/>
         

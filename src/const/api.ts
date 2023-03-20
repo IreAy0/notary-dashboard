@@ -4,10 +4,10 @@ export default {
   // /api/v1/user/change/password
   CHANGE_PASSWORD: 'user/change/password',
   SIGNOUT: 'auth/logout',
-  RESET_PASSWORD: 'notary/auth/reset-password',
+  RESET_PASSWORD: 'user/password/reset',
   SET_PASSWORD: 'notary/auth/set-password',
   RE_SEND_EMAIL: 'notary/auth/resend-verify-email',
-  FORGOT_PASS_SEND_EMAIL: 'notary/auth/forgot-password',
+  FORGOT_PASS_SEND_EMAIL: 'user/password/email',
   FORGOT_PASS_SET_NEW_PASS: 'auth/reset-password',
   REFRESH_TOKEN: 'notary/auth/refresh-token',
 
