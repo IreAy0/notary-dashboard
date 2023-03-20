@@ -1,30 +1,19 @@
 import React, { ReactNode, FC, HTMLAttributes, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory, useParams} from 'react-router-dom';
 import Sidebar from 'components/SideBar';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import { ReactComponent as WarningIcon } from 'assets/icons/warningAlert.svg';
+import { useIdleTimer } from 'react-idle-timer'
 import useTypedSelector from 'hooks/useTypedSelector';
 import Header from 'components/Header';
-
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-// import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import styles from './layouts.module.scss';
+
+
 
 interface Props extends HTMLAttributes<Element> {
   children: ReactNode;
@@ -83,6 +72,8 @@ const mdTheme = createTheme();
 
 const Layout: FC<Props> = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch()
+  const history = useHistory();
   const sidebar = useTypedSelector((state) => state.sidebar);
   const user = useTypedSelector((state: any) => state?.user);
   const userProfile = useTypedSelector((state: any) => state.auth.signIn);
@@ -100,6 +91,8 @@ const Layout: FC<Props> = ({ children }: { children: ReactNode }) => {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+ 
+ 
 
   return (
     <main className={classNames(styles.main__layout, sidebar.minimizeSidebar && styles.small)}>
@@ -109,9 +102,6 @@ const Layout: FC<Props> = ({ children }: { children: ReactNode }) => {
         <div className={styles.main__content}>{children}</div>
       </section>
     </main>
-   
-
-
   );
 };
 
