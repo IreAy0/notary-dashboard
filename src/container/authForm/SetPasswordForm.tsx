@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
-import TonoteLogo from 'assets/icons/blue-tonote-logo.svg';
+import TonoteLogo from 'assets/img/LSJ_logo.png';
 import TonoteLogo1 from 'assets/img/background-top-stamp.svg';
 import { useFormik } from 'formik';
 import { Input } from 'components/TextInput/TextInput';

@@ -10,13 +10,14 @@ import { store } from '../index';
 // const token = localStorage.getItem('accessToken');
 
 
+const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_STAGING}` : `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_DEV}`
 
 const instance = axios.create({
   // config.baseURL = process.env.VUE_APP_API_BASE_URL;
   // config.headers['Authorization'] = getToken() && `Bearer ${getToken()}`;
   // config.headers['Content-Type'] = 'application/json';
   // config.headers['Accept'] = 'application/json';
-  baseURL: `${process.env.REACT_APP_NOTARY_BACKEND_API_URL}/v1/`,
+  baseURL: `${env_variable}/v1/`,
   timeout: 0,
   headers: {
     'Content-Type': 'application/json',

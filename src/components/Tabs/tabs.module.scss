@@ -9,8 +9,8 @@
   border-bottom: 1px solid #cacaca;
   width: 100%;
   overflow: auto;
-  &.seal{
-    border-bottom: 0px ;
+  &.seal {
+    border-bottom: 0px;
     margin-top: 20px;
   }
   &.vertical {
@@ -23,7 +23,7 @@
       &__item {
         margin: 0 1rem;
         max-width: 220px;
-        
+
         button {
           text-decoration: underline;
           text-align: left;
@@ -34,7 +34,7 @@
             text-decoration: none;
             font-weight: 500;
             text-shadow: none;
-            color: #003bb3;
+            color: #766458;
           }
         }
       }
@@ -76,10 +76,10 @@
 
     &.active {
       color: #363740;
-      border-color: #003bb3;
-      
+      border-color: #766458;
+
       .tabs__id {
-        border-color: #003bb3;
+        border-color: #766458;
       }
       button {
         text-shadow: 0.4px 0 0 currentColor;
@@ -94,9 +94,9 @@
       white-space: normal;
       display: flex;
       align-items: center;
-      color: #7B7171;  
+      color: #7b7171;
       font-size: 15px;
-      }
+    }
 
     &-disabled {
       cursor: default;
@@ -126,31 +126,30 @@
         height: 60px;
         width: 60px;
         // flex-direction: column;
-        }
+      }
     }
   }
 
-  &__label{
+  &__label {
     display: inline-flex;
     align-items: center;
     margin-right: 0.5rem;
     padding: 24px;
-    margin-left:1rem;
+    margin-left: 1rem;
     @include query('desktop') {
       padding: 11px;
       display: flex;
       flex-direction: column;
       font-size: 10px;
-      }
+    }
     &.active {
       color: #363740;
-      border: 2px solid #003BB3;
+      border: 2px solid #766458;
       box-shadow: 0px 5px 40px rgba(34, 34, 34, 0.1);
       border-radius: 8px;
 
-      
       .tabs__id {
-        border-color: #003bb3;
+        border-color: #766458;
       }
       button {
         text-shadow: 0.4px 0 0 currentColor;

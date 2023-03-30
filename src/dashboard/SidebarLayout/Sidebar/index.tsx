@@ -12,8 +12,9 @@ import {Box,
   Tooltip} from '@mui/material';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import logo from 'assets/img/LSJ_logo.png';
 import SidebarMenu from './SidebarMenu';
-import { ReactComponent as Logo } from '../../../assets/icons/sidebarLogo.svg';
+// assets/img/cfo_seal.png
 import { SidebarContext } from '../../../contexts/SidebarContext';
 import styles from '../../../components/SideBar/SideBar.module.scss'
 
@@ -56,12 +57,12 @@ function Sidebar() {
        <Box mt={3}>
             <Box
               mx={2}
-              sx={{
-                width: 52
-              }}
+              
             >
-             <Link to="/" >
-        <Logo />
+          <Link to="/" >
+          {/* src/assets/img/cfo_logo.png */}
+          {/* /Users/mac/Documents/notary-staging/src/assets/img/cfo_logo.png */}
+            <img src={logo} alt="logo" />
          </Link>
             </Box>
           </Box>
@@ -99,12 +100,10 @@ function Sidebar() {
             <Box mt={3}>
               <Box
                 mx={2}
-                sx={{
-                  width: 52
-                }}
+                
               >
                 <Link to="/" >
-        <Logo />
+        <img src={logo} alt="logo"/>
          </Link>
               </Box>
             </Box>

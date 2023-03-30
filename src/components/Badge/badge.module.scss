@@ -25,7 +25,7 @@
     background: #458fff;
   }
   &.payment {
-    background: #003BB3;
+    background: #766458;
   }
   &.warning {
     background: #ff9900;
@@ -38,7 +38,7 @@
   }
   &.verified {
     background: #e8ffe8;
-    color: #24CA97;
+    color: #24ca97;
   }
   &.unverified {
     background: #dfe0eb;
@@ -64,11 +64,11 @@
     }
     &.success {
       color: #e8ffe8;
-      background:  #24ca97;
+      background: #24ca97;
     }
     &.error {
       background: #f7b5b7;
-      color: #EE0004;
+      color: #ee0004;
     }
     &.pending {
       background: rgba(247, 166, 46, 0.5);
@@ -77,10 +77,10 @@
     &.payNow {
       background: #dfe0eb;
       color: #997ac2;
-    &.payment {
-      color: #003BB3;
-      background: #B3C4E8;
+      &.payment {
+        color: #766458;
+        background: #b3c4e8;
+      }
     }
   }
-}
 }

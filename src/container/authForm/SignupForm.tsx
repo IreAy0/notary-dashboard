@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import history from 'utils/history';
 import classNames from 'classnames';
-import TonoteLogo from 'assets/icons/blue-tonote-logo.svg';
+import TonoteLogo from 'assets/img/LSJ_logo.png';
 import PhoneNumInput from 'components/PhoneNumInput/Phone';
 import { Input } from 'components/TextInput/TextInput';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -55,7 +55,7 @@ const SignUpForm = () => {
             email: values.email,
             phone: phoneNum.toString(),
             password: values.password,
-            role:'Notary'
+            role:'CFO'
           },
           () => {
             // toast.success('Sign Up Successfully.');

@@ -4,7 +4,7 @@ import '@mui/lab/themeAugmentation';
 import '../../assets/styles/_variables.scss';
 
 const themeColors = {
-  primary: '#003bb3',
+  primary: '#766458',
   secondary: '#6E759F',
   success: '#57CA22',
   warning: '#FFA319',
@@ -12,7 +12,7 @@ const themeColors = {
   info: '#33C2FF',
   black: '#223354',
   white: '#ffffff',
-  primaryAlt: '#000C57'
+  primaryAlt: '#766458'
 };
 
 const colors = {
@@ -35,20 +35,14 @@ const colors = {
     black2: 'linear-gradient(60deg, #29323c 0%, #485563 100%)'
   },
   shadows: {
-    success:
-      '0px 1px 4px rgba(68, 214, 0, 0.25), 0px 3px 12px 2px rgba(68, 214, 0, 0.35)',
-    error:
-      '0px 1px 4px rgba(255, 25, 67, 0.25), 0px 3px 12px 2px rgba(255, 25, 67, 0.35)',
+    success: '0px 1px 4px rgba(68, 214, 0, 0.25), 0px 3px 12px 2px rgba(68, 214, 0, 0.35)',
+    error: '0px 1px 4px rgba(255, 25, 67, 0.25), 0px 3px 12px 2px rgba(255, 25, 67, 0.35)',
     info: '0px 1px 4px rgba(51, 194, 255, 0.25), 0px 3px 12px 2px rgba(51, 194, 255, 0.35)',
-    primary:
-      '0px 1px 4px rgba(85, 105, 255, 0.25), 0px 3px 12px 2px rgba(85, 105, 255, 0.35)',
-    warning:
-      '0px 1px 4px rgba(255, 163, 25, 0.25), 0px 3px 12px 2px rgba(255, 163, 25, 0.35)',
+    primary: '0px 1px 4px rgba(85, 105, 255, 0.25), 0px 3px 12px 2px rgba(85, 105, 255, 0.35)',
+    warning: '0px 1px 4px rgba(255, 163, 25, 0.25), 0px 3px 12px 2px rgba(255, 163, 25, 0.35)',
     card: '0px 9px 16px  rgba(159, 162, 191, .18), 0px 2px 2px rgba(159, 162, 191, 0.32)',
-    cardSm:
-      '0px 2px 3px rgba(159, 162, 191, .18), 0px 1px 1px rgba(159, 162, 191, 0.32)',
-    cardLg:
-      '0 5rem 14rem 0 rgb(255 255 255 / 30%), 0 0.8rem 2.3rem rgb(0 0 0 / 60%), 0 0.2rem 0.3rem rgb(0 0 0 / 45%)'
+    cardSm: '0px 2px 3px rgba(159, 162, 191, .18), 0px 1px 1px rgba(159, 162, 191, 0.32)',
+    cardLg: '0 5rem 14rem 0 rgb(255 255 255 / 30%), 0 0.8rem 2.3rem rgb(0 0 0 / 60%), 0 0.2rem 0.3rem rgb(0 0 0 / 45%)'
   },
   layout: {
     general: {
@@ -240,8 +234,7 @@ export const PureLightTheme = createTheme({
     menuItemIconColor: colors.layout.sidebar.menuItemIconColor,
     menuItemIconColorActive: colors.layout.sidebar.menuItemIconColorActive,
     menuItemHeadingColor: colors.layout.sidebar.menuItemHeadingColor,
-    boxShadow:
-      '2px 0 3px rgba(159, 162, 191, .18), 1px 0 1px rgba(159, 162, 191, 0.32)',
+    boxShadow: '2px 0 3px rgba(159, 162, 191, .18), 1px 0 1px rgba(159, 162, 191, 0.32)',
     width: '290px'
   },
   header: {
@@ -390,11 +383,7 @@ export const PureLightTheme = createTheme({
           borderLeftColor: colors.primary.lighter
         },
         '#nprogress .peg': {
-          boxShadow:
-            `0 0 15px ${ 
-              colors.primary.lighter 
-            }, 0 0 8px${ 
-              colors.primary.light}`
+          boxShadow: `0 0 15px ${colors.primary.lighter}, 0 0 8px${colors.primary.light}`
         },
         ':root': {
           '--swiper-theme-color': colors.primary.main
@@ -452,12 +441,11 @@ export const PureLightTheme = createTheme({
     },
     MuiListSubheader: {
       styleOverrides: {
-        root:{
+        root: {
           backgroundColor: '#EDF3FE',
           fontSize: 20,
           color: '#505050',
           fontweight: 600
-          
         },
         colorPrimary: {
           fontWeight: 'bold',
@@ -597,7 +585,7 @@ export const PureLightTheme = createTheme({
         containedSecondary: {
           backgroundColor: colors.secondary.main,
           color: colors.alpha.white[100],
-          border: `1px solid ${  colors.alpha.black[30]}`
+          border: `1px solid ${colors.alpha.black[30]}`
         },
         outlinedSecondary: {
           backgroundColor: colors.alpha.white[100],
@@ -816,8 +804,8 @@ export const PureLightTheme = createTheme({
           height: 38,
           minHeight: 38,
           borderRadius: 6,
-          border: `1px solid ${  colors.primary.dark}`,
-          boxShadow: `0px 2px 10px ${  colors.primary.light}`
+          border: `1px solid ${colors.primary.dark}`,
+          boxShadow: `0px 2px 10px ${colors.primary.light}`
         },
         scrollableX: {
           overflow: 'visible !important'
@@ -913,10 +901,9 @@ export const PureLightTheme = createTheme({
           margin: 1
         },
         root: {
-          '.MuiAutocomplete-inputRoot.MuiOutlinedInput-root .MuiAutocomplete-endAdornment':
-            {
-              right: 14
-            }
+          '.MuiAutocomplete-inputRoot.MuiOutlinedInput-root .MuiAutocomplete-endAdornment': {
+            right: 14
+          }
         },
         clearIndicator: {
           background: colors.error.lighter,
@@ -1014,11 +1001,11 @@ export const PureLightTheme = createTheme({
         },
         outlined: {
           backgroundColor: colors.alpha.white[100],
-          boxShadow: `0 0 0 6px ${  colors.alpha.white[100]}`
+          boxShadow: `0 0 0 6px ${colors.alpha.white[100]}`
         },
         outlinedPrimary: {
           backgroundColor: colors.alpha.white[100],
-          boxShadow: `0 0 0 6px ${  colors.alpha.white[100]}`
+          boxShadow: `0 0 0 6px ${colors.alpha.white[100]}`
         }
       }
     },
@@ -1071,8 +1058,7 @@ export const PureLightTheme = createTheme({
           '& .MuiButtonBase-root': {
             position: 'absolute',
             padding: 6,
-            transition:
-              'left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
+            transition: 'left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
           },
           '& .MuiIconButton-root': {
             borderRadius: 100
@@ -1082,17 +1068,13 @@ export const PureLightTheme = createTheme({
           }
         },
         thumb: {
-          border: `1px solid ${  colors.alpha.black[30]}`,
-          boxShadow:
-            `0px 9px 14px ${ 
-              colors.alpha.black[10] 
-            }, 0px 2px 2px ${ 
-              colors.alpha.black[10]}`
+          border: `1px solid ${colors.alpha.black[30]}`,
+          boxShadow: `0px 9px 14px ${colors.alpha.black[10]}, 0px 2px 2px ${colors.alpha.black[10]}`
         },
         track: {
           backgroundColor: colors.alpha.black[5],
-          border: `1px solid ${  colors.alpha.black[10]}`,
-          boxShadow: `inset 0px 1px 1px ${  colors.alpha.black[10]}`,
+          border: `1px solid ${colors.alpha.black[10]}`,
+          boxShadow: `inset 0px 1px 1px ${colors.alpha.black[10]}`,
           opacity: 1
         },
         colorPrimary: {

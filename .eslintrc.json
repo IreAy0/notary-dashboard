@@ -62,6 +62,7 @@
     "no-empty-pattern": ["warn"],
     "react/jsx-indent": "off",
     "indent": "off",
+    "no-nested-ternary": "off",
     "@typescript-eslint/naming-convention": [
       "warn",
       {

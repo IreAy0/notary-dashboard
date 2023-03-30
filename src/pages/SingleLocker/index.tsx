@@ -19,13 +19,13 @@ import Dashboard from '../../dashboard/SidebarLayout/index';
 export interface Props {
   data: any;
 }
-export interface  RandomData {
+export interface RandomData {
   email: string;
   phone: string;
   name: string;
   is_signer: boolean;
   is_request_owner: boolean;
-  status: any
+  status: any;
 }
 
 const badgeType = (status: string) => {
@@ -38,7 +38,6 @@ const badgeType = (status: string) => {
       return 'unverified';
   }
 };
-
 
 const SingleDetailLocker = () => {
   const [showOTPModal, setOTPModal] = useState(false);
@@ -56,62 +55,59 @@ const SingleDetailLocker = () => {
     total_fee: '12000',
     status: 'verified',
 
-    video_url: 
-      'https://www.youtube.com/watch?v=7sDY4m8KNLc',
-    document_url:
-      'https://www.youtube.com/watch?v=7sDY4m8KNLc',
-    participants : [
+    video_url: 'https://www.youtube.com/watch?v=7sDY4m8KNLc',
+    document_url: 'https://www.youtube.com/watch?v=7sDY4m8KNLc',
+    participants: [
       {
-        email: "ridiculus.mus.proin@aol.com",
-        phone: "1-663-426-9766",
-        name: "Lionel Mcclure",
+        email: 'ridiculus.mus.proin@aol.com',
+        phone: '1-663-426-9766',
+        name: 'Lionel Mcclure',
         is_signer: true,
         is_request_owner: false,
-        status: "verified"
+        status: 'verified'
       },
       {
-        email: "elementum@icloud.edu",
-        phone: "(578) 338-6437",
-        name: "Brenden Thornton",
+        email: 'elementum@icloud.edu',
+        phone: '(578) 338-6437',
+        name: 'Brenden Thornton',
         is_signer: true,
         is_request_owner: false,
-        status: "unverified"
+        status: 'unverified'
       },
       {
-        email: "aliquam.eros@hotmail.net",
-        phone: "1-190-675-2117",
-        name: "Lacota Oneal",
+        email: 'aliquam.eros@hotmail.net',
+        phone: '1-190-675-2117',
+        name: 'Lacota Oneal',
         is_signer: false,
         is_request_owner: true,
-        status: "verified"
+        status: 'verified'
       },
       {
-        email: "dictum.eu.placerat@protonmail.org",
-        phone: "(651) 736-3437",
-        name: "Venus Roberts",
+        email: 'dictum.eu.placerat@protonmail.org',
+        phone: '(651) 736-3437',
+        name: 'Venus Roberts',
         is_signer: false,
         is_request_owner: false,
-        status: "verified"
+        status: 'verified'
       },
       {
-        email: "sociis.natoque@protonmail.ca",
-        phone: "1-501-695-8494",
-        name: "Autumn Daniel",
+        email: 'sociis.natoque@protonmail.ca',
+        phone: '1-501-695-8494',
+        name: 'Autumn Daniel',
         is_signer: true,
         is_request_owner: true,
-        status: "unverified"
+        status: 'unverified'
       },
       {
-        email: "in.at@protonmail.ca",
-        phone: "(124) 356-5864",
-        name: "Grady Mueller",
+        email: 'in.at@protonmail.ca',
+        phone: '(124) 356-5864',
+        name: 'Grady Mueller',
         is_signer: true,
         is_request_owner: true,
-        status: "unverified"
+        status: 'unverified'
       }
     ]
-
-  }
+  };
   const fetchRequestDetails = useCallback(() => {
     dispatch(
       getLockerDetails(
@@ -161,11 +157,11 @@ const SingleDetailLocker = () => {
                     {mockRequest?.document_name}
                   </button> */}
                   <Link
-                  className={classNames(styles.session_container__link, 'text--blue text--600')}
-                  to={`/locker/${locker?.id}/document`}
-                >
-                   {locker?.title}
-                </Link>
+                    className={classNames(styles.session_container__link, 'text--blue text--600')}
+                    to={`/locker/${locker?.id}/document`}
+                  >
+                    {locker?.title}
+                  </Link>
                 </span>
               </div>
             )}
@@ -193,12 +189,12 @@ const SingleDetailLocker = () => {
                 return (
                   <>
                     <td className="table__row-text center">
-                      <span className="text--500" style={{ color: '#003BB3', textDecoration: 'underline', fontWeight: 600 }}>
+                      <span className="text--500" style={{ color: '#766458', textDecoration: 'underline', fontWeight: 600 }}>
                         {`${row?.user?.first_name} ${row?.user?.last_name}` || 'N/A'}
                       </span>
                       <span>({row?.ownerDocument && row.role === 'Signer' ? 'Owner' : row.role === 'Notary' ? 'Notary' : isSigner})</span>
                     </td>
-                    <td className="table__row-text center">{row?.user?.phone|| 'N/A'}</td>
+                    <td className="table__row-text center">{row?.user?.phone || 'N/A'}</td>
                     <td className="table__row-text center">{row?.user?.email || 'N/A'}</td>
                     <td className="table__row-text center" style={{ color: '#458FFF', fontWeight: '600', cursor: 'pointer' }} aria-hidden>
                       <Badge size="md" theme={badgeType(row?.status?.toString())} type="secondary">
@@ -217,4 +213,3 @@ const SingleDetailLocker = () => {
   );
 };
 export default SingleDetailLocker;
-

@@ -22,9 +22,11 @@ const FilterItem = ({ status, setStatus, onRangeSelect, dateRange, refreshDoc }:
     key: 'selection'
   });
 
-  const options = [{name: "Pending", id: 1},
-    { name: "Scheduled", id: 2},
-    { name: "Rejected", id: 3}]
+  const options = [
+    { name: 'Pending', id: 1 },
+    { name: 'Scheduled', id: 2 },
+    { name: 'Rejected', id: 3 }
+  ];
 
   const formatDate = (value: Date) => {
     const [month, date, year] = value.toLocaleDateString().split('/');
@@ -44,7 +46,6 @@ const FilterItem = ({ status, setStatus, onRangeSelect, dateRange, refreshDoc }:
     });
     setSelectToggled((prevState) => !prevState);
   };
-
 
   return (
     <div className={styles.filterItemWrapper}>
@@ -70,7 +71,7 @@ const FilterItem = ({ status, setStatus, onRangeSelect, dateRange, refreshDoc }:
           optionSelected={selectToggled}
         >
           <div style={{ transform: 'scale(0.88)', transformOrigin: 'top left' }}>
-            <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
+            <DateRangePicker rangeColors={['#766458']} ranges={[selectedDate]} onChange={handleDate} />
           </div>
           <Button theme="primary" className={SelectBtnStyles['custom__dropdown-btn']} onClick={selectDate}>
             <WhiteTick />

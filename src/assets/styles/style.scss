@@ -347,7 +347,7 @@ ul.hint {
 }
 
 .link {
-  color: #003bb3;
+  color: #766458;
   text-decoration: none;
   font-weight: 500;
   font-size: 0.875rem;
@@ -375,7 +375,7 @@ ul.hint {
     border-radius: 4px;
     position: relative;
     overflow: hidden;
-   
+
     &-wrapper {
       position: relative;
       display: flex;
@@ -428,7 +428,8 @@ ul.hint {
   }
 
   &__text {
-    &-box, &-area {
+    &-box,
+    &-area {
       width: 100%;
       height: 80%;
       font-size: 55px;
@@ -449,7 +450,7 @@ ul.hint {
       color: #363740;
     }
     &-blue {
-      color: #003bb3;
+      color: #766458;
     }
   }
 
@@ -489,7 +490,7 @@ ul.hint {
 //alert toast
 .Toastify {
   &__toast {
-    background: #003bb3 !important;
+    background: #766458 !important;
     color: #fff !important;
     border-radius: 8px !important;
     padding: 0rem 0.75rem !important;
@@ -564,7 +565,7 @@ ul.hint {
 }
 
 .react-datepicker__day--selected {
-  background: #003bb3 !important;
+  background: #766458 !important;
 }
 
 .scroll__bar {
@@ -595,7 +596,7 @@ ul.hint {
 }
 
 .DayPicker-Day--birthday {
-  background-color: #003bb3 !important;
+  background-color: #766458 !important;
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {

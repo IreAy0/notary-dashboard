@@ -57,7 +57,7 @@ const Header = () => {
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
   };
-  
+
   useEffect(() => {
     dispatch(
       userRequestOverview(
@@ -66,7 +66,7 @@ const Header = () => {
         () => {}
       )
     );
-  }, [dispatch])
+  }, [dispatch]);
 
   const selectDate = () => {
     dispatch(
@@ -86,7 +86,7 @@ const Header = () => {
         return (
           <div>
             <>Hello, {updatedUser?.first_name} 👋🏽</>
-            
+
             <p className={styles.header__welcome_caption}>Welcome Back</p>
           </div>
         );
@@ -151,7 +151,6 @@ const Header = () => {
     </div>
   );
 
-
   return (
     <header className={styles.header}>
       {!isAuthenticated() ? (
@@ -166,7 +165,7 @@ const Header = () => {
       ) : (
         <>
           <div className="pt-1">
-          {/* <button type="button" onClick={() => toggleMenu(dispatch)} className={styles.sidebar__btn}>
+            {/* <button type="button" onClick={() => toggleMenu(dispatch)} className={styles.sidebar__btn}>
         <HideMenuIcon />
       </button> */}
             <h2 className="text--capitalize">{headerTitle()}</h2>
@@ -176,7 +175,7 @@ const Header = () => {
               <div>{headerFilter()}</div>
               {/* {showRange && (
                 <div style={{ transform: 'scale(0.88)', position: 'absolute' }}>
-                  <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
+                  <DateRangePicker rangeColors={['#766458']} ranges={[selectedDate]} onChange={handleDate} />
                   <Button theme="primary" className={SelectBtnStyles['custom__dropdown-btn']} onClick={selectDate}>
                     <WhiteTick />
                   </Button>
@@ -207,7 +206,9 @@ const Header = () => {
                           {updatedUser?.national_verification === false ? 'FAILED' : verifiedUser}
                         </small>
                       </div>
-                      <span className="flex flex__item-center">{updatedUser?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
+                      <span className="flex flex__item-center">
+                        {updatedUser?.national_verification === true ? <Tick /> : <AlertErrorIcon />}
+                      </span>
                     </div>
                     <div className={menuStyles.label__max}>
                       <span className={menuStyles.label}>
@@ -223,7 +224,7 @@ const Header = () => {
                   <div className="">
                     <Menu.Item as="div">
                       {() => (
-                        <button type='button' onClick={() => setShowNotifications(true)} className={menuStyles.item}>
+                        <button type="button" onClick={() => setShowNotifications(true)} className={menuStyles.item}>
                           <div className="icon__wrap">
                             <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path
@@ -247,7 +248,7 @@ const Header = () => {
                     </Menu.Item>
                     <Menu.Item as="div">
                       {() => (
-                        <button type='button' onClick={() => history.push('settings')} className={menuStyles.item}>
+                        <button type="button" onClick={() => history.push('settings')} className={menuStyles.item}>
                           <div className="icon__wrap">
                             <Setting />
                           </div>
@@ -257,7 +258,7 @@ const Header = () => {
                     </Menu.Item>
                     <Menu.Item as="div">
                       {() => (
-                        <button type='button' onClick={handleSignout} className={menuStyles.item}>
+                        <button type="button" onClick={handleSignout} className={menuStyles.item}>
                           <div className="icon__wrap">
                             <Logout />
                           </div>
@@ -282,4 +283,3 @@ Header.defaultProps = {
 };
 
 export default Header;
-

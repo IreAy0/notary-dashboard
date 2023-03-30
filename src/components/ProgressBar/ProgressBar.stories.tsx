@@ -19,7 +19,7 @@ Default.args = {
 export const Light = Template.bind({});
 Light.args = {
   Level: 20,
-  Color: '#003BB3'
+  Color: '#766458'
 };
 
 export default meta;

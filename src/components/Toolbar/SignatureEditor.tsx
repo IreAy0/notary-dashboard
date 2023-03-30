@@ -20,8 +20,8 @@ const Controller = ({ clear, setCurrentColor, hideButton }: Props) => {
       <div className="flex">
         <button
           title="Switch to blue ink"
-          className={`dot__blue${color === '#003bb3' ? ' active' : ''}`}
-          onClick={() => toggleColor('#003bb3')}
+          className={`dot__blue${color === '#766458' ? ' active' : ''}`}
+          onClick={() => toggleColor('#766458')}
         >
           {' '}
         </button>
@@ -53,4 +53,3 @@ Controller.defaultProps = {
 };
 
 export default Controller;
-

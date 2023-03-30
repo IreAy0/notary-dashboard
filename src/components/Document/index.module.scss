@@ -84,7 +84,7 @@
   margin: 1rem 0;
   &__legend {
     color: #fff;
-    background: #003bb3;
+    background: #766458;
     border-radius: 2px;
     padding: 0 0.5rem;
   }
@@ -116,7 +116,8 @@ canvas {
     display: flex;
     justify-content: space-between;
 
-    h3, p {
+    h3,
+    p {
       font-family: 'Poppins';
       font-style: normal;
       font-weight: 400;
@@ -126,4 +127,3 @@ canvas {
     }
   }
 }
-

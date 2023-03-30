@@ -10,7 +10,7 @@
   input,
   select {
     background: white;
-    border: 1px solid #E2E2E2;
+    border: 1px solid #e2e2e2;
     border-radius: 4px;
     font-family: 'Poppins', sans-serif;
     font-weight: normal;
@@ -44,7 +44,7 @@
   line-height: 24px;
   margin: 0 10px;
   color: #ffffff;
-  background: #003bb3;
+  background: #766458;
   cursor: pointer;
 }
 
@@ -57,14 +57,14 @@
 
 .searchBtn2 {
   color: #ffffff;
-  background: #003bb3;
+  background: #766458;
   cursor: pointer;
 }
 
 .filterBtn,
 .hasFiltersBtn {
   padding: 13px 20px;
-  background: #003BB3;
+  background: #766458;
   border-radius: 4px;
   font-family: 'Poppins', sans-serif;
   color: white;
@@ -86,13 +86,13 @@
   }
 
   &:hover {
-    background: #003bb3;
+    background: #766458;
     color: #ffffff;
   }
 }
 
 .hasFiltersBtn {
-  background: #003bb3;
+  background: #766458;
   color: #ffffff;
 }
 
@@ -100,7 +100,7 @@
   border-radius: 20px;
   border: 2px solid #ffffff;
   color: #ffffff;
-  background: #003bb3;
+  background: #766458;
   padding: 0px 7px;
   margin-left: 10px;
 }

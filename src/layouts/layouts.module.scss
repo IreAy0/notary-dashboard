@@ -15,7 +15,7 @@
       background: #f9f9f9;
     }
   }
-  
+
   &__page {
     background: #f9f9f9;
     padding: 0 0.875rem;
@@ -51,7 +51,7 @@
 }
 
 .conference_section {
-  background: #003BB3;
+  background: #766458;
   border-radius: 8px;
   padding: 25px 0 18px 26px;
   color: white;
@@ -66,16 +66,16 @@
     align-items: center;
     button {
       padding: 8px 21px;
-      background: #FFFFFF;
+      background: #ffffff;
       border-radius: 4px;
-      color: #003BB3;
+      color: #766458;
     }
   }
   &__type {
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 12px;
     padding: 5px 10px;
-    color: #7B7171;
+    color: #7b7171;
     font-size: 12px;
   }
 }
@@ -85,16 +85,16 @@
   padding: 28px 21px;
   border-radius: 8px;
   box-shadow: 0px 5px 40px rgba(34, 34, 34, 0.1);
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: 500px) {
     padding: 28px 0px;
   }
   &__header {
     font-weight: 600;
     font-size: 18px;
     line-height: 27px;
-    margin-top: 1px; 
-    @media screen and (max-width: 500px){
-      padding-right:12px;
+    margin-top: 1px;
+    @media screen and (max-width: 500px) {
+      padding-right: 12px;
       padding-left: 12px;
     }
   }

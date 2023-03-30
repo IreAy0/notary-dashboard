@@ -144,7 +144,7 @@ const PreviewCalendar = () => {
           padding: '10px'
         }}
       >
-        {`Schedule for (${availableTimes?.data?.[0]?.date} - ${availableTimes?.data?.[availableTimes?.data?.length - 1]?.date}) `}
+        {`Schedule  `}
        <Link className='fs_sm' to='/settings/Calendar?edit' >
            Edit
         </Link>

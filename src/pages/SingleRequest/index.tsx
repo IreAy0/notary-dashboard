@@ -63,6 +63,7 @@ const SingleRequest = () => {
   const history = useHistory();
   const [participants, setParticipants] = useState<any>([]);
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
 
   const getRequestParticipants = (Virtualid) => {
     instance.get(`/request-virtual-session/${Virtualid}`).then((res) => setParticipants(res?.data));
@@ -158,7 +159,6 @@ const SingleRequest = () => {
   }, [dispatch]);
 
   const handleDelete = () => {
-
     const documents: any = [
       {
         document_id: document.id,
@@ -184,7 +184,6 @@ const SingleRequest = () => {
   };
 
   const confirmationText = selectedRequest.type === 'accept' ? 'Yes, Accept' : 'Reject';
-
 
   return (
     <Dashboard>
@@ -242,45 +241,50 @@ const SingleRequest = () => {
             </Button>} */}
           </div>
         </div>
-        <Grid  columns={16} container spacing={2} className={classNames(styles.session_container, 'mt-2')}>
-  <Grid item  xs={16} md={5}>
-  <div style={{
-    padding: '12px 20px 12px 20px'
-  }}>
-              <p style={{
-                fontWeight: 'bolder',
-                color:'black'
-              }} className={styles.session_container__title}>Request Title</p>
-            {!loading && (
-              <span className={classNames( 'fs_sm text--blue text--600' )}>
-               {request?.document_name}
-              </span>
-            )}
+        <Grid columns={16} container spacing={2} className={classNames(styles.session_container, 'mt-2')}>
+          <Grid item xs={16} md={5}>
+            <div
+              style={{
+                padding: '12px 20px 12px 20px'
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: 'bolder',
+                  color: 'black'
+                }}
+                className={styles.session_container__title}
+              >
+                Request Title
+              </p>
+              {!loading && <span className={classNames('fs_sm text--blue text--600')}>{request?.document_name}</span>}
+            </div>
+          </Grid>
+
+          {request?.schedule_session?.request_type === 'Custom' && (
+            <Grid item xs={16} md={11}>
+              <div
+                style={{
+                  border: '1px solid #766458',
+                  borderRadius: '4px'
+                }}
+                className={classNames(styles.session_container__document_time)}
+              >
+                <p
+                  style={{
+                    fontWeight: 'bolder',
+                    color: 'black'
+                  }}
+                  className={styles.session_container__title}
+                >
+                  Request Description
+                </p>
+                {!loading && <span className={classNames('fs_sm')}>{request.schedule_session?.description}</span>}
               </div>
-  </Grid>
+            </Grid>
+          )}
+        </Grid>
 
-  { request?.schedule_session?.request_type === 'Custom' && 
-  <Grid item xs={16} md={11}>
-  <div style={{
-    border: '1px solid #003bb3',
-    borderRadius: '4px'
-  }} className={classNames(styles.session_container__document_time) }>
-            <p style={{
-              fontWeight: 'bolder',
-              color:'black'
-            }} className={styles.session_container__title}>Request Description</p>
-            {!loading && (
-              <span className={classNames('fs_sm')}>
-                {request.schedule_session?.description}
-              </span>
-            )}
-          </div>
-  </Grid>
-  }
-
-  
-</Grid>
-           
         <div className={styles.session_container}>
           {(!loading && request?.status !== 'Awaiting') ||
           request?.status === 'Accepted' ||
@@ -341,27 +345,32 @@ const SingleRequest = () => {
                       </button>
                     </div>
                   ) : (
-                    <Button   onClick={()=> setUploadDocumentModal({
-                      type: 'accept',
-                      id: request?.id,
-                      body: {
-                        status: 'Accepted',
-                        schedule_session_id: request?.schedule_session?.id,
-                        schedule_session_request_id: request?.id
+                    <Button
+                      onClick={() =>
+                        setUploadDocumentModal({
+                          type: 'accept',
+                          id: request?.id,
+                          body: {
+                            status: 'Accepted',
+                            schedule_session_id: request?.schedule_session?.id,
+                            schedule_session_request_id: request?.id
+                          }
+                        })
                       }
-                    })} size="sm" theme="primary" disabled={loading === true}>
-                     
-                        {/* <input type="file" id="actual-btn" onChange={handleChange} hidden /> */}
-                        Upload Document
+                      size="sm"
+                      theme="primary"
+                      disabled={loading === true}
+                    >
+                      {/* <input type="file" id="actual-btn" onChange={handleChange} hidden /> */}
+                      Upload Document
                     </Button>
                   )}
-                  
                 </div>
               )}
             </div>
               ) : null}
 
-              <div className={styles.session_container__document_time}>
+          <div className={styles.session_container__document_time}>
             <p className={styles.session_container__title}>Meeting timeframe</p>
             {!loading && (
               <span className={styles.session_container__timeframe}>
@@ -370,12 +379,16 @@ const SingleRequest = () => {
             )}
           </div>
           {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now' && !loading ? (
-            <div  className={classNames(styles.join_button, 'mt-1')}>
+            <div className={classNames(styles.join_button, 'mt-1')}>
               <a
-                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}`}
+                href={`${env_variable}notary/session-prep/${request?.schedule_session?.id}`}
                 target="_blank"
                 rel="noreferrer"
-                className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm, document.documentUploads?.length === 0 ? Buttonstyles.btn__disabled : null
+                className={classNames(
+                  Buttonstyles.btn,
+                  Buttonstyles.btn__primary,
+                  Buttonstyles.btn__sm,
+                  document.documentUploads?.length === 0 ? Buttonstyles.btn__disabled : null
                 )}
               >
                 Join Call
@@ -418,14 +431,13 @@ const SingleRequest = () => {
           />
         )}
 
-{uploadDocumentModal.type && (
-        <UploadDocumentModal
+        {uploadDocumentModal.type && (
+          <UploadDocumentModal
             isOpen={!!uploadDocumentModal.type}
             isClose={() => setUploadDocumentModal({} as DocumentUpload)}
             updateDom={() => fetchDocumentDetails()}
           />
-)}
-
+        )}
       </div>
     </Dashboard>
   );

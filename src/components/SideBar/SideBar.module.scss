@@ -2,7 +2,7 @@
   &__wrapper {
     width: 255px;
     padding-top: 27px;
-    background-color: #FFF;
+    background-color: #fff;
     display: inline-block;
     animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
     position: fixed;
@@ -100,7 +100,7 @@
   }
 
   .newDocumentWrapper div button {
-    color: #003bb3;
+    color: #766458;
     font-size: 20px;
   }
 
@@ -166,7 +166,6 @@
 }
 
 .menu {
-  
   padding: 0 1rem 6.25rem;
   font-size: 1rem;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -195,7 +194,7 @@
   &__link {
     padding: 1rem;
     font-size: 1rem;
-    color: #4A494E;
+    color: #4a494e;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -209,19 +208,19 @@
       font-weight: 600;
       &:after {
         content: '';
-	      height: 60px;
-		    width: 11px;
-		    background-color: #003BB3;
+        height: 60px;
+        width: 11px;
+        background-color: #766458;
         border-radius: 9px;
-		    position: absolute;
-		    left: -5px;
-		    right: 0;
-		    transition: all 300ms ease-out;
+        position: absolute;
+        left: -5px;
+        right: 0;
+        transition: all 300ms ease-out;
       }
       button {
-        svg{
-          path{
-            fill: #003BB3 !important;
+        svg {
+          path {
+            fill: #766458 !important;
           }
         }
       }
@@ -235,7 +234,7 @@
   }
   &__subsection {
     padding: 1rem 1.25rem 1rem;
-    border-bottom: 2px solid #003bb3;
+    border-bottom: 2px solid #766458;
   }
   &__pre {
     font-size: 12px;
@@ -345,7 +344,7 @@
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 600;
-    color: #003bb3;
+    color: #766458;
     line-height: 10px;
     font-size: 16px;
   }
@@ -480,7 +479,7 @@
   font-family: 'Mulish', sans-serif;
   font-weight: 600;
   font-size: 14px;
-  color: #003bb3;
+  color: #766458;
   margin-top: 15px;
   border: 1px solid #ffffff;
   width: 100%;

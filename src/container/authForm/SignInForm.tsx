@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import TonoteLogo from 'assets/icons/blue-tonote-logo.svg';
+import TonoteLogo from 'assets/img/LSJ_logo.png';
 import { Input } from 'components/TextInput/TextInput';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
@@ -32,7 +32,8 @@ const SignInForm = () => {
         doSignIn(
           {
             email: values.email,
-            password: values.password
+            password: values.password,
+            entry_point: 'CFO'
           },
           () => {
             const token = localStorage.getItem('accessToken');

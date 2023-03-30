@@ -81,6 +81,7 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
             );
             isClose();
             setLoading(false);
+            window.location.href = "/settings/Personal_Info"
             // history.push('/settings/Personal_info')
             
           },

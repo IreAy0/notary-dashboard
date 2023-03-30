@@ -14,18 +14,7 @@ import SelectBtnStyles from 'components/CustomSelect/customSelect.module.scss';
 import useTypedSelector from 'hooks/useTypedSelector';
 import Button from 'components/Button';
 import { ReactComponent as WhiteTick } from 'assets/icons/white-tick.svg';
-import {Box,
-  List,
-  ListItem,
-  alpha,
-  Stack,
-  lighten,
-  Divider,
-  IconButton,
-  Tooltip,
-  styled,
-  useTheme,
-  Typography} from '@mui/material';
+import { Box, List, ListItem, alpha, Stack, lighten, Divider, IconButton, Tooltip, styled, useTheme, Typography } from '@mui/material';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
@@ -54,8 +43,6 @@ const HeaderWrapper = styled(Box)(
         }
 `
 );
-
-
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -90,58 +77,53 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
   }
 }));
 
-const IOSSwitch = styled((props: SwitchProps) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 42,
-  height: 26,
-  padding: 0,
-  '& .MuiSwitch-switchBase': {
+const IOSSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
+  ({ theme }) => ({
+    width: 42,
+    height: 26,
     padding: 0,
-    margin: 2,
-    transitionDuration: '300ms',
-    '&.Mui-checked': {
-      transform: 'translateX(16px)',
-      color: '#fff',
-      '& + .MuiSwitch-track': {
-        backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-        opacity: 1,
-        border: 0
+    '& .MuiSwitch-switchBase': {
+      padding: 0,
+      margin: 2,
+      transitionDuration: '300ms',
+      '&.Mui-checked': {
+        transform: 'translateX(16px)',
+        color: '#fff',
+        '& + .MuiSwitch-track': {
+          backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
+          opacity: 1,
+          border: 0
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+          opacity: 0.5
+        }
+      },
+      '&.Mui-focusVisible .MuiSwitch-thumb': {
+        color: '#33cf4d',
+        border: '6px solid #fff'
+      },
+      '&.Mui-disabled .MuiSwitch-thumb': {
+        color: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[600]
       },
       '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: 0.5
+        opacity: theme.palette.mode === 'light' ? 0.7 : 0.3
       }
     },
-    '&.Mui-focusVisible .MuiSwitch-thumb': {
-      color: '#33cf4d',
-      border: '6px solid #fff'
+    '& .MuiSwitch-thumb': {
+      boxSizing: 'border-box',
+      width: 22,
+      height: 22
     },
-    '&.Mui-disabled .MuiSwitch-thumb': {
-      color:
-        theme.palette.mode === 'light'
-          ? theme.palette.grey[100]
-          : theme.palette.grey[600]
-    },
-    '&.Mui-disabled + .MuiSwitch-track': {
-      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3
+    '& .MuiSwitch-track': {
+      borderRadius: 26 / 2,
+      backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+      opacity: 1,
+      transition: theme.transitions.create(['background-color'], {
+        duration: 500
+      })
     }
-  },
-  '& .MuiSwitch-thumb': {
-    boxSizing: 'border-box',
-    width: 22,
-    height: 22
-  },
-  '& .MuiSwitch-track': {
-    borderRadius: 26 / 2,
-    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-    opacity: 1,
-    transition: theme.transitions.create(['background-color'], {
-      duration: 500
-    })
-  }
-}));
-
-
+  })
+);
 
 const ListWrapper = styled(Box)(
   ({ theme }) => `
@@ -222,8 +204,7 @@ function Header() {
         },
         () => {
           // setSubmitting(false);
-          toast.success('Profile updated successfully.'
-          )
+          toast.success('Profile updated successfully.');
           // toast.success('Profile updated successfully');
           // nextStep();
           dispatch(
@@ -237,15 +218,14 @@ function Header() {
         (error) => {
           // setSubmitting(false);
           toast.error('Error updating profile', {
-            position: "top-right",
+            position: 'top-right',
             style: {
               background: '#dc3545',
               color: '#fff',
               border: 'none',
               padding: '16px'
-
             }
-          })
+          });
           toast.error(error);
         }
       )
@@ -264,7 +244,7 @@ function Header() {
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
   };
-  
+
   useEffect(() => {
     dispatch(
       userRequestOverview(
@@ -273,7 +253,7 @@ function Header() {
         () => {}
       )
     );
-  }, [dispatch])
+  }, [dispatch]);
 
   const selectDate = () => {
     dispatch(
@@ -293,7 +273,7 @@ function Header() {
         return (
           <div>
             <>Hello, {updatedUser?.first_name} 👋🏽</>
-            
+
             <p className={styles.header__welcome_caption}>Welcome Back</p>
           </div>
         );
@@ -317,7 +297,7 @@ function Header() {
   const headerFilter = () => {
     switch (history.location.pathname) {
       case '/':
-        return '' ;
+        return '';
       case '/settings':
         return '';
       case '/locker':
@@ -348,8 +328,6 @@ function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
 
-  
-
   return (
     <HeaderWrapper
       display="flex"
@@ -361,86 +339,64 @@ function Header() {
               lighten(theme.colors.primary.main, 0.7),
               0.15
             )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
-            : `0px 2px 8px -3px ${alpha(
-              theme.colors.alpha.black[100],
-              0.2
-            )}, 0px 5px 22px -4px ${alpha(
+            : `0px 2px 8px -3px ${alpha(theme.colors.alpha.black[100], 0.2)}, 0px 5px 22px -4px ${alpha(
               theme.colors.alpha.black[100],
               0.1
             )}`
       }}
     >
       <Box
-          component="span"
-          sx={{
-           
-            display: { lg: 'none', xs: 'inline-block' }
-          }}
-        >
-          <Tooltip arrow title="Menu">
-            <IconButton color="primary" onClick={toggleSidebar}>
-              {!sidebarToggle ? (
-                <MenuTwoToneIcon fontSize="small" />
-              ) : (
-                <CloseTwoToneIcon fontSize="small" />
-              )}
-            </IconButton>
-          </Tooltip>
-        </Box>
-
-
-        
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        alignItems="center"
-        spacing={2}
-      >
-       
-        <ListWrapper
+        component="span"
         sx={{
-          display: {
-            xs: 'none',
-            md: 'block'
-          }
+          display: { lg: 'none', xs: 'inline-block' }
         }}
       >
-        <List disablePadding component={Box} display="flex">
-          
-          <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
-            button  
-          >
-            <h2 className="text--capitalize">{headerTitle()}</h2>
+        <Tooltip arrow title="Menu">
+          <IconButton color="primary" onClick={toggleSidebar}>
+            {!sidebarToggle ? <MenuTwoToneIcon fontSize="small" /> : <CloseTwoToneIcon fontSize="small" />}
+          </IconButton>
+        </Tooltip>
+      </Box>
 
-          </ListItem>
-        </List>
-      </ListWrapper>
+      <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} alignItems="center" spacing={2}>
+        <ListWrapper
+          sx={{
+            display: {
+              xs: 'none',
+              md: 'block'
+            }
+          }}
+        >
+          <List disablePadding component={Box} display="flex">
+            <ListItem classes={{ root: 'MuiListItem-indicators' }} button>
+              <h2 className="text--capitalize">{headerTitle()}</h2>
+            </ListItem>
+          </List>
+        </ListWrapper>
       </Stack>
       <Box display="flex" alignItems="center">
-      <div>{headerFilter()}</div>
-      {/* {showRange && (
+        <div>{headerFilter()}</div>
+        {/* {showRange && (
                 <div style={{ transform: 'scale(0.88)', position: 'absolute', top: '4rem', right: '1rem' }}>
-                  <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
+                  <DateRangePicker rangeColors={['#766458']} ranges={[selectedDate]} onChange={handleDate} />
                   <Button theme="primary" className={SelectBtnStyles['custom__dropdown-btn']} onClick={selectDate}>
                     <WhiteTick />
                   </Button>
                 </div>
       )} */}
         <FormGroup>
-       
-       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography>Offline</Typography>
-        <IOSSwitch sx={{ m: 1 }} checked={updatedUser?.is_online}
-      onChange={handleChangeSwitch}
-      inputProps={{ 'aria-label': 'controlled' }} />
-        <Typography>Online</Typography>
-      </Stack>
-      
-     
-    </FormGroup>
-        <HeaderUserbox userProfile={updatedUser}/>
-        
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography>Offline</Typography>
+            <IOSSwitch
+              sx={{ m: 1 }}
+              checked={updatedUser?.is_online}
+              onChange={handleChangeSwitch}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
+            <Typography>Online</Typography>
+          </Stack>
+        </FormGroup>
+        <HeaderUserbox userProfile={updatedUser} />
       </Box>
     </HeaderWrapper>
   );
