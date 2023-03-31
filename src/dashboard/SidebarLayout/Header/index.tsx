@@ -255,37 +255,40 @@ function Header() {
     audio.play();
   }
 
-  useEffect(() => {
-    socket.auth = {
-      username:`${userProfile.first_name}-${userProfile.last_name}`,
-      token: getToken()
-    };
-    socket.connect();
-    socket.on("connected", ( ) => {
-      // eslint-disable-next-line no-console
-      console.log('socket connected')
-    });
+  // useEffect(() => {
+   
+   
 
-    socket.on("NOTARY_NEW_REQUEST", (data) => {
-      const request = JSON.parse(data)
-      if(request.id === userProfile.id){
-        playSound()
-        toast.success('You have a new request', {
-          position: "top-right",
-          duration: 15000,
-          style:{
-            padding: '1.5rem',
-            fontSize: '1.2rem',
-            color: '#63d246',
-            fontWeight:'bolder'
-          }
-        })
-        fetchRequest()
-      }
-    });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  socket.auth = {
+    username:`${userProfile.first_name}-${userProfile.last_name}`,
+    token: getToken()
+  };
+  socket.connect();
+  socket.on("connected", ( ) => {
+    // eslint-disable-next-line no-console
+    console.log('socket connected')
+  });
+
+  socket.on("NOTARY_NEW_REQUEST", (data) => {
+    const request = JSON.parse(data)
+    if(request.id === userProfile.id){
+      playSound()
+      toast.success('You have a new request', {
+        position: "top-right",
+        duration: 15000,
+        style:{
+          padding: '1.5rem',
+          fontSize: '1.2rem',
+          color: '#63d246',
+          fontWeight:'bolder'
+        }
+      })
+      fetchRequest()
+    }
+  });
 
 
   const handleDate = (value: any) => {
