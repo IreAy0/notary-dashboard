@@ -1,9 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { doSignOut } from 're-ducks/auth';
 // import { Menu } from '@headlessui/react';
 import { isAuthenticated } from 'utils';
+import { getToken } from 'utils/getToken';
+import socket from 'utils/socket';
+import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import { DateRangePicker } from 'react-date-range';
 import moment from 'moment';
 import FormGroup from '@mui/material/FormGroup';
@@ -24,7 +27,7 @@ import toast from 'react-hot-toast';
 import HeaderUserbox from './Userbox';
 import styles from '../../../components/Header/Header.module.scss';
 import { SidebarContext } from '../../../contexts/SidebarContext';
-
+import mySound from '../../../assets/sounds/notify.mp3';
 // background-color: ${alpha(theme.header.background, 0.95)};
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -43,40 +46,6 @@ const HeaderWrapper = styled(Box)(
         }
 `
 );
-
-const Android12Switch = styled(Switch)(({ theme }) => ({
-  padding: 8,
-  '& .MuiSwitch-track': {
-    borderRadius: 22 / 2,
-    '&:before, &:after': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: 16,
-      height: 16
-    },
-    '&:before': {
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        theme.palette.getContrastText(theme.palette.primary.main)
-      )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
-      left: 12
-    },
-    '&:after': {
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-        theme.palette.getContrastText(theme.palette.primary.main)
-      )}" d="M19,13H5V11H19V13Z" /></svg>')`,
-      right: 12
-    }
-  },
-  '& .MuiSwitch-thumb': {
-    boxShadow: 'none',
-    width: 16,
-    height: 16,
-    margin: 2
-  }
-}));
-
 const IOSSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
   ({ theme }) => ({
     width: 42,
@@ -124,7 +93,6 @@ const IOSSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassName="
     }
   })
 );
-
 const ListWrapper = styled(Box)(
   ({ theme }) => `
         .MuiTouchRipple-root {
@@ -193,6 +161,10 @@ function Header() {
   const { id } = useParams<{ id?: string }>();
   const onSignInPage = history.location.pathname.includes('sign-in');
 
+  const audio = useMemo(() => new Audio(mySound), []);
+
+  const [playing, setPlaying] = useState(false);
+
   const [checked, setChecked] = React.useState(true);
 
   const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,9 +174,23 @@ function Header() {
         {
           is_online: event.target.checked
         },
-        () => {
-          // setSubmitting(false);
-          toast.success('Profile updated successfully.');
+        (res) => {
+          if (res.data.is_online === false) {
+            toast.success('You are now offline', {
+              style: {
+                border: '1px solid #ccc',
+                // padding: '16px',
+                color: '#000'
+              },
+              iconTheme: {
+                primary: '#ccc',
+                secondary: '#FFFAEE'
+              }
+            });
+          } else {
+            toast.success('You are now online.');
+          }
+
           // toast.success('Profile updated successfully');
           // nextStep();
           dispatch(
@@ -217,16 +203,7 @@ function Header() {
         },
         (error) => {
           // setSubmitting(false);
-          toast.error('Error updating profile', {
-            position: 'top-right',
-            style: {
-              background: '#dc3545',
-              color: '#fff',
-              border: 'none',
-              padding: '16px'
-            }
-          });
-          toast.error(error);
+          toast.error('Error Changing online status');
         }
       )
     );
@@ -240,6 +217,76 @@ function Header() {
   const handleSignout = () => {
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
+
+  useEffect(() => {
+    if (playing) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }, [playing]);
+
+  const fetchRequest = useCallback(
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+      const params = {
+        status: status === 'all' ? '' : status,
+        page: nextPage === 0 ? 1 : nextPage,
+        per_page: itemsPerPage
+        // search: searchValue.toLowerCase()
+      };
+      // setLoading(true);
+      // setDataPerPage(itemsPerPage);
+      dispatch(
+        getAllRequestAction(
+          { params },
+          () => {
+            // setLoading(false);
+          },
+          (error) => {
+            toast.error(error);
+            // setLoading(false);
+          }
+        )
+      );
+    },
+    [dispatch]
+  );
+  // const playSound = () => {
+  //   const audio = new Audio(mySound);
+  //   audio.play();
+  // }
+
+  useEffect(() => {
+    socket.auth = {
+      username: `${userProfile.first_name}-${userProfile.last_name}`,
+      token: getToken()
+    };
+    socket.connect();
+    socket.on('connected', () => {
+      // eslint-disable-next-line no-console
+      console.log('socket connected');
+    });
+
+    socket.on('NOTARY_NEW_REQUEST', (data) => {
+      const request = JSON.parse(data);
+      if (request.id === userProfile.id) {
+        setPlaying(true);
+        fetchRequest();
+        // audio.play()
+        toast.success('You have a new request', {
+          position: 'top-right',
+          duration: 15000,
+          style: {
+            padding: '1.5rem',
+            fontSize: '1.2rem',
+            color: '#63d246',
+            fontWeight: 'bolder'
+          }
+        });
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
@@ -336,13 +383,13 @@ function Header() {
         boxShadow:
           theme.palette.mode === 'dark'
             ? `0 1px 0 ${alpha(
-              lighten(theme.colors.primary.main, 0.7),
-              0.15
-            )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
+                lighten(theme.colors.primary.main, 0.7),
+                0.15
+              )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
             : `0px 2px 8px -3px ${alpha(theme.colors.alpha.black[100], 0.2)}, 0px 5px 22px -4px ${alpha(
-              theme.colors.alpha.black[100],
-              0.1
-            )}`
+                theme.colors.alpha.black[100],
+                0.1
+              )}`
       }}
     >
       <Box
@@ -378,7 +425,7 @@ function Header() {
         <div>{headerFilter()}</div>
         {/* {showRange && (
                 <div style={{ transform: 'scale(0.88)', position: 'absolute', top: '4rem', right: '1rem' }}>
-                  <DateRangePicker rangeColors={['#766458']} ranges={[selectedDate]} onChange={handleDate} />
+                  <DateRangePicker rangeColors={['#003bb3']} ranges={[selectedDate]} onChange={handleDate} />
                   <Button theme="primary" className={SelectBtnStyles['custom__dropdown-btn']} onClick={selectDate}>
                     <WhiteTick />
                   </Button>
@@ -403,3 +450,4 @@ function Header() {
 }
 
 export default Header;
+

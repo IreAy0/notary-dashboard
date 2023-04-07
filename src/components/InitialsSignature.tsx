@@ -183,7 +183,7 @@ const InitialsSignature: FC<TabsProps> = ({
       {/* <div className={fetching ? 'signature__body--disabled mt-2' : ''} /> */}
       
       <div className='col-6 py-1'>
-        {!fontFamily ?  <img src={imageURL} alt="signature"  />
+        {!fontFamily ?  <> { imageURL ?  <img src={imageURL} alt="typed_signature"  /> : null }</>
         : 
   <div 
             style={{

@@ -214,7 +214,7 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
                 type="number"
                 name="identity_number"
                 onChange={formik.handleChange}
-                value={formik.values.identity_number}
+                value={formik.values.identity_number || ''}
                 disabled={user?.user?.national_verification}
                 // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
                 verifiedCheck={user?.user?.national_verification}

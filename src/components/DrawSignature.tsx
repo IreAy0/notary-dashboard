@@ -156,7 +156,8 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
       <div >
       <div className='col-6 p-3 '>
           {/* <img src="" alt="signature file"  /> */}
-          <img src={imageURL === '' ? signatureFile : imageURL} alt="signature" />
+          
+          {!signatureFile && !imageURL ? null : <img src={ signatureFile || imageURL} alt="signature" />}
       </div>
     </div>
       

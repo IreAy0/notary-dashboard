@@ -359,7 +359,7 @@ const space = Math.PI / 5;
 
   useEffect(() => {
   //  updateCanvas(`${fullName?.firstName} ${fullName?.lastName}`, 130, 155, r, space, 1, "1.3em");
-    updateCanvas(`SCN:${fullName?.notary_number}`, 130, 155, r, space, 0, "1.1em");
+    updateCanvas(`SCN:${fullName?.notary_number ? fullName?.notary_number : ''}`, 130, 155, r, space, 0, "1.1em");
   } , [fullName, sealColor])
 
 
@@ -380,10 +380,10 @@ const space = Math.PI / 5;
       
         <div className="grid grid__layout gap-1 pt-1">
         <div className="col-4">
-            <Input onChange={(e) => setFullName({...fullName, firstName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
+            <Input onChange={() => {}} label="First Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
           </div>
           <div className="col-4">
-            <Input onChange={(e) => setFullName({...fullName, lastName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
+            <Input onChange={() => {}} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
           </div>
           <div className="col-3">
             <Input

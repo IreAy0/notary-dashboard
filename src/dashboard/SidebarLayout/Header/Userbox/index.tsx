@@ -128,7 +128,7 @@ function HeaderUserbox({userProfile}) {
                           { verifiedUser}
                         </small>
                       </div>
-                      <span className="flex flex__item-center">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
+                      <span className="flex flex__item-center pl-1">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
                     </div>
                     {/* <div className={menuStyles.label__max}>
                       <span className={menuStyles.label}>

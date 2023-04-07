@@ -218,8 +218,8 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             id="GetProfile__FirstName"
             name="first_name"
             onChange={formik.handleChange}
-            value={formik.values.first_name}
-            disabled={userProfile?.national_verification}
+            value={formik.values.first_name || ''}
+            // disabled={userProfile?.national_verification}
           />
           {formik.errors.first_name ? <div className={styles.error}>{formik.errors.first_name}</div> : null}
         </div>
@@ -231,8 +231,8 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             id="GetProfile__LastName"
             name="last_name"
             onChange={formik.handleChange}
-            value={formik.values.last_name}
-            disabled={userProfile?.national_verification}
+            value={formik.values.last_name || ''}
+            // disabled={userProfile?.national_verification}
           />
           {formik.errors.last_name ? <div className={styles.error}>{formik.errors.last_name}</div> : null}
         </div>
@@ -244,7 +244,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             id="GetProfile__Email"
             name="email"
             onChange={formik.handleChange}
-            value={formik.values.email}
+            value={formik.values.email || ''}
             disabled
           />
           {formik.errors.email ? <div className={styles.error}>{formik.errors.email}</div> : null}
@@ -282,7 +282,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             id="dob"
             name="dob"
             onChange={formik.handleChange}
-            value={formik.values.dob}
+            value={formik.values.dob || ''}
             // disabled={userProfile?.national_verification}
           />
           {/* {formik.errors.notary_commission_number ? <div className={styles.error}>{formik.errors.notary_commission_number}</div> : null} */}
@@ -295,7 +295,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             id="GetProfile__CommissionNo"
             name="notary_commission_number"
             onChange={formik.handleChange}
-            value={formik.values.notary_commission_number}
+            value={formik.values.notary_commission_number || ''}
             maxLength={8}
             // disabled={userProfile?.national_verification}
             onKeyUp={handleValueLimit}
@@ -310,7 +310,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             id="GetProfile__Address"
             onChange={formik.handleChange}
             // disabled={userProfile?.address}
-            value={formik.values.address}
+            value={formik.values.address || ''}
           />
           {formik.errors.address ? <div className={styles.error}>{formik.errors.address}</div> : null}
         </div>

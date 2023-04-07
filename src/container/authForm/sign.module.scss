@@ -2,8 +2,8 @@
   &__content1 {
     padding: 15px 20px 15px 20px;
     overflow: scroll;
-    background: url('../../assets/img/background-top-stamp.svg') no-repeat;
-    background-position: top right;
+    // background: url('../../assets/img/background-top-stamp.svg') no-repeat;
+    // background-position: top right;
     @media (min-width: 1024px) {
       padding: 155px 103px 4rem 74px;
     }
@@ -85,14 +85,14 @@
   }
 }
 
-.auth_image_wrapper::after {
-  @media screen and (min-width: 1024px) {
-    content: url('../../assets/img/background-buttom-stamp.svg');
-    bottom: 0px;
-    right: 0;
-    position: fixed;
-  }
-}
+// .auth_image_wrapper::after {
+//   @media screen and (min-width: 1024px) {
+//     content: url('../../assets/img/background-buttom-stamp.svg');
+//     bottom: 0px;
+//     right: 0;
+//     position: fixed;
+//   }
+// }
 
 .auth_signup_wrapper {
   display: flex;
@@ -101,14 +101,14 @@
   position: fixed;
 }
 
-.auth_signup_wrapper::after {
-  @media screen and (min-width: 1024px) {
-    content: url('../../assets/img/background-buttom-stamp.svg');
-    bottom: 0px;
-    right: 0;
-    position: fixed;
-  }
-}
+// .auth_signup_wrapper::after {
+//   @media screen and (min-width: 1024px) {
+//     content: url('../../assets/img/background-buttom-stamp.svg');
+//     bottom: 0px;
+//     right: 0;
+//     position: fixed;
+//   }
+// }
 
 // .phoneLabelWrapper {
 //   margin-bottom: 0.8rem;
