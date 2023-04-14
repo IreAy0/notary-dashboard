@@ -2,13 +2,14 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Metrics from 'components/MetricCard';
 import { RootState } from 're-ducks/rootReducer';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import useTypedSelector from 'hooks/useTypedSelector';
 import VerifyNotaryId from 'container/authForm/VerifyNotaryId';
 import styles from 'layouts/layouts.module.scss';
 import { requestHeaders } from 'mocks/table';
 import CallSection from 'container/CallSection/CallSection';
+import { getToken } from 'utils/getToken';
 import ConfirmationModal from 'container/Modal/ConfirmationModal';
 import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import format from 'date-fns/format';
@@ -19,6 +20,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import MediaQuery from 'helpers/useMediaQuery';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -95,7 +97,8 @@ const HomePage = () => {
   const user: User = useTypedSelector((state: RootState) => state?.auth?.signIn);
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const { requests }: any = useTypedSelector((state) => state?.request);
-  // const userProfile = useTypedSelector((state: any) => state.user);
+  const user_profile = useTypedSelector((state: any) => state.user);
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
 
   useEffect(() => {
     dispatch(
@@ -113,18 +116,20 @@ const HomePage = () => {
 
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
 
-  // useEffect(() => {
-  //   if (!user?.is_id_verified) {
-  //     setIsCloseModal(true);
-  //   }
-  //   if (userProfile?.is_id_verified) {
-  //     setIsCloseModal(false);
-  //   }
-  // }, [user?.is_id_verified, userProfile?.is_id_verified, setIsCloseModal]);
+  useEffect(() => {
+    if (!user_profile?.national_verification) {
+      setIsCloseModal(true);
+    } else if (user_profile?.national_verification) {
+      setIsCloseModal(false);
+    }
+  }, [user_profile, setIsCloseModal]);
+
+
 
   useEffect(() => {
-    setUpdatedUser({ ...user, ...userProfile });
-  }, [userProfile, user]);
+    setUpdatedUser({ ...user, ...user_profile });
+  }, [user_profile, user]);
+
 
   const fetchAllRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
@@ -174,11 +179,15 @@ const HomePage = () => {
     );
   };
 
-  // console.log(requests, dashboardOverview, 'home1', userProfile, updatedUser, user)
+  // console.log(userProfile, isCloseModal)
 
   return (
     <Dashboard>
-      {/* {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />} */}
+      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please <NavLink style={{
+        fontWeight: 'bold',
+        textDecoration: 'underline'
+      }} to='/settings/Personal_Info'>Click here</NavLink> to complete your profile</Alert> : null}
+      {isCloseModal  && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
       <section>
         <div className=" pt-2">
           <Grid container spacing={2}>
@@ -192,7 +201,7 @@ const HomePage = () => {
               <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="white" />
             </Grid>
             <Grid item xs={6} md={3}>
-              <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="white" />
+              <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.message?.notarised_docs} theme="white" />
             </Grid>
           </Grid>
         </div>
@@ -278,7 +287,7 @@ const HomePage = () => {
                       {row?.schedule_session.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}`}
+                            href={`${env_variable}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -378,7 +387,7 @@ const HomePage = () => {
                           {value?.schedule_session.status === 'Accepted' && (
                             <>
                               <a
-                                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${value?.schedule_session?.id}`}
+                                href={`${env_variable}notary/session-prep/${value?.schedule_session?.id}?token=${getToken()}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}

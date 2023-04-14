@@ -7,6 +7,10 @@ import Button from 'components/Button';
 import { getToken } from 'utils/getToken';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
+import moment from 'moment';
+import { Grid } from '@mui/material';
+import { timeConvert } from 'utils/formatTime';
+import UploadDocumentModal from 'container/Modal/UploadDocumentModal';
 import { getRequestDetails, confirmRequest, cancelNotaryRequest, getSessionLink } from 're-ducks/request';
 import { useDispatch } from 'react-redux';
 import { useParams, Link, useHistory } from 'react-router-dom';
@@ -53,12 +57,13 @@ const SingleRequest = () => {
   const [fileInfos, setFileInfos] = useState<FileInfo[]>([]);
   const [customFiles, setCustomFiles] = useState<any>([]);
   const [selectedRequest, setSelectedRequest] = useState<RequestAcceptance>({} as RequestAcceptance);
-  // const [uploadDocument, setUploadDocument] = useState<DocumentUpload>({} as DocumentUpload);
+  const [uploadDocumentModal, setUploadDocumentModal] = useState<DocumentUpload>({} as DocumentUpload);
   const { id } = useParams<{ id?: string }>();
   const dispatch = useDispatch();
   const history = useHistory();
   const [participants, setParticipants] = useState<any>([]);
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
 
   const getRequestParticipants = (Virtualid) => {
     instance.get(`/request-virtual-session/${Virtualid}`).then((res) => setParticipants(res?.data));
@@ -153,59 +158,7 @@ const SingleRequest = () => {
     );
   }, [dispatch]);
 
-  const uploadDocument = (file) => {
-    setLoading(true);
-    if (file) {
-      const files = file;
-      instance
-        .put(`/custom-affidavit-request/${request?.schedule_session_id}`, { files })
-        .then((res: any) => {
-          fetchDocumentDetails();
-          fetchRequestDetails();
-          toast.success('Updates Successfully');
-          // setFiles(null);
-          setFileInfos([]);
-          setCustomFiles([]);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-          toast.error(err?.response?.data?.data?.message);
-        });
-    }
-  };
-
-  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles: any = event.target.files;
-    // setFiles(selectedFiles);
-    const FileInfos: FileInfo[] = [];
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const files = selectedFiles[i];
-      const reader = new FileReader();
-      reader.readAsDataURL(files);
-      await new Promise<void>((resolve: any) => {
-        reader.onload = () => {
-          const base64 = reader.result as string;
-
-          FileInfos.push({ name: files.name, base64 });
-          customFiles.push(base64);
-          // setCustomFiles([...customFiles, base64])
-          resolve();
-        };
-      });
-    }
-    setFileInfos(FileInfos);
-    uploadDocument(customFiles);
-  };
-
   const handleDelete = () => {
-    // setFileInfos((prevFileInfos) =>
-    //   prevFileInfos.filter((_, i) => i !== index)
-    // );
-    // setCustomFiles((prevCustomFiles) =>
-    //   prevCustomFiles.filter((_, i) => i !== index)
-    // ); /api/v1/document-multiple-delete
-    // /api/v1/document/{id}
 
     const documents: any = [
       {
@@ -233,25 +186,6 @@ const SingleRequest = () => {
 
   const confirmationText = selectedRequest.type === 'accept' ? 'Yes, Accept' : 'Reject';
 
-  const handleSessionLink = () => {
-    dispatch(
-      getSessionLink(
-        {
-          request_id: request?.request_id,
-          type: 'notary',
-          participant_id: user?.id
-        },
-        (res: any) => {
-          const token: any = new URL(res?.session_url)?.searchParams?.get('token');
-          localStorage?.setItem('accessToken', token);
-          window.location.href = res?.session_url;
-        },
-        (error) => {
-          toast.error(error);
-        }
-      )
-    );
-  };
 
   return (
     <Dashboard>
@@ -309,7 +243,44 @@ const SingleRequest = () => {
             </Button>} */}
           </div>
         </div>
+        <Grid  columns={16} container spacing={2} className={classNames(styles.session_container, 'mt-2')}>
+  <Grid item  xs={16} md={5}>
+  <div style={{
+    padding: '12px 20px 12px 20px'
+  }}>
+              <p style={{
+                fontWeight: 'bolder',
+                color:'black'
+              }} className={styles.session_container__title}>Request Title</p>
+            {!loading && (
+              <span className={classNames( 'fs_sm text--blue text--600' )}>
+               {request?.document_name}
+              </span>
+            )}
+              </div>
+  </Grid>
 
+  { request?.schedule_session?.request_type === 'Custom' && 
+  <Grid item xs={16} md={11}>
+  <div style={{
+    border: '1px solid #003bb3',
+    borderRadius: '4px'
+  }} className={classNames(styles.session_container__document_time) }>
+            <p style={{
+              fontWeight: 'bolder',
+              color:'black'
+            }} className={styles.session_container__title}>Request Description</p>
+            {!loading && (
+              <span className={classNames('fs_sm')}>
+                {request.schedule_session?.description}
+              </span>
+            )}
+          </div>
+  </Grid>
+  }
+  
+</Grid>
+           
         <div className={styles.session_container}>
           {(!loading && request?.status !== 'Awaiting') ||
           request?.status === 'Accepted' ||
@@ -370,50 +341,21 @@ const SingleRequest = () => {
                       </button>
                     </div>
                   ) : (
-                    <Button size="sm" theme="primary" disabled={loading === true}>
-                      <label
-                        style={{
-                          color: '#fff',
-                          cursor: 'pointer'
-                        }}
-                        htmlFor="actual-btn"
-                      >
-                        <input type="file" id="actual-btn" onChange={handleChange} hidden />
+                    <Button   onClick={()=> setUploadDocumentModal({
+                      type: 'accept',
+                      id: request?.id,
+                      body: {
+                        status: 'Accepted',
+                        schedule_session_id: request?.schedule_session?.id,
+                        schedule_session_request_id: request?.id
+                      }
+                    })} size="sm" theme="primary" disabled={loading === true}>
+                     
+                        {/* <input type="file" id="actual-btn" onChange={handleChange} hidden /> */}
                         Upload Document
-                      </label>
                     </Button>
                   )}
-                  {fileInfos.length >= 1 ? (
-                    <ul>
-                      {fileInfos.map((fileInfo, index) => (
-                        <div
-                          style={{
-                            fontSize: '12px',
-                            color: '#003bb3',
-                            marginTop: '10px'
-                          }}
-                        >
-                          <li
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between'
-                            }}
-                            key={fileInfo.name}
-                          >
-                            {fileInfo.name}
-                            {/* <button onClick={() => handleDelete()}>
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M5.06544 1.72033H4.91683C4.99856 1.72033 5.06544 1.65346 5.06544 1.57172V1.72033H10.7128V1.57172C10.7128 1.65346 10.7796 1.72033 10.8614 1.72033H10.7128V3.05786H12.0503V1.57172C12.0503 0.915964 11.5171 0.382812 10.8614 0.382812H4.91683C4.26107 0.382812 3.72792 0.915964 3.72792 1.57172V3.05786H5.06544V1.72033ZM14.4281 3.05786H1.3501C1.02129 3.05786 0.755646 3.3235 0.755646 3.65231V4.24677C0.755646 4.3285 0.822522 4.39538 0.904259 4.39538H2.02629L2.48514 14.111C2.51486 14.7445 3.03872 15.2442 3.67219 15.2442H12.106C12.7413 15.2442 13.2633 14.7463 13.2931 14.111L13.7519 4.39538H14.8739C14.9557 4.39538 15.0225 4.3285 15.0225 4.24677V3.65231C15.0225 3.3235 14.7569 3.05786 14.4281 3.05786ZM11.963 13.9066H3.81523L3.36567 4.39538H12.4125L11.963 13.9066Z"
-                              fill="#E3959A"
-                            />
-                          </svg>
-                        </button> */}
-                          </li>
-                        </div>
-                      ))}
-                    </ul>
-                  ) : null}
+                  
                 </div>
               )}
             </div>
@@ -423,17 +365,18 @@ const SingleRequest = () => {
             <p className={styles.session_container__title}>Meeting timeframe</p>
             {!loading && (
               <span className={styles.session_container__timeframe}>
-                {request.date} {request.start_time}
+                {format(parseISO(request.date), 'PPPP')} - {timeConvert(request?.start_time)}
               </span>
             )}
           </div>
           {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now' && !loading ? (
-            <div className={classNames(styles.join_button, 'mt-1')}>
+            <div  className={classNames(styles.join_button, 'mt-1')}>
               <a
-                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}`}
+                href={`${env_variable}notary/session-prep/${request?.schedule_session?.id}`}
                 target="_blank"
                 rel="noreferrer"
-                className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
+                className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm, document.documentUploads?.length === 0 ? Buttonstyles.btn__disabled : null
+                )}
               >
                 Join Call
               </a>
@@ -474,6 +417,15 @@ const SingleRequest = () => {
             buttonCaption={selectedRequest.type === 'cancel' ? 'Cancel' : confirmationText}
           />
         )}
+
+{uploadDocumentModal.type && (
+        <UploadDocumentModal
+            isOpen={!!uploadDocumentModal.type}
+            isClose={() => setUploadDocumentModal({} as DocumentUpload)}
+            updateDom={() => fetchDocumentDetails()}
+          />
+)}
+
       </div>
     </Dashboard>
   );

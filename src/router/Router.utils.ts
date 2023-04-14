@@ -7,7 +7,7 @@ export const appRoutes = {
   signIn: () => pathResolver('/auth/sign-in'),
   settings: () => pathResolver('/settings/:tab'),
   forgotPassword: () => pathResolver('/auth/forgot-password'),
-  resetPassword: () => pathResolver('/auth/reset-password'),
+  resetPassword: () => pathResolver('/reset-password'),
   setPassword: () => pathResolver('/auth/set-password'),
   verifiyEmail: () => pathResolver('/auth/verify-email'),
   passwordRecovery: () => pathResolver('/auth/password-recovery'),
@@ -23,6 +23,7 @@ export const appRoutes = {
   singleTemplate: ()=> pathResolver('/template/:id'),
   notarySession: () => pathResolver('/session/:id'),
   sessionError: () => pathResolver('/session-error'),
+  redirect: () => pathResolver('/redirecting'),
   error: () => pathResolver('/error')
 };
 
@@ -49,6 +50,7 @@ export const appRoutePaths: {
   error: string;
   myTemplate: string;
   singleTemplate: string;
+  redirect:string;
 } = {
   root: appRoutes.root(),
   signUp: appRoutes.signUp(),
@@ -71,5 +73,6 @@ export const appRoutePaths: {
   certificate: appRoutes.certificate(),
   notarySession: appRoutes.notarySession(),
   sessionError: appRoutes.sessionError(),
+  redirect: appRoutes.redirect(),
   error: appRoutes.error()
 };

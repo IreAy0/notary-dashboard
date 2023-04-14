@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import history from 'utils/history';
+import classNames from 'classnames';
 import TonoteLogo from 'assets/icons/blue-tonote-logo.svg';
 import PhoneNumInput from 'components/PhoneNumInput/Phone';
 import { Input } from 'components/TextInput/TextInput';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from 'components/Button';
@@ -28,7 +30,8 @@ const SignUpForm = () => {
       last_name: '',
       email: '',
       password: '',
-      confirm_password: ''
+      confirm_password: '',
+      role: ''
     },
     validationSchema: Yup.object({
       first_name: Yup.string().required('First Name is required'),
@@ -118,7 +121,7 @@ const SignUpForm = () => {
               {formik.errors.last_name ? <div className={styles.error}>{formik.errors.last_name}</div> : null}
             </div>
           </div>
-          <div>
+          <div className='pt-1'>
             <Input
               placeholder="example@gettonote.com"
               label="Email Address*"
@@ -130,11 +133,13 @@ const SignUpForm = () => {
             />
             {formik.errors.email ? <div className={styles.error}>{formik.errors.email}</div> : null}
           </div>
-          <div className={styles.phoneLabelWrapper}>
+          
+          
+          <div className={classNames(styles.phoneLabelWrapper, 'pt-1')} >
             <p className={styles.phoneLabel}>Phone Number*</p>
             <PhoneNumInput placeholder="+2349845978549" value={phoneNum} onChange={(e: any) => setPhoneNum(e)} />
           </div>
-          <div>
+          <div className='pt-1'>
             <Input
               placeholder="***********"
               id="password-signin"
@@ -145,7 +150,7 @@ const SignUpForm = () => {
               value={formik.values.password}
             />
           </div>
-          <div>
+          <div className='pt-1'>
             <Input
               placeholder="***********"
               id="password-signin"

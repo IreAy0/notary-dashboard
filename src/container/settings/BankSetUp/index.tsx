@@ -21,7 +21,7 @@ const BankAccountSetUp = () => {
   const [bankList, setBankList] = useState([]);
   const [accountName, setAccountName] = useState('');
   const [accountNumber, setAccountNumber] = useState<any>('');
-  
+
   const [validateAccountNumber, setValidateAccountNumber] = useState<boolean>();
   const [verificationMessage, setVerificationMessage] = useState<any>(null);
   // const checkForBank: any = bankList.filter((item: any) => item?.code === user?.bank_code);
@@ -31,11 +31,15 @@ const BankAccountSetUp = () => {
     dispatch(
       fetchBankDetails(
         (success) => {
-          setAccountName(success?.bank_account_name);
-          setAccountNumber(success?.bank_account_number);
-          setBankDetails(success);
+          if (success?.bank_account_name && success.bank_account_number) {
+            setAccountName(success?.bank_account_name);
+            setAccountNumber(success?.bank_account_number);
+            setBankDetails(success);
+            // setValidateAccountNumber(true);
+          }
+
         },
-        () => {}
+        () => { }
       )
     );
 
@@ -45,7 +49,7 @@ const BankAccountSetUp = () => {
         (success) => {
           setBankList(success);
         },
-        () => {}
+        () => { }
       )
     );
   }, [dispatch]);
@@ -65,8 +69,9 @@ const BankAccountSetUp = () => {
     setValidateAccountNumber(user?.account_number && true);
   }, [bankList, user?.account_number, bankDetails]);
 
+
   const formik = useFormik({
-    enableReinitialize:true,
+    enableReinitialize: true,
     initialValues: {
       account_number: accountNumber,
       account_name: accountName,
@@ -77,31 +82,23 @@ const BankAccountSetUp = () => {
     //     'checkAccountAuthenticity',
     //     'Account verified',
     //     (value) =>
-    //       accountNumber?.length >= 9 &&
-    //       api
-    //         .get(`${process.env.REACT_APP_NOTARY_BACKEND_API_URL}/v1${API.VERIFY_BANK}${value}/${selectedBank?.code}`)
-    //         .then((res): any => {
-    //           setAccountName(res.data.data.account_name);
-    //           setValidateAccountNumber(true);
+    //     accountNumber?.length === 9 &&
+    //     //  console.log(value)
 
-    //           return Promise.resolve(true);
-    //         })
-    //         .catch((error) => {
-    //           setVerificationMessage(error.response.data.message);
-    //         })
+
     //   )
     // }),
     onSubmit: (values) => {
       setSubmitting(true);
       dispatch(
         uploadBankDetails(
-         
-          
+
+
           {
             "bank_id": selectedBank?.id,
             "bank_account_name": values.account_name,
             "bank_account_number": values.account_number
-            
+
           },
           () => {
             setSubmitting(false);
@@ -112,42 +109,89 @@ const BankAccountSetUp = () => {
                 color: '#fff',
                 border: 'none',
                 padding: '16px'
-  
+
               }
             })
             setDisabledButton(true);
             dispatch(
               fetchUserProfile(
                 {},
-                () => {},
-                () => {}
+                () => { },
+                () => { }
               )
             );
           },
           (error: any) => {
             setSubmitting(false);
-            toast.error(error?.data?.error, {
-              position: "top-right",
-              style: {
-                background: '#dc3545',
-                color: '#fff',
-                border: 'none',
-                padding: '16px'
+            if (error.data.code === 403) {
+              toast.error('Server Error', {
+                position: "top-right",
+                style: {
+                  background: '#dc3545',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '16px'
 
-              }
-            })
+                }
+              })
+            }
+            else if (error.data.code === 422) {
+              toast.error('Saving failed, Please check all fields', {
+                position: "top-right",
+                style: {
+                  background: '#dc3545',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '16px'
+
+                }
+              })
+            }
+            else {
+              toast.error('Error Saving', {
+                position: "top-right",
+                style: {
+                  background: '#dc3545',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '16px'
+
+                }
+              })
+            }
           }
         )
       );
     }
   });
 
+
   useEffect(() => {
     setAccountNumber(formik.values.account_number);
   }, [formik.values.account_number]);
 
+  useEffect(() => {
+    const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_STAGING}` : `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_DEV}`
+    if (accountNumber.length >= 10 && !!selectedBank?.id) {
+      api.post(`${env_variable}/v1/bank-details`,
+        {
+          "bank_id": selectedBank?.id,
+          "bank_account_number": accountNumber
+        })
+        .then((res): any => {
+          setAccountName(res.data.data.bank_account_name);
+          setValidateAccountNumber(true);
+
+          return Promise.resolve(true);
+        })
+        .catch((error) => {
+          setVerificationMessage(error.response.data.data.error.toString());
+        })
+    }
+  }, [accountNumber, selectedBank])
+
   const handleChange = (res: any) => {
-   
+
     setSelectedBank({
       name: res?.name,
       id: res?.id
@@ -155,6 +199,7 @@ const BankAccountSetUp = () => {
     setAccountName('');
     setAccountNumber('');
     setDisabledButton(false);
+    setVerificationMessage('')
     setValidateAccountNumber(false);
   };
 
@@ -179,6 +224,7 @@ const BankAccountSetUp = () => {
             />
             {formik.values.account_number && <p className={styles.error}>{!validateAccountNumber ? verificationMessage : null}</p>}
           </div>
+
           <div className="col-6">
             <Input
               label="Account Name*"
@@ -186,9 +232,10 @@ const BankAccountSetUp = () => {
               type="text"
               id="Bank_Name"
               name="account_name"
-              value={formik.values.account_name}
-              // value={accountNumber?.length <= 1 ? null : accountName}
-              onChange={formik.handleChange}
+              disabled
+              // value={formik.values.account_name}
+              value={accountNumber?.length <= 1 ? '' : accountName}
+            // onChange={formik.handleChange}
             />
           </div>
         </div>
@@ -199,7 +246,7 @@ const BankAccountSetUp = () => {
           type="submit"
           theme="primary"
           width={161}
-          // disabled={!validateAccountNumber || disableButton}
+          disabled={!validateAccountNumber || disableButton}
           loading={submitting}
         >
           Save

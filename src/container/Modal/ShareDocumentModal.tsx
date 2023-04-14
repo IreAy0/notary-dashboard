@@ -24,72 +24,54 @@ interface User {
   commission_number?: number;
 }
 // , request
-const OTPModal = ({ isOpen, isClose }: any) => {
+const ShareDocumentModal = ({ isOpen, isClose, id }: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user: User = useSelector((state: RootState) => state?.auth?.signIn);
   const userProfile = useTypedSelector((state: RootState) => state.user);
   const [updatedUser, setUpdatedUser] = useState<User>(user);
   const [loading, setLoading] = useState<boolean>(false);
-  const [otp, setOtp] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
   }, [user, userProfile])
 
-  const fetchDocument = (useOTP?: boolean) => {
+  const fetchDocument = (document_id?: string) => {
     setLoading(true);
-
-    dispatch(
-      verifyLockerOTP(
-        {
-          email: updatedUser?.email,
-          otp: useOTP ? otp : ''
-        },
-        (success) => {
-          setLoading(false);
-          dispatch(
-            fetchUserProfile(
-              
-              {},
-              () => {
-               
-              },
-              () => {}
-            )
-          );
-          // if(useOTP) {
-          //   routeToCertificate(doc);
-          // }
-        },
-        (err) => {
-          toast.error(err);
-          setOtp('')
-          setLoading(false);
-        }
-      )
-    );
+    const documents = [
+      {
+        "document_id": document_id,
+        "email": email
+      }
+    ]
+    instance.put(`/document-share/${document_id}`, {documents} )
+      .then(res => {
+        setEmail('')
+        isClose()
+        setLoading(false)
+        toast.success("shared successfully", {
+          duration: 5000,
+          position: "top-right"
+        });
+      }).catch(err => {
+        setLoading(false)
+        toast.error(err.response.data.data.error, {
+          duration: 5000,
+          position: "top-right"
+        });
+      })
   };
 
-  const verifyOTP = (type: string) => {
-    if (type === 'proceed') {
-      
-      fetchDocument(true);
+  const shareEmail = (type: string) => {
+    if (type ) {
+      fetchDocument(type);
     } else {
       fetchDocument();
     }
   };
 
-  const resendOtp = () => {
-    instance.get('/document-otp-locker')
-      .then(res => {
-        toast.success(res?.data?.message);
-    
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      })
-  }
+ 
   // useEffect(() => {
   //   if(user?.user?.access_locker_documents === false){
      
@@ -100,31 +82,23 @@ const OTPModal = ({ isOpen, isClose }: any) => {
     <Modal isOpen={isOpen} isClose={isClose} width={400}>
       <div className={styles.otpModalContainer}>
         
-        <h2 className={styles.otpModalContainer__title}>Enter OTP  </h2>
+        <h2 className={styles.otpModalContainer__title}>Enter Email  <span aria-hidden="true" role="button" style={{float: 'right', cursor: 'pointer'}} onClick={() => isClose()}>close</span></h2>
        
         <p className={styles.otpModalContainer__text}>
-          {`We have sent an OTP to ${updatedUser?.email}, If you don't get a code, please request another`}
+          please enter the email you want to share this document with.
         </p>
         <form>
-          <Input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
-          <button
-            className={styles.otpModalContainer__resendEmail}
-            onClick={(e) => {
-              e.preventDefault();
-              resendOtp()
-            }}
-          >
-            Send another one
-          </button>
+          <Input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          
           <div className={styles.otpModalContainer__buttons}>
             {/* <button style={{ marginRight: '20px' }} onClick={isClose}>
               Cancel
             </button> */}
             <Button
               theme="primary"
-              onClick={() => verifyOTP('proceed')}
+              onClick={() => shareEmail(id)}
               loading={loading}
-              disabled={otp === '' || otp.length !== 6 || loading}
+              disabled={email === '' || loading}
             >
               Proceed
             </Button>
@@ -135,4 +109,4 @@ const OTPModal = ({ isOpen, isClose }: any) => {
   );
 };
 
-export default OTPModal;
+export default ShareDocumentModal;

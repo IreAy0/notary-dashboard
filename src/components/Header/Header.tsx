@@ -21,7 +21,6 @@ import Avatar from '../Avatar';
 import { ReactComponent as Logo } from '../../assets/icons/tonote-logo-blue.svg';
 import { ReactComponent as Logout } from '../../assets/icons/logout.svg';
 // import { ReactComponent as HideMenuIcon } from '../../assets/icons/hideMenuIcon.svg';
-
 import { ReactComponent as Tick } from '../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../assets/icons/alertErrorIcon.svg';
 import { ReactComponent as Setting } from '../../assets/icons/navSettings.svg';
@@ -53,6 +52,9 @@ const Header = () => {
   const handleSignout = () => {
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
+
+
+
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
@@ -191,7 +193,7 @@ const Header = () => {
                       <div className={styles.header__profile}>
                         <Avatar withInidicator name={`${updatedUser?.first_name} ${updatedUser?.last_name}`} />
                         <div className="flex flex__item-center mr-1">
-                          <strong className=" mr-1 text--capitalize">Notary Public</strong>
+                          <strong className=" mr-1 text--capitalize">C.F.O</strong>
                           <Caret />
                         </div>
                       </div>
@@ -202,7 +204,7 @@ const Header = () => {
                   <div className={menuStyles.header}>
                     <div className="flex flex__spaced flex__item-center">
                       <div>
-                        <strong className="text--capitalize">Notary</strong>&nbsp;
+                        <strong className="text--capitalize">C.F.O</strong>&nbsp;
                         <small className={`text--${updatedUser?.national_verification === true ? 'green' : 'red'}`}>
                           {updatedUser?.national_verification === false ? 'FAILED' : verifiedUser}
                         </small>
