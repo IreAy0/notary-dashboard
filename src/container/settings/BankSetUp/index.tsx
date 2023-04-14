@@ -171,8 +171,9 @@ const BankAccountSetUp = () => {
   }, [formik.values.account_number]);
 
   useEffect(() => {
+    const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_STAGING}` : `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_DEV}`
     if (accountNumber.length >= 10 && !!selectedBank?.id) {
-      api.post(`${process.env.REACT_APP_NOTARY_BACKEND_API_URL}/v1/bank-details`,
+      api.post(`${env_variable}/v1/bank-details`,
         {
           "bank_id": selectedBank?.id,
           "bank_account_number": accountNumber

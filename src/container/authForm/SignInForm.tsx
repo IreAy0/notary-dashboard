@@ -39,7 +39,7 @@ const SignInForm = () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
               setIsCompleteSignIn(true);
-              <Redirect to="/" />
+              // <Redirect to="/" />
               window.location.href = '/'
             }
            
@@ -55,7 +55,7 @@ const SignInForm = () => {
   });
 
 
-  if ( isAuthenticated()) {
+  if (isAuthenticated()) {
     return <Redirect to="/" />;
   }
  

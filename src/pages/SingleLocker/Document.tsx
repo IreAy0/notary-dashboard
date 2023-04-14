@@ -84,7 +84,7 @@ const LockerDocument = () => {
               Go Back
             </button>
       {lockerDocument?.length === 0 ? <DocumentLoader /> : 
-      <> {lockerDocument?.map((doc) =>(
+      <> {lockerDocument.filter(doc => doc.status === 'Completed')?.map((doc) =>(
           <div key={doc?.id}>
             <Document type="request" doc={doc} />
           </div>

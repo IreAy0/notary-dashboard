@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import Select from 'components/Select';
 import Button from 'components/Button';
+import Box from '@mui/material/Box';
 import { Input } from 'components/TextInput/TextInput';
 import { useDispatch } from 'react-redux';
 import { fetchUserProfile, updateUserIDAction } from 're-ducks/user';
@@ -24,7 +25,8 @@ interface Props {
 const IDTypes = [
   { name: 'BVN', id: 'bvn' },
   { name: 'NIN', id: 'nin' },
-  { name: 'Drivers License', id: 'drivers_license' }
+  { name: 'Drivers License', id: 'drivers_license' },
+  { name: 'International Passport', id: 'passport' }
 ];
 
 const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
@@ -110,7 +112,9 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
   const formik = useFormik({
     initialValues: {
       identity_type: identityType.id, 
-      identity_number: user?.user?.identity_number
+      identity_number: user?.user?.identity_number,
+      first_name: '',
+      last_name: ''
 
     },
     validationSchema: Yup.object({
@@ -186,8 +190,8 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
     // onSubmit={handleVerifyID} 
     <form onSubmit={formik.handleSubmit}>
       <p className="text--600 mb-2">ID Verification</p>
-      <div className="grid grid__layout  pb-2 mb-2">
-        <div className="col-6 mb-2">
+      <Box sx={{ display: 'flex !important',gap:'15px', flexWrap: 'wrap', justifyContent: 'space-between', flex: '1 1 0px' }}>
+      <div className="mb-2" style={{flex: '1 1 0'}}>
           <Select
             placeholder="Select"
             label="Identity Type*"
@@ -197,8 +201,61 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             disabled={user?.user?.national_verification}
           />
         </div>
-        <div className="col-6 mb-2">
-          <div className="grid grid__layout gap-1" style={{alignItems: 'flex-end', width: '100%'}}>
+        {identityType.id === 'passport' && 
+      (<div className=" mb-2" style={{flex: '1 1 0'}}>
+          <div className=" " style={{alignItems: 'flex-end', width: '100%'}}>
+            <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7 mb-2' } `}>
+            <Input
+          className='mb-0'
+            // value={IDData}
+           
+            label="First Name*"
+            
+            placeholder="First Name"
+            type="text"
+            name="first_name"
+            onChange={formik.handleChange}
+            value={formik.values.first_name || ''}
+            disabled={user?.user?.national_verification}
+            // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
+            verifiedCheck={user?.user?.national_verification}
+          />
+          
+            </div>
+
+
+          </div>
+          
+        </div>)}
+        {identityType.id === 'passport' && 
+      (<div className=" mb-2" style={{flex: '1 1 0'}}>
+          <div className=" " style={{alignItems: 'flex-end', width: '100%'}}>
+            <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7 mb-2' } `}>
+            <Input
+          className='mb-0'
+            // value={IDData}
+           
+            label="Last Name*"
+            
+            placeholder="ID"
+            type="text"
+            name="last_name"
+            onChange={formik.handleChange}
+            value={formik.values.last_name || ''}
+            disabled={user?.user?.national_verification}
+            // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
+            verifiedCheck={user?.user?.national_verification}
+          />
+          
+            </div>
+
+
+          </div>
+          
+        </div>)}
+       
+        <div style={{flex: '1 1 0'}} className="col-6 mb-2">
+          <div className=" " style={{alignItems: 'flex-end', width: '100%'}}>
             <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7 mb-2' } `}>
             <Input
           className='mb-0'
@@ -210,15 +267,22 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             type="number"
             name="identity_number"
             onChange={formik.handleChange}
-            value={formik.values.identity_number}
+            value={formik.values.identity_number || ''}
             disabled={user?.user?.national_verification}
             // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
             verifiedCheck={user?.user?.national_verification}
           />
+          
             </div>
 
- <div className={`${user?.user?.national_verification ? 'd-none' :  'col-3 mb-2'} `}>
+
+          </div>
+          
+        </div>
+        <div style={{flex: '1 1 0'}} className={`${user?.user?.national_verification ? 'd-none' :  'col-3 mb-2'} `}>
+          
           <Button
+          style={{marginTop: '1.5rem'}}
           className=" "
           type="submit"
           loading={submitting}
@@ -230,11 +294,9 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
           Verify Now
         </Button>
         </div>
-          </div>
-          
-        </div>
-       
-      </div>
+      
+      </Box>
+      
       <div className="flex flex__end">
        
       

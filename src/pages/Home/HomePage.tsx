@@ -98,6 +98,7 @@ const HomePage = () => {
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const { requests }: any = useTypedSelector((state) => state?.request);
   const user_profile = useTypedSelector((state: any) => state.user);
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
 
   useEffect(() => {
     dispatch(
@@ -200,7 +201,7 @@ const HomePage = () => {
               <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="white" />
             </Grid>
             <Grid item xs={6} md={3}>
-              <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="white" />
+              <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.message?.notarised_docs} theme="white" />
             </Grid>
           </Grid>
         </div>
@@ -286,7 +287,7 @@ const HomePage = () => {
                       {row?.schedule_session.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
+                            href={`${env_variable}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -386,7 +387,7 @@ const HomePage = () => {
                           {value?.schedule_session.status === 'Accepted' && (
                             <>
                               <a
-                                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${value?.schedule_session?.id}?token=${getToken()}`}
+                                href={`${env_variable}notary/session-prep/${value?.schedule_session?.id}?token=${getToken()}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}

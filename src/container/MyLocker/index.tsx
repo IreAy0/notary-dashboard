@@ -10,7 +10,6 @@ import priceSplitter from 'helpers/priceSplitter';
 import { RootState } from 're-ducks/rootReducer';
 import { Box, Button, Modal, Typography, Divider } from '@mui/material';
 import OTPModal from 'container/Modal/OTPModal';
-import ShareDocumentModal from 'container/Modal/ShareDocumentModal';
 import instance from 'services/axios';
 import toast from 'react-hot-toast';
 import Avatar from '@mui/material/Avatar';
@@ -37,7 +36,6 @@ import Upload from 'components/Upload';
 import Table from '../../components/Table';
 import { ReactComponent as EmptyIcon } from '../../assets/icons/requestEmptyIcon.svg';
 import styles from '../../pages/MyRequest/request.module.scss';
-// import ShareDocumentModal from 'container/Modal/ShareDocumentModal';
 
 interface mockData {
   id: number;
@@ -107,11 +105,6 @@ const MyLockerTable = () => {
   const { locker }: any = useTypedSelector((state) => state);
   const user: any = useTypedSelector((state) => state);
   const [showOTPModal, setOTPModal] = useState<Boolean>(false);
-  const [showShareModal, setShareModal] = useState<any>({
-    id: '',
-    open: false
-  });
-  // /document-share/${document_id.value}
   // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -214,7 +207,7 @@ const MyLockerTable = () => {
         getActions: (params) => [
           <GridActionsCellItem
             label="Share"
-            onClick={()=> setShareModal({open:true,id:params.id})}
+            // onClick={toggleAdmin(params.id)}
             showInMenu
           />,
           <GridActionsCellItem
@@ -239,7 +232,7 @@ const MyLockerTable = () => {
 
   useEffect(() => {
     if(user?.user?.access_locker_documents === false){
-      instance.get('/document-otp-locker')
+      instance.get('/notary/notary-otp-locker')
         .then(res => {
           toast.success(res?.data?.message);
         
@@ -255,8 +248,6 @@ const MyLockerTable = () => {
   return (
     <div className="mt-1">
       {showOTPModal  && <OTPModal isOpen={showOTPModal} isClose={() => setOTPModal(false)} />}
-      {showShareModal.id  && <ShareDocumentModal id={showShareModal.id} isOpen={showShareModal.open} isClose={() => setShareModal({id:'',open:false})} />}
-
       <Upload maxFilesize={2} fileRule=" " label='Upload Document' placeholder='Please click here to upload document'/>
       <Divider  sx={{my:3}} />
       <Typography sx={{
