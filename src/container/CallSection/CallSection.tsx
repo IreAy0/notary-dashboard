@@ -40,9 +40,7 @@ const CallSection = ({ data }: BodyProps) => {
   const end=new Date()
   end.setHours(23,59,59,999)
   end.getTime()
-  // console.log(data.filter(item => item.status === 'Accepted'), 'home')
   const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
-
   useEffect(() => {
     api.get('notary/notary-virtual-session-today')
       .then(res => 
