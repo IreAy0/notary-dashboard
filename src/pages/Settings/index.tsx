@@ -34,7 +34,6 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState({label: ''});
   const selectTab = (tabValue: { label: string }) => {
     setActiveTab(tabValue);
-
   };
 
   useEffect(() => {
@@ -47,7 +46,6 @@ const Settings = () => {
                 <div className="flex">
             <Tabs
               setActive={(tabValue) => {
-        
                 selectTab(tabValue);
               }}
               tabs={tabs}

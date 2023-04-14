@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import formatCommissionNumber from 'utils/formatCommissionNumber';
 import { useHistory, useLocation } from 'react-router-dom';
 import SignaturePolicy from 'container/document/SignaturePolicy';
+import CheckMark from 'assets/icons/CheckMark';
 import EditButton from './EditButton';
 import styles from './sealstamp.module.scss';
 import { Input } from '../TextInput/TextInput';
@@ -55,6 +56,7 @@ padding: 4px;
 
 const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreement, prevStep }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [adopt, setAdopting] = useState<boolean>(false);
   const [editStamp, setEditStamp] = useState<boolean>(false);
   const [stampSuccess, setStampSuccess] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -209,6 +211,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
   }, [dispatch, setCompanyStamp, user]);
 
   const saveHtmlAsImage = () => {
+    setAdopting(true)
     if (stampImage.current) {
       html2canvas(stampImage.current, { allowTaint: true }).then((canvas) => {
        
@@ -217,6 +220,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
           ...companyStamp, 
           file_url: url
         });
+        setAdopting(false)
         // setUploadedSeal(url)
       });
     }
@@ -259,7 +263,6 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
       done: () => {
         setCompanyStamp({ file_url: '', file_id: ''})
         setIsDisabled(true)
-        // history.push('/')
         toast.success('Seal Uploaded successfully.', {
           position: "top-right",
           style: {
@@ -297,7 +300,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
               placeholder="Emily R. Waren"
               type="text"
               value={`${updatedUser?.first_name} ${updatedUser?.last_name}`}
-             
+              onChange={()=>{}}
             />
           </div>
           <div className="col-6">
@@ -306,13 +309,13 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
               placeholder="059678456"
               type="text"
               value={`${updatedUser?.notary_commission_number || '' } `}
-              
+              onChange={()=>{}}
             />
           </div>
         </div>
       )}
       <div style={{flexDirection : 'column'}} className="signature__body-wrapper ">
-      <div>
+      <div className="mt-2">
       <Grid container spacing={2}>
   <Grid item xs={12} md={7}>
   <Box ref={stampImage} sx={{ width: {
@@ -368,14 +371,16 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
         theme="primary"
         width={161}
         onClick={() => saveHtmlAsImage()}
-        
+        loading={adopt}
+        disabled={adopt === true}
+        icon={companyStamp?.file_url ? <CheckMark className='ml-1'/> : null }
         // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
        
       >
-       Adopt
+        {companyStamp?.file_url ? 'Adopted' : 'Adopt'}
       </Button>
       {/* <div className={fetching ? 'signature__body--disabled mt-2' : ''} /> */}
-      <img src={companyStamp?.file_url} alt="seal" />
+      {/* <img src={companyStamp?.file_url} alt="seal" /> */}
         </div>
   </Grid>
  
@@ -386,7 +391,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
       </div>
       
         <div className="mt-1" />
-        {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+        {showAgreement && <SignaturePolicy policy='By clicking adopt, I agree that this seal is as valid as my traditional seal to the extent allowed by law' acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
 
         <div className="bb-1 mb-2" />
         <div>

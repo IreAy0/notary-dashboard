@@ -161,7 +161,7 @@ const DrawSignature: FC<TabsProps> = ({ isSaving, onSave, fetching, fileURL, hid
       
     </div>
    
-    {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+    {showAgreement && <SignaturePolicy policy="By drawing this signature, I agree that it is as valid as my hand-written signature to the extent allowed by law" acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
 
       <div className="bb-1 mb-2" />
       <Button onClick={prevStep} type="button" theme="grey" variant="outline" style={{borderRadius: '50%'}} className='mr-2'>

@@ -31,7 +31,6 @@ function* doSignIn(action: any): any {
     if (res.status === 200) {
      
       localStorage.setItem('accessToken', res.data.token);
-
       saveToken(res.data.token);
       window.location.reload();
       axios.defaults.headers.Authorization = res.data.token;
@@ -41,7 +40,7 @@ function* doSignIn(action: any): any {
     }
   } catch (err: any) {
     const { cbError } = action;
-    const alert = err?.response?.data || '';
+    const alert = err?.response?.data.errors.root || 'Incorrect email or password';
     cbError(alert);
   }
 }
@@ -83,8 +82,8 @@ function* doSignUp(action: any): any {
 function* doReSetPassword(action: any): any {
   try {
     const { payload, cb } = action;
-    const { password, id } = payload;
-    const res = yield call(() => api.post(API.RESET_PASSWORD, { password, id }));
+    const { password, password_confirmation, token, email  } = payload;
+    const res = yield call(() => api.post(API.RESET_PASSWORD, { password, password_confirmation, token, email }));
     if (res.status === 200) {
       cb(res);
     }
@@ -116,12 +115,15 @@ function* doForgetPass(action: any): any {
     const res: any = yield call(() => api.post(API.FORGOT_PASS_SEND_EMAIL, data));
     if (res.status === 200) {
       yield put({ type: DO_FORGET_PASSWORD, payload: res.data.data });
-      cb();
+      const alert = res.data.data.message
+      cb(alert);
     }
   } catch (err: any) {
-    const { cbError } = action;
-    const alert = err?.response?.data?.message || '';
-    cbError(alert);
+    if(err.response.status === 422){
+      const { cbError } = action;
+      const alert = 'Email doesn`t exist, Please check and try again'  || '';
+      cbError(alert);
+    }
   }
 }
 function* doVerifyNotaryId(action: any): any {

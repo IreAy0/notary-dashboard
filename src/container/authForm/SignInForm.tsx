@@ -32,24 +32,30 @@ const SignInForm = () => {
         doSignIn(
           {
             email: values.email,
-            password: values.password
+            password: values.password,
+            entry_point: 'Notary'
           },
           () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
               setIsCompleteSignIn(true);
+              // <Redirect to="/" />
+              window.location.href = '/'
             }
+           
             setLoading(false);
           },
           (error: any) => {
-            toast.error(error.message);
+            toast.error(error);
             setLoading(false);
           }
         )
       );
     }
   });
-  if (isCompleteSignIn || isAuthenticated()) {
+
+
+  if (isAuthenticated()) {
     return <Redirect to="/" />;
   }
  
@@ -72,7 +78,7 @@ const SignInForm = () => {
             />
             {formik.errors.email ? <div className={styles.error}>{formik.errors.email}</div> : null}
           </div>
-          <div>
+          <div className='pt-1'>
             <Input
               placeholder="***********"
               name="password"
@@ -84,7 +90,7 @@ const SignInForm = () => {
             />
             {formik.errors.password ? <div className={styles.error}>{formik.errors.password}</div> : null}
           </div>
-          <div>
+          <div className='pt-2'>
             <Button theme="primary" wide type="submit" disabled={!formik.isValid || !formik.dirty} loading={loading}>
               Sign In
             </Button>

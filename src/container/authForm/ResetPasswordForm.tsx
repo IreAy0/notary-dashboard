@@ -13,7 +13,10 @@ const ResetPasswordForm = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const getId = location.search.substring(4);
+  // const getId = location.search;
+
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const params = Object.fromEntries(urlSearchParams.entries());
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +27,13 @@ const ResetPasswordForm = () => {
       setLoading(true);
       dispatch(
         doResetPassword(
-          { password: values.password, id: getId },
+          { 
+            // password: values.password, id: getId 
+            "email": params.email,
+            "token": params.hash,
+            "password": values.password,
+            "password_confirmation": values.confirm_password
+          },
           () => {
             history.push('../../auth/sign-in');
             setLoading(false);

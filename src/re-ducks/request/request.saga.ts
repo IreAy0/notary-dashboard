@@ -21,7 +21,7 @@ function* getAllRequest(action: any): any {
   try {
     const { cb, payload: data } = action;
 
-    const res: any = yield call(() => api.get(`${API.REQUEST}?${queryFormatter(data.params)}`));
+    const res: any = yield call(() => api.get(`${API.REQUEST}?${data?.params ?  queryFormatter(data.params) : null }`));
     if (res.status === 200) {
       yield put({ type: SAVE_ALL_REQUEST, payload: res.data});
       cb();

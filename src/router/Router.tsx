@@ -19,6 +19,7 @@ import RequestDocument from 'pages/SingleRequest/Document';
 import LockerDocument from 'pages/SingleLocker/Document';
 // import NotarySession from 'pages/Session';
 import VerifyExpired from 'pages/Auth/VerifyExpired';
+import Redirect from 'pages/Auth/Redirect';
 import Certificate from 'pages/Certificate';
 import SessionErrorPage from 'pages/SessionErrorPage';
 import { appRoutePaths } from './Router.utils';
@@ -35,6 +36,7 @@ const Router: FC = () => (
 
     <Route exact path={appRoutePaths.signUp} component={SignUp} />
     <Route exact path={appRoutePaths.signIn} component={SignIn} />
+    <Route exact path={appRoutePaths.redirect} component={Redirect} />
     <Route exact path={appRoutePaths.forgotPassword} component={ForgotPassword} />
     <Route exact path={appRoutePaths.resetPassword} component={ReSetPassword} />
     <Route exact path={appRoutePaths.setPassword} component={SetPassword} />

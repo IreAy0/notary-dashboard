@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from 'react';
 import Tabs from 'components/Tabs';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
@@ -32,6 +32,7 @@ import classnames from 'classnames';
 import Button from 'components/Button';
 import instance from 'services/axios';
 import MediaQuery from 'helpers/useMediaQuery';
+import RequestTabs from 'components/Tabs/RequestTab';
 import styles from './request.module.scss';
 // import Dashboard from '../../layouts/dashboard';
 import Dashboard from '../../dashboard/SidebarLayout/index';
@@ -97,30 +98,33 @@ export default function Request() {
   const [searchValue, setSearchValue] = useState('');
   const [dataPerPage, setDataPerPage] = useState(10);
   const { requests }: any = useTypedSelector((state) => state?.request);
+  const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const dispatch = useDispatch();
-
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
+  const {tab}: any = useParams()
   const tabs = [
     {
-      label: `All (${requests?.generalStatus?.total_count || 0})`,
+      label: `All (${dashboardOverview?.message?.all_docs || 0})`,
       title: 'all'
     },
     {
-      label: `Pending (${requests?.generalStatus?.pending_count || 0})`,
-      title: 'pending'
+      // requests?.data?.filter(item => item.schedule_session.status === 'Pending')?.length
+      label: `Pending (${ dashboardOverview?.message?.pending_docs ||0})`,
+      title: 'Pending'
     },
     {
-      label: `Scheduled (${requests?.generalStatus?.scheduled_count || 0})`,
-      title: 'scheduled'
+      label: `Accepted (${dashboardOverview?.message?.accepted_docs  || 0})`,
+      title: 'Accepted'
     },
     {
-      label: `Awaiting Payment (${requests?.generalStatus?.pay_now_count || 0})`,
-      title: 'pay now'
+      label: `Completed (${dashboardOverview?.message?.completed_docs || 0})`,
+      title: 'Completed'
     }
   ];
   const [activeTabContent, setActiveTabContent] = useState(tabs[0]);
 
   const fetchRequest = useCallback(
-    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
       const params = {
         status: status === 'all' ? '' : status,
         page: nextPage === 0 ? 1 : nextPage,
@@ -177,13 +181,18 @@ export default function Request() {
     }
   }, [activeTabContent, fetchRequest, searchValue]);
 
+
+  // useEffect(() => {
+  //   setActiveTabContent({title: tab?.replace(/_/g, ' ')});
+  // }, [tab])
+
   return (
     <Dashboard>
       <section className="pt-1">
         <div className={styles.request_container}>
           <div className={styles.request_container__flex}>
             <div>
-              <Tabs tabs={tabs} active={activeTabContent} setActive={(tab: any) => setActiveTabContent(tab)} />
+              <RequestTabs tabs={tabs} active={activeTabContent} setActive={(Maintab: any) => setActiveTabContent(Maintab)} />
             </div>
             {activeTabContent.title === 'all' && (
               <div>
@@ -199,6 +208,7 @@ export default function Request() {
               </div>
             )}
           </div>
+
           <div className="mt-1" style={{ overflow: 'auto' }}>
             {MediaQuery().matchMD ? (
               <Table
@@ -282,7 +292,7 @@ export default function Request() {
                       {row?.schedule_session.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}`}
+                            href={`${env_variable}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -403,7 +413,7 @@ export default function Request() {
             )}
 
             <div className="pt-2">
-              {!loading && requests?.data?.length > 10 && (
+              {!loading && requests?.data?.length >= 1 && (
                 <Pagination
                   currentPage={requests?.meta?.current_page}
                   total={requests?.meta?.total}
