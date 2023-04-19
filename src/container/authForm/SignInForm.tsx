@@ -40,7 +40,7 @@ const SignInForm = () => {
             if (token) {
               setIsCompleteSignIn(true);
               <Redirect to="/" />
-              // window.location.href = '/'
+              window.location.href = '/'
             }
             setLoading(false);
           },
