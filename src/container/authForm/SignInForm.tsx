@@ -42,7 +42,6 @@ const SignInForm = () => {
             //   // <Redirect to="/" />
             //   // window.location.href = '/'
             // }
-           
             setLoading(false);
           },
           (error: any) => {
