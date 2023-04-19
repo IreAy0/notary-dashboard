@@ -276,6 +276,7 @@ function Header() {
       console.log('socket connected');
     });
 
+
     socket.on('NOTARY_NEW_REQUEST', (data) => {
       const request = JSON.parse(data);
       if (request.id === userProfile.id) {
@@ -291,7 +292,8 @@ function Header() {
             color: '#63d246',
             fontWeight: 'bolder'
           }
-        });
+        })
+        
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
