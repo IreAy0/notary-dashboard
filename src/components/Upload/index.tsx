@@ -145,7 +145,7 @@ const Upload = ({ label, placeholder, fileRule, iconName, maxFilesize, showPrevi
     //   "files": images
     // }
     if(fileData.title){
-      instance.post('/notary/notary-locker', fileData )
+      instance.post('/document-locker', fileData )
         .then((res: any) => {
           
           fetchAllCompleteRequest();

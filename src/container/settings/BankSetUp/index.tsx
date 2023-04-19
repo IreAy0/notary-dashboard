@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
+import ReactSelect , { components, PlaceholderProps }  from 'react-select';
 import { Input } from 'components/TextInput/TextInput';
 import Button from 'components/Button';
 import Select from 'components/Select';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBankDetails, fetchBankList, fetchUserProfile, uploadBankDetails } from 're-ducks/user';
 import { useFormik } from 'formik';
@@ -12,21 +14,38 @@ import api from 'services/api';
 import toast from 'react-hot-toast';
 import { RootState } from 're-ducks/rootReducer';
 import styles from '../PersonalInfo/components/AddPersonalInfo/personalinfo.module.scss';
+// import selectstyles from 'component/Select/select.module.scss';
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+
+const Placeholder = (props: PlaceholderProps) => {
+  return <components.Placeholder {...props} />;
+};
 
 const BankAccountSetUp = () => {
   const user: any = useSelector((state: RootState) => state.user);
-
+  const [options, setOptions] = useState<any>([]);
+  const [defaultValue, setDefaultValue] = useState<any>(undefined);
+  const [selectedOption, setSelectedOption] = useState<any>({});
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [bankList, setBankList] = useState([]);
   const [accountName, setAccountName] = useState('');
   const [accountNumber, setAccountNumber] = useState<any>('');
-
+  const [loadingAccount, setLoadingAccount] = useState(false)
   const [validateAccountNumber, setValidateAccountNumber] = useState<boolean>();
   const [verificationMessage, setVerificationMessage] = useState<any>(null);
   // const checkForBank: any = bankList.filter((item: any) => item?.code === user?.bank_code);
   const [disableButton, setDisabledButton] = useState(true);
   const [bankDetails, setBankDetails] = useState<any>({});
+  const [selectedBank, setSelectedBank] = useState<any>({
+    name: '',
+    id: ''
+  });
   useEffect(() => {
     dispatch(
       fetchBankDetails(
@@ -37,12 +56,10 @@ const BankAccountSetUp = () => {
             setBankDetails(success);
             // setValidateAccountNumber(true);
           }
-
         },
         () => { }
       )
     );
-
 
     dispatch(
       fetchBankList(
@@ -54,28 +71,26 @@ const BankAccountSetUp = () => {
     );
   }, [dispatch]);
 
-  const [selectedBank, setSelectedBank] = useState<any>({
-    name: '',
-    id: ''
-  });
-
+  useEffect(() => {
+    const mappedData = bankList.map((item: any) => ({
+      value: item.id,
+      label: item.name
+    }));
+    setOptions(mappedData);
+  }, [bankList]);
 
   useEffect(() => {
-    setSelectedBank({
-      name: bankDetails?.bank_name,
-      id: bankDetails?.bank_id
-    });
-
+    const defaultValueItem = options.find((item) => item.value === bankDetails?.bank_id);
+    // setDefaultValue(defaultValueItem);
     setValidateAccountNumber(user?.account_number && true);
-  }, [bankList, user?.account_number, bankDetails]);
-
+  }, [user?.account_number, bankDetails, options, defaultValue]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       account_number: accountNumber,
       account_name: accountName,
-      bank_id: selectedBank?.id
+      bank_id: defaultValue?.value
     },
     // validationSchema: Yup.object({
     //   account_number: Yup.string().test(
@@ -85,33 +100,28 @@ const BankAccountSetUp = () => {
     //     accountNumber?.length === 9 &&
     //     //  console.log(value)
 
-
     //   )
     // }),
     onSubmit: (values) => {
       setSubmitting(true);
       dispatch(
         uploadBankDetails(
-
-
           {
-            "bank_id": selectedBank?.id,
-            "bank_account_name": values.account_name,
-            "bank_account_number": values.account_number
-
+            bank_id: defaultValue?.value,
+            bank_account_name: values.account_name,
+            bank_account_number: values.account_number
           },
           () => {
             setSubmitting(false);
             toast.success('Bank details updated.', {
-              position: "top-right",
+              position: 'top-right',
               style: {
                 background: '#28a745',
                 color: '#fff',
                 border: 'none',
                 padding: '16px'
-
               }
-            })
+            });
             setDisabledButton(true);
             dispatch(
               fetchUserProfile(
@@ -125,39 +135,34 @@ const BankAccountSetUp = () => {
             setSubmitting(false);
             if (error.data.code === 403) {
               toast.error('Server Error', {
-                position: "top-right",
+                position: 'top-right',
                 style: {
                   background: '#dc3545',
                   color: '#fff',
                   border: 'none',
                   padding: '16px'
-
                 }
-              })
-            }
-            else if (error.data.code === 422) {
+              });
+            } else if (error.data.code === 422) {
               toast.error('Saving failed, Please check all fields', {
-                position: "top-right",
+                position: 'top-right',
                 style: {
                   background: '#dc3545',
                   color: '#fff',
                   border: 'none',
                   padding: '16px'
-
                 }
-              })
-            }
-            else {
+              });
+            } else {
               toast.error('Error Saving', {
-                position: "top-right",
+                position: 'top-right',
                 style: {
                   background: '#dc3545',
                   color: '#fff',
                   border: 'none',
                   padding: '16px'
-
                 }
-              })
+              });
             }
           }
         )
@@ -165,49 +170,68 @@ const BankAccountSetUp = () => {
     }
   });
 
-
   useEffect(() => {
     setAccountNumber(formik.values.account_number);
   }, [formik.values.account_number]);
 
   useEffect(() => {
-    if (accountNumber.length >= 10 && !!selectedBank?.id) {
-      api.post(`${process.env.REACT_APP_NOTARY_BACKEND_API_URL}/v1/bank-details`,
-        {
-          "bank_id": selectedBank?.id,
-          "bank_account_number": accountNumber
+    const env_variable =
+      `${process.env.REACT_APP_ENVIRONMENT}` === 'live'
+        ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_LIVE}`
+        : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging'
+          ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_STAGING}`
+          : `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_DEV}`;
+    if (accountNumber.length >= 10 && !!defaultValue?.value) {
+      setLoadingAccount(true)
+      api
+        .post(`${env_variable}/v1/bank-details`, {
+          bank_id: defaultValue?.value,
+          bank_account_number: accountNumber
         })
         .then((res): any => {
           setAccountName(res.data.data.bank_account_name);
           setValidateAccountNumber(true);
-
+          setLoadingAccount(false)
           return Promise.resolve(true);
         })
         .catch((error) => {
+          setLoadingAccount(false)
           setVerificationMessage(error.response.data.data.error.toString());
-        })
+        });
     }
-  }, [accountNumber, selectedBank])
+  }, [accountNumber, defaultValue]);
 
-  const handleChange = (res: any) => {
+  const handleSelectChange = (selected: Option) => {
+    // setDefaultValue(selectedOption);
+    setSelectedOption(selected);
 
-    setSelectedBank({
-      name: res?.name,
-      id: res?.id
-    });
-    setAccountName('');
-    setAccountNumber('');
-    setDisabledButton(false);
-    setVerificationMessage('')
-    setValidateAccountNumber(false);
+    if (selected) {
+      setAccountName('');
+      setAccountNumber('');
+      setDisabledButton(false);
+      setVerificationMessage('');
+      setValidateAccountNumber(false);
+    }
   };
+
+
 
   return (
     <form id="Bank" onSubmit={formik.handleSubmit}>
       <div className="grid grid__layout  pt-2">
         <div className="col-6 bb-1 pb-1">
           <div className="col-6 mb-1">
-            <Select label="Bank Name*" placeholder="Select" options={bankList} selected={selectedBank} handleChange={handleChange} />
+           <span className="label__title">Bank Name * </span>
+            <ReactSelect 
+            placeholder='Search for bank'
+            // placeholder="Search for bank"
+            value={selectedOption || defaultValue }
+             options={options} 
+            onChange={handleSelectChange} 
+            defaultValue={defaultValue}
+            components={{ Placeholder }}
+            />
+            {/* <Select label="Bank Name*" placeholder="Select" options={bankList} selected={selectedBank} handleChange={handleChange} /> */}
           </div>
           <div className="col-6 mb-1">
             <Input
@@ -223,7 +247,7 @@ const BankAccountSetUp = () => {
             />
             {formik.values.account_number && <p className={styles.error}>{!validateAccountNumber ? verificationMessage : null}</p>}
           </div>
-
+          {loadingAccount && <CircularProgress />}
           <div className="col-6">
             <Input
               label="Account Name*"

@@ -29,7 +29,6 @@ function* doSignIn(action: any): any {
     const res: any = yield call(() => api.post(API.SIGNIN, data));
     
     if (res.status === 200) {
-     
       localStorage.setItem('accessToken', res.data.token);
       saveToken(res.data.token);
       window.location.reload();

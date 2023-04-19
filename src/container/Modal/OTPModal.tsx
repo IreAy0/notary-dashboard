@@ -100,7 +100,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
     <Modal isOpen={isOpen} isClose={isClose} width={400}>
       <div className={styles.otpModalContainer}>
         
-        <h2 className={styles.otpModalContainer__title}>Enter OTP  <a style={{float: 'right'}} href="/">close</a></h2>
+        <h2 className={styles.otpModalContainer__title}>Enter OTP  </h2>
        
         <p className={styles.otpModalContainer__text}>
           {`We have sent an OTP to ${updatedUser?.email}, If you don't get a code, please request another`}

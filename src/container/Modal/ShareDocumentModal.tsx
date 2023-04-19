@@ -82,7 +82,7 @@ const ShareDocumentModal = ({ isOpen, isClose, id }: any) => {
     <Modal isOpen={isOpen} isClose={isClose} width={400}>
       <div className={styles.otpModalContainer}>
         
-        <h2 className={styles.otpModalContainer__title}>Enter Email  <a style={{float: 'right'}} href="/">close</a></h2>
+        <h2 className={styles.otpModalContainer__title}>Enter Email  <span aria-hidden="true" role="button" style={{float: 'right', cursor: 'pointer'}} onClick={() => isClose()}>close</span></h2>
        
         <p className={styles.otpModalContainer__text}>
           please enter the email you want to share this document with.

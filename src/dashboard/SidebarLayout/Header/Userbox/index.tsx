@@ -122,13 +122,13 @@ function HeaderUserbox({userProfile}) {
           <ListItem >
           <div className={menuStyles.header}>
                     <div className="flex flex__spaced flex__item-center">
-                      <div>
+                      <div className=''>
                         <strong className="text--capitalize">Notary </strong>&nbsp;
                         <small className={`text--${userProfile?.national_verification === true ? 'green' : 'red'}`}>
-                          { verifiedUser}
+                          { verifiedUser} 
                         </small>
                       </div>
-                      <span className="flex flex__item-center">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
+                      <div className="flex flex__item-center pl-1">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</div>
                     </div>
                     {/* <div className={menuStyles.label__max}>
                       <span className={menuStyles.label}>

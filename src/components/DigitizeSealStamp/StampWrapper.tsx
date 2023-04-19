@@ -300,7 +300,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
               placeholder="Emily R. Waren"
               type="text"
               value={`${updatedUser?.first_name} ${updatedUser?.last_name}`}
-              
+              onChange={()=>{}}
             />
           </div>
           <div className="col-6">
@@ -309,7 +309,7 @@ const StampWrapper = ({ setSignature, actionType, requestData, Save, showAgreeme
               placeholder="059678456"
               type="text"
               value={`${updatedUser?.notary_commission_number || '' } `}
-              
+              onChange={()=>{}}
             />
           </div>
         </div>

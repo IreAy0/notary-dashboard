@@ -63,6 +63,7 @@ const SingleRequest = () => {
   const history = useHistory();
   const [participants, setParticipants] = useState<any>([]);
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
 
   const getRequestParticipants = (Virtualid) => {
     instance.get(`/request-virtual-session/${Virtualid}`).then((res) => setParticipants(res?.data));
@@ -371,7 +372,7 @@ const SingleRequest = () => {
           {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now' && !loading ? (
             <div  className={classNames(styles.join_button, 'mt-1')}>
               <a
-                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}`}
+                href={`${env_variable}notary/session-prep/${request?.schedule_session?.id}`}
                 target="_blank"
                 rel="noreferrer"
                 className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm, document.documentUploads?.length === 0 ? Buttonstyles.btn__disabled : null

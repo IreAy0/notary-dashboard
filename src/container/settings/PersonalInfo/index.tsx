@@ -15,7 +15,7 @@ const tabsContent = [
     label: 'ID Verification'
   },
   {
-    label: 'Add personal information'
+    label: 'Personal information'
   },
   
   {
