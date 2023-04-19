@@ -37,11 +37,11 @@ const SignInForm = () => {
           },
           () => {
             const token = localStorage.getItem('accessToken');
-            // if (token) {
-            //   setIsCompleteSignIn(true);
-            //   // <Redirect to="/" />
-            //   // window.location.href = '/'
-            // }
+            if (token) {
+              setIsCompleteSignIn(true);
+              <Redirect to="/" />
+              // window.location.href = '/'
+            }
             setLoading(false);
           },
           (error: any) => {
