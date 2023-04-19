@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import ReactSelect from 'react-select';
+import ReactSelect , { components, PlaceholderProps }  from 'react-select';
 import { Input } from 'components/TextInput/TextInput';
 import Button from 'components/Button';
 import Select from 'components/Select';
@@ -14,16 +14,23 @@ import api from 'services/api';
 import toast from 'react-hot-toast';
 import { RootState } from 're-ducks/rootReducer';
 import styles from '../PersonalInfo/components/AddPersonalInfo/personalinfo.module.scss';
+// import selectstyles from 'component/Select/select.module.scss';
 
 interface Option {
   value: string;
   label: string;
 }
 
+
+const Placeholder = (props: PlaceholderProps) => {
+  return <components.Placeholder {...props} />;
+};
+
 const BankAccountSetUp = () => {
   const user: any = useSelector((state: RootState) => state.user);
   const [options, setOptions] = useState<any>([]);
-  const [defaultValue, setDefaultValue] = useState<any>({});
+  const [defaultValue, setDefaultValue] = useState<any>(undefined);
+  const [selectedOption, setSelectedOption] = useState<any>({});
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [bankList, setBankList] = useState([]);
@@ -74,9 +81,9 @@ const BankAccountSetUp = () => {
 
   useEffect(() => {
     const defaultValueItem = options.find((item) => item.value === bankDetails?.bank_id);
-    setDefaultValue(defaultValueItem);
+    // setDefaultValue(defaultValueItem);
     setValidateAccountNumber(user?.account_number && true);
-  }, [user?.account_number, bankDetails, options]);
+  }, [user?.account_number, bankDetails, options, defaultValue]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -194,9 +201,11 @@ const BankAccountSetUp = () => {
     }
   }, [accountNumber, defaultValue]);
 
-  const handleSelectChange = (selectedOption: Option) => {
-    setDefaultValue(selectedOption);
-    if (selectedOption) {
+  const handleSelectChange = (selected: Option) => {
+    // setDefaultValue(selectedOption);
+    setSelectedOption(selected);
+
+    if (selected) {
       setAccountName('');
       setAccountNumber('');
       setDisabledButton(false);
@@ -205,12 +214,23 @@ const BankAccountSetUp = () => {
     }
   };
 
+
+
   return (
     <form id="Bank" onSubmit={formik.handleSubmit}>
       <div className="grid grid__layout  pt-2">
         <div className="col-6 bb-1 pb-1">
           <div className="col-6 mb-1">
-            <ReactSelect value={defaultValue} options={options} onChange={handleSelectChange} />
+           <span className="label__title">Bank Name * </span>
+            <ReactSelect 
+            placeholder='Search for bank'
+            // placeholder="Search for bank"
+            value={selectedOption || defaultValue }
+             options={options} 
+            onChange={handleSelectChange} 
+            defaultValue={defaultValue}
+            components={{ Placeholder }}
+            />
             {/* <Select label="Bank Name*" placeholder="Select" options={bankList} selected={selectedBank} handleChange={handleChange} /> */}
           </div>
           <div className="col-6 mb-1">
