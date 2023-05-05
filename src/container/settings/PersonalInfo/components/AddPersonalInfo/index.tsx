@@ -48,7 +48,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
           setUserProfile(success);
         },
         (error: any) => {
-          toast.error(error.message);
+          // toast.error(error.message);
         }
       )
     );

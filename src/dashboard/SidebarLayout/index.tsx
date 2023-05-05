@@ -49,7 +49,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
           setUserProfile(success);
         },
         (error: any) => {
-          toast.error(error.message);
+          // toast.error(error.message);
         }
       )
     );

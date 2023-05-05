@@ -215,7 +215,7 @@ const SignUpForm = () => {
             </Link>
           </div>
           <div>
-            <Button theme="primary" wide type="submit" disabled={!formik.isValid || !formik.dirty} loading={loading}>
+            <Button theme="primary" wide type="submit" disabled={!formik.isValid || !formik.dirty ||  checkedCondition === false } loading={loading}>
               Sign Up
             </Button>
           </div>
