@@ -149,7 +149,7 @@ const CustomTemplateUpload = ({ label, placeholder, fileRule, iconName, maxFiles
     setLoading(true)
     if(fileData.title){
       // /api/v1/notary/document-templates ${request?.schedule_session_id}`, { files }
-      instance.put(`/custom-affidavit-request/${request?.schedule_session_id}`, { files: fileData.files})
+      instance.put(`/custom-affidavit-request/${request?.id}`, { files: fileData.files})
         .then(res => {
           toast.success('Document uploaded successfully');
           fetchRequestDetails();

@@ -228,26 +228,26 @@ const HomePage = () => {
                     <td className="table__row-text center">
                       <Link className="text--blue text--600" to={`/requests/${row.id}`}>
                         {' '}
-                        {row?.document_name || row?.schedule_session?.title || '-'}
+                        {row?.document_name || row?.title || '-'}
                       </Link>
                       <br />
                       {/* <span className="text--grey">{row.participants.slice(0, 2).join(', ')}</span> */}
                     </td>
                     <td className="table__row-text center">
-                      <Badge size="md" theme={badgeType(row?.schedule_session.status)} type="secondary">
-                        {row?.schedule_session.status}
+                      <Badge size="md" theme={badgeType(row?.status)} type="secondary">
+                        {row?.status}
                       </Badge>
                     </td>
-                    <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
+                    <td className="table__row-text center">{format(parseISO(row?.date), 'PPPP')}</td>
 
                     <td
                       className="table__row-text center"
-                      style={checkForTime(row?.schedule_session?.immediate === 1 ? 'Immediate' : row?.start_time)}
+                      style={checkForTime(row?.immediate === 1 ? 'Immediate' : row?.start_time)}
                     >
-                      {row?.schedule_session?.immediate === 0 ? row?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                      {row?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                     </td>
                     <td className="table__row-text center">
-                      {row?.schedule_session.status === 'Pending' && (
+                      {row?.status === 'Pending' && (
                         <>
                           <button
                             onClick={() =>
@@ -256,7 +256,7 @@ const HomePage = () => {
                                 id: row?.id,
                                 body: {
                                   status: 'Accepted',
-                                  schedule_session_id: row?.schedule_session?.id,
+                                  schedule_session_id: row?.id,
                                   schedule_session_request_id: row?.id
                                 }
                               })
@@ -273,7 +273,7 @@ const HomePage = () => {
                                 id: row?.id,
                                 body: {
                                   status: 'Rejected',
-                                  schedule_session_id: row?.schedule_session?.id,
+                                  schedule_session_id: row?.id,
                                   schedule_session_request_id: row?.id
                                 }
                               })
@@ -284,10 +284,10 @@ const HomePage = () => {
                           </button>
                         </>
                       )}
-                      {row?.schedule_session.status === 'Accepted' && (
+                      {row?.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${env_variable}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
+                            href={`${env_variable}notary/session-prep/${row?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -308,10 +308,10 @@ const HomePage = () => {
                       <CardHeader
                         action={
                           <span className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__xs)}>
-                            {value?.schedule_session.status}
+                            {value?.status}
                           </span>
                         }
-                        subheader={<p className="fs_xs">{format(parseISO(value?.schedule_session?.date), 'PPPP')}</p>}
+                        subheader={<p className="fs_xs">{format(parseISO(value?.date), 'PPPP')}</p>}
                       />
                       <CardContent>
                         <Box
@@ -324,7 +324,7 @@ const HomePage = () => {
                           <p className="fs_xs">Document Name</p>
                           <Link className="text--blue text--600 fs_xs text--right" to={`/requests/${value.id}`}>
                             {' '}
-                            {value?.document_name || value?.schedule_session?.title || '-'}
+                            {value?.document_name || value?.title || '-'}
                           </Link>
                         </Box>
                         <Box
@@ -339,15 +339,15 @@ const HomePage = () => {
                           <p className="fs_xs">Time</p>
                           <p
                             className="fs_xs text--right"
-                            style={checkForTime(value?.schedule_session?.immediate === true ? 'Immediate' : value?.start_time)}
+                            style={checkForTime(value?.immediate === true ? 'Immediate' : value?.start_time)}
                           >
-                            {value?.schedule_session?.immediate === false ? value?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                            {value?.immediate === false ? value?.start_time?.slice(0, 5) : 'Immediate'}
                           </p>
                         </Box>
                       </CardContent>
                       <CardActions>
                         <Stack direction="row" spacing={2}>
-                          {value?.schedule_session.status === 'Pending' && (
+                          {value?.status === 'Pending' && (
                             <>
                               <button
                                 onClick={() =>
@@ -356,7 +356,7 @@ const HomePage = () => {
                                     id: value?.id,
                                     body: {
                                       status: 'Accepted',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
@@ -373,7 +373,7 @@ const HomePage = () => {
                                     id: value?.id,
                                     body: {
                                       status: 'Rejected',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
@@ -384,10 +384,10 @@ const HomePage = () => {
                               </button>
                             </>
                           )}
-                          {value?.schedule_session.status === 'Accepted' && (
+                          {value?.status === 'Accepted' && (
                             <>
                               <a
-                                href={`${env_variable}notary/session-prep/${value?.schedule_session?.id}?token=${getToken()}`}
+                                href={`${env_variable}notary/session-prep/${value?.id}?token=${getToken()}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
