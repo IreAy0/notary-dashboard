@@ -75,9 +75,9 @@ const SingleRequest = () => {
       getRequestDetails(
         { id },
         (requestData: any) => {
-          getRequestParticipants(requestData?.schedule_session_id);
+          getRequestParticipants(requestData?.id);
           setRequest(requestData);
-          setDocumentId(requestData.document_id);
+          setDocumentId(requestData.document?.id);
           setLoading(false);
         },
         (error) => {
@@ -321,7 +321,7 @@ const SingleRequest = () => {
               </div>
               {request?.request_type === 'Custom' && (
                 <div style={{}}>
-                  {request?.document.documentUploads?.length >= 1 ? (
+                  {document.documentUploads?.length >= 1 ? (
                     <div
                       style={{
                         display: 'flex',
@@ -376,7 +376,7 @@ const SingleRequest = () => {
               </span>
             )}
           </div>
-          {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now' && !loading ? (
+          {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now'  && !loading ? (
             <div  className={classNames(styles.join_button, 'mt-1')}>
               <a
                 href={`${env_variable}notary/session-prep/${request?.id}`}
