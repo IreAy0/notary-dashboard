@@ -108,9 +108,9 @@ export default function Request() {
       title: 'all'
     },
     {
-      // requests?.data?.filter(item => item.schedule_session.status === 'Pending')?.length
-      label: `Pending (${ dashboardOverview?.message?.pending_docs ||0})`,
-      title: 'Pending'
+      // requests?.data?.filter(item => item.status === 'Pending')?.length
+      label: `Awaiting (${ dashboardOverview?.message?.pending_docs ||0})`,
+      title: 'Awaiting'
     },
     {
       label: `Accepted (${dashboardOverview?.message?.accepted_docs  || 0})`,
@@ -232,27 +232,27 @@ export default function Request() {
                   <>
                     <td className="table__row-text center">
                       <Link className="text--blue text--600" to={`/requests/${row?.id}`}>
-                        {row?.document_name}
+                        {row?.title}
                       </Link>
                       <br />
-                      {row.schedule_session.request_type === "Custom" && <span style={{ color: '#7B7171' }}>Custom Request</span>}
+                      {row.request_type === "Custom" && <span style={{ color: '#7B7171' }}>Custom Request</span>}
                       
                     </td>
                     <td className="table__row-text center">
-                      <Badge size="md" theme={badgeType(row.schedule_session.status)} type="secondary">
-                        {row.schedule_session.status}
+                      <Badge size="md" theme={badgeType(row.status)} type="secondary">
+                        {row.status}
                       </Badge>
                     </td>
                     {/* {format(parseISO(row?.call_date), 'PPPP')} */}
-                    <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
+                    <td className="table__row-text center">{format(parseISO(row?.date), 'PPPP')}</td>
                     <td
                       className="table__row-text center"
-                      style={checkForTime(row?.schedule_session?.immediate === 1 ? 'Immediate' : row?.start_time)}
+                      style={checkForTime(row?.immediate === 1 ? 'Immediate' : row?.start_time)}
                     >
-                      {row?.schedule_session?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
+                      {row?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                     </td>
                     <td className="table__row-text center">
-                      {row?.schedule_session.status === 'Pending' && (
+                      {row?.status === 'Awaiting' && (
                         <>
                           <button
                             onClick={() =>
@@ -261,14 +261,14 @@ export default function Request() {
                                 id: row?.id,
                                 body: {
                                   status: 'Accepted',
-                                  schedule_session_id: row?.schedule_session?.id,
-                                  schedule_session_request_id: row?.id
+                                  schedule_session_id: row?.id
+                                  // schedule_session_request_id: row?.id
                                 }
                               })
                             }
                             className="text--600 text--coral px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Accept</span>}
+                            {row.status === 'Awaiting' && <span>Accept</span>}
                           </button>
 
                           <button
@@ -278,21 +278,21 @@ export default function Request() {
                                 id: row?.id,
                                 body: {
                                   status: 'Rejected',
-                                  schedule_session_id: row?.schedule_session?.id,
-                                  schedule_session_request_id: row?.id
+                                  schedule_session_id: row?.id
+                                  // schedule_session_request_id: row?.id
                                 }
                               })
                             }
                             className="text--600 text--red px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Reject</span>}
+                            {row.status === 'Awaiting' && <span>Reject</span>}
                           </button>
                         </>
                       )}
-                      {row?.schedule_session.status === 'Accepted' && (
+                      {row?.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${env_variable}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
+                            href={`${env_variable}notary/session-prep/${row?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -313,10 +313,10 @@ export default function Request() {
                       <CardHeader
                         action={
                           <span className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__xs)}>
-                            {value?.schedule_session.status}
+                            {value?.status}
                           </span>
                         }
-                        subheader={<p className="fs_xs">{format(parseISO(value?.schedule_session?.date), 'PPPP')}</p>}
+                        subheader={<p className="fs_xs">{format(parseISO(value?.date), 'PPPP')}</p>}
                       />
                       <CardContent>
                         <Box
@@ -329,7 +329,7 @@ export default function Request() {
                           <p className="fs_xs">Document Name</p>
                           <Link className="text--blue text--600 fs_xs text--right" to={`/requests/${value.id}`}>
                             {' '}
-                            {value?.document_name || value?.schedule_session?.title || '-'}
+                            {value?.document_name || value?.title || '-'}
                           </Link>
                         </Box>
                         <Box
@@ -344,15 +344,15 @@ export default function Request() {
                           <p className="fs_xs">Time</p>
                           <p
                             className="fs_xs text--right"
-                            style={checkForTime(value?.schedule_session?.immediate === true ? 'Immediate' : value?.start_time)}
+                            style={checkForTime(value?.immediate === true ? 'Immediate' : value?.start_time)}
                           >
-                            {value?.schedule_session?.immediate === false ? value?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                            {value?.immediate === false ? value?.start_time?.slice(0, 5) : 'Immediate'}
                           </p>
                         </Box>
                       </CardContent>
                       <CardActions>
                         <Stack direction="row" spacing={2}>
-                          {value?.schedule_session.status === 'Awaiting' && (
+                          {value?.status === 'Awaiting' && (
                             <>
                               <button
                                 onClick={() =>
@@ -361,14 +361,14 @@ export default function Request() {
                                     id: value?.id,
                                     body: {
                                       status: 'Accepted',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
                                 }
                                 className="text--600 fs_xs text--coral px-1"
                               >
-                                {value.schedule_session.status === 'Awaiting' && <span>Accept</span>}
+                                {value.status === 'Awaiting' && <span>Accept</span>}
                               </button>
 
                               <button
@@ -378,18 +378,18 @@ export default function Request() {
                                     id: value?.id,
                                     body: {
                                       status: 'Rejected',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
                                 }
                                 className="text--600  fs_xs text--red px-1"
                               >
-                                {value.schedule_session.status === 'Awaiting' && <span>Reject</span>}
+                                {value.status === 'Awaiting' && <span>Reject</span>}
                               </button>
                             </>
                           )}
-                          {value?.schedule_session.status === 'Accepted' && (
+                          {value?.status === 'Accepted' && (
                             <>
                               <a
                                 href={value?.link}
