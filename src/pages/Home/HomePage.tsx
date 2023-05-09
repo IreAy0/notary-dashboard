@@ -246,7 +246,7 @@ const HomePage = () => {
                       {row?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                     </td>
                     <td className="table__row-text center">
-                      {row?.status === 'Pending' && (
+                      {row?.status === 'Awaiting' && (
                         <>
                           <button
                             onClick={() =>
@@ -262,7 +262,7 @@ const HomePage = () => {
                             }
                             className="text--600 text--coral px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Accept</span>}
+                            {row.status === 'Awaiting' && <span>Accept</span>}
                           </button>
 
                           <button
@@ -279,7 +279,7 @@ const HomePage = () => {
                             }
                             className="text--600 text--red px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Reject</span>}
+                            {row.status === 'Awaiting' && <span>Reject</span>}
                           </button>
                         </>
                       )}
@@ -362,7 +362,7 @@ const HomePage = () => {
                                 }
                                 className="text--600 fs_xs text--coral px-1"
                               >
-                                {value.schedule_session.status === 'Pending' && <span>Accept</span>}
+                                {value.status === 'Awaiting' && <span>Accept</span>}
                               </button>
 
                               <button
@@ -379,7 +379,7 @@ const HomePage = () => {
                                 }
                                 className="text--600  fs_xs text--red px-1"
                               >
-                                {value.schedule_session.status === 'Pending' && <span>Reject</span>}
+                                {value.status === 'Awaiting' && <span>Reject</span>}
                               </button>
                             </>
                           )}
