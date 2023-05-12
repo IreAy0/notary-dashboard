@@ -12,7 +12,7 @@ import Pagination from 'components/Pagination';
 import Table from 'components/Table';
 import Badge from 'components/Badge';
 import { getToken } from 'utils/getToken';
-
+import { editUserProfile, fetchUserProfile, userRequestOverview } from 're-ducks/user';
 import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -109,7 +109,7 @@ export default function Request() {
     },
     {
       // requests?.data?.filter(item => item.status === 'Pending')?.length
-      label: `Awaiting (${ dashboardOverview?.message?.pending_docs ||0})`,
+      label: `Awaiting (${ dashboardOverview?.message?.awaiting_docs ||0})`,
       title: 'Awaiting'
     },
     {
@@ -129,7 +129,7 @@ export default function Request() {
         status: status === 'all' ? '' : status,
         page: nextPage === 0 ? 1 : nextPage,
         per_page: itemsPerPage,
-        search: searchValue.toLowerCase()
+        title: searchValue.toLowerCase()
       };
       setLoading(true);
       setDataPerPage(itemsPerPage);
@@ -163,6 +163,13 @@ export default function Request() {
           // fetchRequest();
           setLoading(true);
           fetchRequest(activeTabContent.title);
+          dispatch(
+            userRequestOverview(
+              {},
+              () => {},
+              () => {}
+            )
+          );
           toast.success(`Request ${selectedRequest.type === 'accept' ? 'accepted' : 'rejected'} successfully`);
           setSelectedRequest({} as RequestAcceptance);
         },
