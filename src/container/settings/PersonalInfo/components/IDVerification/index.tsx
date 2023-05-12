@@ -260,9 +260,7 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             <Input
           className='mb-0'
             // value={IDData}
-           
             label="ID Number*"
-            
             placeholder="ID"
             type="number"
             name="identity_number"
