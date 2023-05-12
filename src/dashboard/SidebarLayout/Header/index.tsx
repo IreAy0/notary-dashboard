@@ -282,6 +282,13 @@ function Header() {
         setPlaying(true);
         fetchRequest();
         // audio.play()
+        dispatch(
+          userRequestOverview(
+            {},
+            () => {},
+            () => {}
+          )
+        );
         toast.success('You have a new request', {
           position: 'top-right',
           duration: 15000,

@@ -14,7 +14,7 @@ export interface TabsProps {
   size?: 'sm' | 'md' | any;
 }
 
-const InfoTabs = ({ tabs, active, setActive, type, size }: TabsProps) => {
+const RequestTabs = ({ tabs, active, setActive, type, size }: TabsProps) => {
   
   const activeClass = (tab: { label: string; title?: string }) =>
     (active.label || active.title) === (tab.label || tab.title) && styles.active;
@@ -86,9 +86,9 @@ const InfoTabs = ({ tabs, active, setActive, type, size }: TabsProps) => {
   );
 };
 
-InfoTabs.defaultProps = {
+RequestTabs.defaultProps = {
   type: 'horizontal',
   size: 'md'
 };
 
-export default InfoTabs;
+export default RequestTabs;
