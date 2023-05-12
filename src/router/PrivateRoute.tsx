@@ -26,12 +26,11 @@ const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
       return <Component {...props} />
     }
     if(getToken === null){
-      return <Redirect to={{ pathname: '../../auth/sign-in', state: { from: props.location } }} />
+      return <Redirect to={{ pathname: '/auth/sign-in', state: { from: props.location } }} />
     }
     if (isAuthenticated() === false) {
-      
       store.dispatch(doSignOut(() => {
-        <Redirect to={{ pathname: '../../auth/sign-in', state: { from: props.location } }} />;
+        <Redirect to={{ pathname: '/auth/sign-in', state: { from: props.location } }} />;
         window.location.reload(); 
       }));
       

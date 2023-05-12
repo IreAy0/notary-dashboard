@@ -1,7 +1,8 @@
 /* eslint-disable no-lone-blocks */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import classnames from 'classnames';
 import { doSignOut } from 're-ducks/auth';
 import { Menu } from '@headlessui/react';
@@ -25,6 +26,10 @@ import { ReactComponent as Tick } from '../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../assets/icons/alertErrorIcon.svg';
 import { ReactComponent as Setting } from '../../assets/icons/navSettings.svg';
 import { ReactComponent as Caret } from '../../assets/icons/caret.svg';
+import socket from 'utils/socket';
+import toast from 'react-hot-toast';
+import { getToken } from 'utils/getToken';
+import mySound from '../../assets/sounds/notify.mp3';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
@@ -38,6 +43,8 @@ const Header = () => {
   });
   const dispatch = useDispatch();
   const history = useHistory();
+  const audio = useMemo(() => new Audio(mySound), []);
+  const [playing, setPlaying] = useState(false);
   const user = useSelector((state: any) => state?.auth?.signIn);
   const userProfile = useTypedSelector((state: any) => state.user);
 
@@ -50,11 +57,82 @@ const Header = () => {
   }, [userProfile, user]);
 
   const handleSignout = () => {
+    socket.disconnect()
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
 
+  useEffect(() => {
+    if (playing) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }, [playing]);
 
+  const fetchRequest = useCallback(
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+      const params = {
+        status: status === 'all' ? '' : status,
+        page: nextPage === 0 ? 1 : nextPage,
+        per_page: itemsPerPage
+        // search: searchValue.toLowerCase()
+      };
+      // setLoading(true);
+      // setDataPerPage(itemsPerPage);
+      dispatch(
+        getAllRequestAction(
+          { params },
+          () => {
+            // setLoading(false);
+          },
+          (error) => {
+            toast.error(error);
+            // setLoading(false);
+          }
+        )
+      );
+    },
+    [dispatch]
+  );
 
+  useEffect(() => {
+    socket.auth = {
+      username: `${userProfile.first_name}-${userProfile.last_name}`,
+      token: getToken()
+    };
+    socket.connect();
+    socket.on('connected', () => {
+      // eslint-disable-next-line no-console
+      console.log('socket connected');
+    });
+
+    socket.on('NOTARY_NEW_REQUEST', (data) => {
+      const request = JSON.parse(data);
+      if (request.id === userProfile.id) {
+        setPlaying(true);
+        fetchRequest();
+        // audio.play()
+        dispatch(
+          userRequestOverview(
+            {},
+            () => {},
+            () => {}
+          )
+        );
+        toast.success('You have a new request', {
+          position: 'top-right',
+          duration: 15000,
+          style: {
+            padding: '1.5rem',
+            fontSize: '1.2rem',
+            color: '#63d246',
+            fontWeight: 'bolder'
+          }
+        });
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
