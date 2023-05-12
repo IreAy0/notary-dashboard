@@ -129,7 +129,7 @@ export default function Request() {
         status: status === 'all' ? '' : status,
         page: nextPage === 0 ? 1 : nextPage,
         per_page: itemsPerPage,
-        title: searchValue.toLowerCase()
+        search: searchValue.toLowerCase()
       };
       setLoading(true);
       setDataPerPage(itemsPerPage);

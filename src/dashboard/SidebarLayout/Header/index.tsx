@@ -289,16 +289,16 @@ function Header() {
             () => {}
           )
         );
-        // toast.success('You have a new request', {
-        //   position: 'top-right',
-        //   duration: 15000,
-        //   style: {
-        //     padding: '1.5rem',
-        //     fontSize: '1.2rem',
-        //     color: '#63d246',
-        //     fontWeight: 'bolder'
-        //   }
-        // });
+        toast.success('You have a new request', {
+          position: 'top-right',
+          duration: 15000,
+          style: {
+            padding: '1.5rem',
+            fontSize: '1.2rem',
+            color: '#63d246',
+            fontWeight: 'bolder'
+          }
+        });
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
