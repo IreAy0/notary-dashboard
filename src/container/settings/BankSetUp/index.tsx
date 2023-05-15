@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import ReactSelect , { components, PlaceholderProps }  from 'react-select';
+import ReactSelect, { components, PlaceholderProps } from 'react-select';
 import { Input } from 'components/TextInput/TextInput';
 import Button from 'components/Button';
 import Select from 'components/Select';
@@ -21,7 +21,6 @@ interface Option {
   label: string;
 }
 
-
 const Placeholder = (props: PlaceholderProps) => {
   return <components.Placeholder {...props} />;
 };
@@ -29,14 +28,14 @@ const Placeholder = (props: PlaceholderProps) => {
 const BankAccountSetUp = () => {
   const user: any = useSelector((state: RootState) => state.user);
   const [options, setOptions] = useState<any>([]);
-  const [defaultValue, setDefaultValue] = useState<any>(undefined);
+  const [defaultValue, setDefaultValue] = useState<any>({});
   const [selectedOption, setSelectedOption] = useState<any>({});
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [bankList, setBankList] = useState([]);
   const [accountName, setAccountName] = useState('');
   const [accountNumber, setAccountNumber] = useState<any>('');
-  const [loadingAccount, setLoadingAccount] = useState(false)
+  const [loadingAccount, setLoadingAccount] = useState(false);
   const [validateAccountNumber, setValidateAccountNumber] = useState<boolean>();
   const [verificationMessage, setVerificationMessage] = useState<any>(null);
   // const checkForBank: any = bankList.filter((item: any) => item?.code === user?.bank_code);
@@ -57,7 +56,7 @@ const BankAccountSetUp = () => {
             // setValidateAccountNumber(true);
           }
         },
-        () => { }
+        () => {}
       )
     );
 
@@ -66,7 +65,7 @@ const BankAccountSetUp = () => {
         (success) => {
           setBankList(success);
         },
-        () => { }
+        () => {}
       )
     );
   }, [dispatch]);
@@ -81,9 +80,9 @@ const BankAccountSetUp = () => {
 
   useEffect(() => {
     const defaultValueItem = options.find((item) => item.value === bankDetails?.bank_id);
-    // setDefaultValue(defaultValueItem);
+    setDefaultValue(defaultValueItem);
     setValidateAccountNumber(user?.account_number && true);
-  }, [user?.account_number, bankDetails, options, defaultValue]);
+  }, [user?.account_number, bankDetails, options]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -126,8 +125,8 @@ const BankAccountSetUp = () => {
             dispatch(
               fetchUserProfile(
                 {},
-                () => { },
-                () => { }
+                () => {},
+                () => {}
               )
             );
           },
@@ -182,7 +181,7 @@ const BankAccountSetUp = () => {
           ? `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_STAGING}`
           : `${process.env.REACT_APP_NOTARY_BACKEND_API_URL_DEV}`;
     if (accountNumber.length >= 10 && !!defaultValue?.value) {
-      setLoadingAccount(true)
+      setLoadingAccount(true);
       api
         .post(`${env_variable}/v1/bank-details`, {
           bank_id: defaultValue?.value,
@@ -191,18 +190,19 @@ const BankAccountSetUp = () => {
         .then((res): any => {
           setAccountName(res.data.data.bank_account_name);
           setValidateAccountNumber(true);
-          setLoadingAccount(false)
+          setLoadingAccount(false);
           return Promise.resolve(true);
         })
         .catch((error) => {
-          setLoadingAccount(false)
+          setLoadingAccount(false);
           setVerificationMessage(error.response.data.data.error.toString());
         });
     }
   }, [accountNumber, defaultValue]);
 
   const handleSelectChange = (selected: Option) => {
-    // setDefaultValue(selectedOption);
+    setDefaultValue(selected);
+    console.log(selected, 'onchange');
     setSelectedOption(selected);
 
     if (selected) {
@@ -214,22 +214,21 @@ const BankAccountSetUp = () => {
     }
   };
 
-
-
+  // console.log('onMount', defaultValue, selectedOption)
   return (
     <form id="Bank" onSubmit={formik.handleSubmit}>
       <div className="grid grid__layout  pt-2">
         <div className="col-6 bb-1 pb-1">
           <div className="col-6 mb-1">
-           <span className="label__title">Bank Name * </span>
-            <ReactSelect 
-            placeholder='Search for bank'
-            // placeholder="Search for bank"
-            value={selectedOption || defaultValue }
-             options={options} 
-            onChange={handleSelectChange} 
-            defaultValue={defaultValue}
-            components={{ Placeholder }}
+            <span className="label__title">Bank Name * </span>
+            <ReactSelect
+              placeholder="Search for bank"
+              // placeholder="Search for bank"
+              value={defaultValue || selectedOption}
+              options={options}
+              onChange={handleSelectChange}
+              defaultValue={defaultValue}
+              components={{ Placeholder }}
             />
             {/* <Select label="Bank Name*" placeholder="Select" options={bankList} selected={selectedBank} handleChange={handleChange} /> */}
           </div>
@@ -258,7 +257,7 @@ const BankAccountSetUp = () => {
               disabled
               // value={formik.values.account_name}
               value={accountNumber?.length <= 1 ? '' : accountName}
-            // onChange={formik.handleChange}
+              // onChange={formik.handleChange}
             />
           </div>
         </div>
@@ -280,4 +279,3 @@ const BankAccountSetUp = () => {
 };
 
 export default BankAccountSetUp;
-
