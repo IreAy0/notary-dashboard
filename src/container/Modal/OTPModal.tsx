@@ -32,6 +32,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
   const [updatedUser, setUpdatedUser] = useState<User>(user);
   const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState('');
+  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
@@ -84,7 +85,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
     instance.get('/document-otp-locker')
       .then(res => {
         toast.success(res?.data?.message);
-    
+        setSent(true)
       })
       .catch((err) => {
         toast.error(err.message);
@@ -105,7 +106,25 @@ const OTPModal = ({ isOpen, isClose }: any) => {
         <p className={styles.otpModalContainer__text}>
           {`We have sent an OTP to ${updatedUser?.email}, If you don't get a code, please request another`}
         </p>
-        <form>
+        {/* <button
+            className={styles.otpModalContainer__resendEmail}
+            onClick={(e) => {
+              e.preventDefault();
+              resendOtp()
+            }}
+          >
+            Send another one
+          </button> */}
+          {sent === false && <Button
+              theme="primary"
+              onClick={() => resendOtp()}
+              loading={loading}
+              // disabled={otp === '' || otp.length !== 6 || loading}
+            >
+              Confirm
+            </Button> }
+         
+        {sent === true && <form>
           <Input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
           <button
             className={styles.otpModalContainer__resendEmail}
@@ -117,9 +136,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
             Send another one
           </button>
           <div className={styles.otpModalContainer__buttons}>
-            {/* <button style={{ marginRight: '20px' }} onClick={isClose}>
-              Cancel
-            </button> */}
+            
             <Button
               theme="primary"
               onClick={() => verifyOTP('proceed')}
@@ -129,7 +146,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
               Proceed
             </Button>
           </div>
-        </form>
+        </form>}
       </div>
     </Modal>
   );
