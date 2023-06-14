@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Router as BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Router from 'router';
 import history from 'utils/history';
@@ -8,7 +8,7 @@ import ThemeProvider from '../theme/ThemeProvider';
 
 
 const App: FC = () => (
-    <BrowserRouter history={history}>
+    <BrowserRouter basename="/">
        <ThemeProvider>
       <AppWrapper>
         <Toaster
