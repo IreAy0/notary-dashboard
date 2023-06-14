@@ -220,11 +220,11 @@ const Header = () => {
   const authLink = (
     <div>
       {onSignInPage ? (
-        <Link className="link mr-1" to="/auth/sign-up">
+        <Link className="link mr-1" to="/auth/sign-up/">
           Sign Up
         </Link>
       ) : (
-        <Link className="link mr-1" to="/auth/sign-in">
+        <Link className="link mr-1" to="/auth/sign-in/">
           Sign In
         </Link>
       )}

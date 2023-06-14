@@ -376,7 +376,7 @@ const SingleRequest = () => {
               </span>
             )}
           </div>
-          {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now'  && !loading ? (
+          {request?.status !== 'Cancelled' && request?.status !== 'Completed' && request?.status !== 'Awaiting' && request?.status !== 'Pending'  && !loading ? (
             <div  className={classNames(styles.join_button, 'mt-1')}>
               <a
                 href={`${env_variable}notary/session-prep/${request?.id}`}

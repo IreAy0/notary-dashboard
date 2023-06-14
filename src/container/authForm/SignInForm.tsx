@@ -11,6 +11,7 @@ import Button from 'components/Button';
 import { doSignIn } from 're-ducks/auth';
 import { isAuthenticated } from 'utils';
 import styles from './sign.module.scss';
+import history from 'utils/history';
 
 const SignInForm = () => {
   const [loading, setLoading] = useState(false);
@@ -39,8 +40,9 @@ const SignInForm = () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
               setIsCompleteSignIn(true);
-              <Redirect to="/" />
-              window.location.href = '/'
+              // <Redirect to="/" />
+              history.push('/')
+              // window.location.href = '/'
             }
             setLoading(false);
           },
