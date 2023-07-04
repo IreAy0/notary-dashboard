@@ -50,6 +50,10 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
     return data[key === 'id' ? 'name' : 'id'];
   };
 
+  const mask = (cc, num = 4, sign = '*') =>
+    (`${  cc}`).slice(0, -num).replace(/./g, sign) + (`${  cc}`).slice(-num);
+
+
   const handleIdentityType = ({ name }: { name: string }) => {
     const matchedID = matchID(name, 'name');
     setIdentityType({ name, id: matchedID });
@@ -261,17 +265,15 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             // value={IDData}
             label="ID Number*"
             placeholder="ID"
-            type="number"
+            type={!user?.user?.national_verification ? "number" : 'text'}
             name="identity_number"
             onChange={formik.handleChange}
-            value={formik.values.identity_number || ''}
+            value={mask(formik?.values?.identity_number) || ''}
             disabled={user?.user?.national_verification}
             // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
             verifiedCheck={user?.user?.national_verification}
           />
-          
-            </div>
-
+          </div>
 
           </div>
           
@@ -282,7 +284,7 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             <Input
           className='mb-0'
             // value={IDData}
-            label="ID Number*"
+            label="Date of Birth*"
             placeholder="ID"
             type="date"
             name="dob"

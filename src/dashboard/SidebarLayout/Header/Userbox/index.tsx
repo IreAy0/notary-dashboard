@@ -139,7 +139,7 @@ function HeaderUserbox({ userProfile }) {
             <div className="icon__wrap">
               <Logout />
             </div>
-            Sign Out new
+            Sign Out
           </ListItem>
         </List>
       </Popover>
