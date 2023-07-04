@@ -64,12 +64,9 @@ const SingleRequest = () => {
   const [participants, setParticipants] = useState<any>([]);
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
   const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
-
-
   const getRequestParticipants = (Virtualid) => {
     instance.get(`/request-virtual-session/${Virtualid}`).then((res) => setParticipants(res?.data));
   };
-
   const fetchRequestDetails = useCallback(() => {
     dispatch(
       getRequestDetails(

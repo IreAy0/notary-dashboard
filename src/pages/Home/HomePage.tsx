@@ -98,6 +98,7 @@ const HomePage = () => {
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const { requests }: any = useTypedSelector((state) => state?.request);
   const user_profile = useTypedSelector((state: any) => state.user);
+
   const env_variable =
     `${process.env.REACT_APP_ENVIRONMENT}` === 'live'
       ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}`
