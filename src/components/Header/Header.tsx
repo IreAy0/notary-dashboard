@@ -14,6 +14,9 @@ import SelectBtnStyles from 'components/CustomSelect/customSelect.module.scss';
 import useTypedSelector from 'hooks/useTypedSelector';
 import Button from 'components/Button';
 import { ReactComponent as WhiteTick } from 'assets/icons/white-tick.svg';
+import socket from 'utils/socket';
+import toast from 'react-hot-toast';
+import { getToken } from 'utils/getToken';
 import styles from './Header.module.scss';
 import Notifications from './Notifications/Notifications';
 import MenuDialog from '../MenuDialog';
@@ -26,9 +29,6 @@ import { ReactComponent as Tick } from '../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../assets/icons/alertErrorIcon.svg';
 import { ReactComponent as Setting } from '../../assets/icons/navSettings.svg';
 import { ReactComponent as Caret } from '../../assets/icons/caret.svg';
-import socket from 'utils/socket';
-import toast from 'react-hot-toast';
-import { getToken } from 'utils/getToken';
 import mySound from '../../assets/sounds/notify.mp3';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -61,13 +61,6 @@ const Header = () => {
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
 
-  useEffect(() => {
-    if (playing) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  }, [playing]);
 
   const fetchRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
@@ -95,44 +88,44 @@ const Header = () => {
     [dispatch]
   );
 
-  useEffect(() => {
-    socket.auth = {
-      username: `${userProfile.first_name}-${userProfile.last_name}`,
-      token: getToken()
-    };
-    socket.connect();
-    socket.on('connected', () => {
-      // eslint-disable-next-line no-console
-      console.log('socket connected');
-    });
+  // useEffect(() => {
+  //   socket.auth = {
+  //     username: `${userProfile.first_name}-${userProfile.last_name}`,
+  //     token: getToken()
+  //   };
+  //   socket.connect();
+  //   socket.on('connected', () => {
+  //     // eslint-disable-next-line no-console
+  //     console.log('socket connected');
+  //   });
 
-    socket.on('NOTARY_NEW_REQUEST', (data) => {
-      const request = JSON.parse(data);
-      if (request.id === userProfile.id) {
-        setPlaying(true);
-        fetchRequest();
-        // audio.play()
-        dispatch(
-          userRequestOverview(
-            {},
-            () => {},
-            () => {}
-          )
-        );
-        toast.success('You have a new request', {
-          position: 'top-right',
-          duration: 15000,
-          style: {
-            padding: '1.5rem',
-            fontSize: '1.2rem',
-            color: '#63d246',
-            fontWeight: 'bolder'
-          }
-        });
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   socket.on('NOTARY_NEW_REQUEST', (data) => {
+  //     const request = JSON.parse(data);
+  //     if (request.id === userProfile.id) {
+  //       setPlaying(true);
+  //       fetchRequest();
+  //       audio.play()
+  //       dispatch(
+  //         userRequestOverview(
+  //           {},
+  //           () => {},
+  //           () => {}
+  //         )
+  //       );
+  //       toast.success('You have a new request', {
+  //         position: 'top-right',
+  //         duration: 15000,
+  //         style: {
+  //           padding: '1.5rem',
+  //           fontSize: '1.2rem',
+  //           color: '#63d246',
+  //           fontWeight: 'bolder'
+  //         }
+  //       });
+  //     }
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [socket]);
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);

@@ -98,7 +98,14 @@ const HomePage = () => {
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const { requests }: any = useTypedSelector((state) => state?.request);
   const user_profile = useTypedSelector((state: any) => state.user);
-  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
+
+  const env_variable =
+    `${process.env.REACT_APP_ENVIRONMENT}` === 'live'
+      ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}`
+      : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging'
+        ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}`
+        : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`;
+
   useEffect(() => {
     dispatch(
       fetchUserProfile(
@@ -123,12 +130,9 @@ const HomePage = () => {
     }
   }, [user_profile, setIsCloseModal]);
 
-
-
   useEffect(() => {
     setUpdatedUser({ ...user, ...user_profile });
   }, [user_profile, user]);
-
 
   const fetchAllRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
@@ -182,11 +186,22 @@ const HomePage = () => {
 
   return (
     <Dashboard>
-      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please <NavLink style={{
-        fontWeight: 'bold',
-        textDecoration: 'underline'
-      }} to='/settings/Personal_Info'>Click here</NavLink> to complete your profile</Alert> : null}
-      {isCloseModal  && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
+      {userProfile?.national_verification === false ? (
+        <Alert className=" mt-2" severity="warning">
+          Please{' '}
+          <NavLink
+            style={{
+              fontWeight: 'bold',
+              textDecoration: 'underline'
+            }}
+            to="/settings/personal-info"
+          >
+            Click here
+          </NavLink>{' '}
+          to complete your profile
+        </Alert>
+      ) : null}
+      {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
       <section>
         <div className=" pt-2">
           <Grid container spacing={2}>
@@ -239,10 +254,7 @@ const HomePage = () => {
                     </td>
                     <td className="table__row-text center">{format(parseISO(row?.date), 'PPPP')}</td>
 
-                    <td
-                      className="table__row-text center"
-                      style={checkForTime(row?.immediate === 1 ? 'Immediate' : row?.start_time)}
-                    >
+                    <td className="table__row-text center" style={checkForTime(row?.immediate === 1 ? 'Immediate' : row?.start_time)}>
                       {row?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                     </td>
                     <td className="table__row-text center">

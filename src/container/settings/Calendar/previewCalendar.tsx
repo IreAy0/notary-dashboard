@@ -153,7 +153,7 @@ const PreviewCalendar = () => {
                       }}
                     >
                       Schedule
-                      <Link className="fs_sm" to="/settings/Calendar?edit">
+                      <Link className="fs_sm" to="/settings/calendar?edit">
                         Edit
                       </Link>
                     </Box>

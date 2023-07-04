@@ -10,8 +10,8 @@ import * as Yup from 'yup';
 import Button from 'components/Button';
 import { doSignIn } from 're-ducks/auth';
 import { isAuthenticated } from 'utils';
-import styles from './sign.module.scss';
 import history from 'utils/history';
+import styles from './sign.module.scss';
 
 const SignInForm = () => {
   const [loading, setLoading] = useState(false);

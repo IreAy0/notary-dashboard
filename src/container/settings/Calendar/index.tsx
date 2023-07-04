@@ -73,7 +73,7 @@ const Calendar = (editData) => {
   const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState<any>();
   const [selectedDays, setSelectedDays] = useState<any>([]);
-  const [disableSaveButton,setDisableSaveButton] = useState<any>(false);
+  const [disableSaveButton, setDisableSaveButton] = useState<any>(false);
   const [selectedNotaryCalendar, setSelectedNotaryCalendar] = useState<any>([]);
   const [showPopulationModal, setPopulationModal] = useState(false);
   const [available_times, setAvailableTimes] = useState<any>([]);
@@ -85,13 +85,11 @@ const Calendar = (editData) => {
     start_time: '',
     end_time: ''
   });
-  const current_day = moment().day()
-  const current_time = moment().format("HH:mm:ss")
+  const current_day = moment().day();
+  const current_time = moment().format('HH:mm:ss');
   const [weekDays, setWeekDays] = useState<any>([]);
 
-
   const query = new URLSearchParams(window.location.search);
-
 
   useEffect(() => {
     instance
@@ -114,8 +112,8 @@ const Calendar = (editData) => {
     setRowsData([...rowsData, rowsInput]);
   };
 
-  const filterDays = days.filter(day => day.id === current_day.toString() || day.id >= current_day.toString())
-  const filterTime = timeSlots.filter(time => time >= current_time.toString() || time === current_time.toString())
+  const filterDays = days.filter((day) => day.id === current_day.toString() || day.id >= current_day.toString());
+  const filterTime = timeSlots.filter((time) => time >= current_time.toString() || time === current_time.toString());
 
   const deleteTableRows = (index) => {
     const rows = [...rowsData];
@@ -133,7 +131,6 @@ const Calendar = (editData) => {
     const newItem = { ...data_item, id: newId }; // duplicate item with new id
     newData.splice(index + 1, 0, newItem); // insert duplicated item after the original item
     setRowsData(newData);
-
   };
 
   const handleChange = (index, event: SelectChangeEvent<typeof calendarData>) => {
@@ -141,7 +138,7 @@ const Calendar = (editData) => {
     const rowsInput = [...rowsData];
     rowsInput[index][name] = value;
     if (name === 'day') {
-      const next =  getNextDay(value)
+      const next = getNextDay(value);
       rowsInput[index].date = next.toDateString();
     }
     // console.log(rowsInput, 'day', value)
@@ -151,23 +148,20 @@ const Calendar = (editData) => {
   // console.log(rowsData, 'rows')
   useEffect(() => {
     // query.has('edit')
-    if(query.has('edit')){
+    if (query.has('edit')) {
       dispatch(
         fetchNotaryCalendar(
           {},
           (success) => {
             setAvailableTimes(success);
-            setRowsData([...rowsData, ...success?.data])
+            setRowsData([...rowsData, ...success?.data]);
           },
           (error: any) => {
             toast.error(error?.message);
           }
         )
       );
-  
     }
-   
-    
 
     dispatch(
       fetchUserProfile(
@@ -220,8 +214,6 @@ const Calendar = (editData) => {
     );
   };
 
-
-
   return (
     <>
       <div>
@@ -229,8 +221,7 @@ const Calendar = (editData) => {
         <p className={styles.calendarCaption}>You can set your schedule for multiple dates. Click here to see how it works.</p>
         <div className={styles.calendarContainer}>
           {/* <div className={styles.calendarContainer__section_one}> */}
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-
+          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -246,11 +237,10 @@ const Calendar = (editData) => {
                     </TableCell>
                   </TableRow>
                 </TableHead>
-               
+
                 <TableBody>
                   {rowsData.map((row, index) => (
-                  
-                     <TableRow key={index+1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableRow key={index + 1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         <Select
                           displayEmpty
@@ -265,17 +255,19 @@ const Calendar = (editData) => {
                           <MenuItem disabled value="">
                             <em>Select day</em>
                           </MenuItem>
-                          {days.map(day => (
+                          {days.map((day) => (
                             <MenuItem disabled={day.id < current_day.toString()} key={day.id} value={day.name}>
                               {day.name}
                             </MenuItem>
                           ))}
                         </Select>
                       </TableCell>
-                      <TableCell align="center"><MenuItem disabled >
-                            {/* {moment(row.date).format('LL')} */}
-                            {row.date ? moment(row.date).format('LL') : <em>Date</em>}
-                          </MenuItem> </TableCell>
+                      <TableCell align="center">
+                        <MenuItem disabled>
+                          {/* {moment(row.date).format('LL')} */}
+                          {row.date ? moment(row.date).format('LL') : <em>Date</em>}
+                        </MenuItem>{' '}
+                      </TableCell>
                       <TableCell align="center">
                         <Select
                           displayEmpty
@@ -291,7 +283,11 @@ const Calendar = (editData) => {
                             <em>Select start time</em>
                           </MenuItem>
                           {timeSlots.map((name) => (
-                            <MenuItem disabled={name <= current_time.toString() || name === current_time.toString()} key={name} value={name}>
+                            <MenuItem
+                              disabled={name <= current_time.toString() || name === current_time.toString()}
+                              key={name}
+                              value={name}
+                            >
                               {name}
                             </MenuItem>
                           ))}
@@ -312,45 +308,42 @@ const Calendar = (editData) => {
                             <em>Select end time</em>
                           </MenuItem>
                           {timeSlots.map((name) => (
-                            <MenuItem disabled={name <= current_time.toString() || name === current_time.toString()} key={name} value={name}>
+                            <MenuItem
+                              disabled={name <= current_time.toString() || name === current_time.toString()}
+                              key={name}
+                              value={name}
+                            >
                               {name}
                             </MenuItem>
                           ))}
                         </Select>
                       </TableCell>
                       <TableCell align="center">
-                      <Tooltip title="Delete">
-                      <Button theme='reject' size="sm" onClick={() => deleteTableRows(index)} color="error">
-                          <CloseIcon fontSize="medium" />
-                        </Button>
-                    </Tooltip>
-                        
+                        <Tooltip title="Delete">
+                          <Button theme="reject" size="sm" onClick={() => deleteTableRows(index)} color="error">
+                            <CloseIcon fontSize="medium" />
+                          </Button>
+                        </Tooltip>
                       </TableCell>
                       <TableCell align="center">
                         <button onClick={() => handleDuplicateRow(row)}>Duplicate</button>
                       </TableCell>
                     </TableRow>
-                   
-                   
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-            </Paper>
-           
-            
+          </Paper>
+
           {/* </div> */}
           <div className="br-1" />
-          
         </div>
         <div className={styles.calendarButtonContainer}>
-          
-          <Button className="mt-4" type="submit" width={161} onClick={() => saveCalendarDetails()} >
+          <Button className="mt-4" type="submit" width={161} onClick={() => saveCalendarDetails()}>
             Save
           </Button>
-          <Link to='/settings/Review_Calendar' className="mt-4" >
-
-           View
+          <Link to="/settings/review-calendar" className="mt-4">
+            View
           </Link>
         </div>
       </div>

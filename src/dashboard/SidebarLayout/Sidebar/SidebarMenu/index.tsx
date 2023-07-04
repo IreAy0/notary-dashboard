@@ -1,12 +1,6 @@
 import React, { useContext } from 'react';
 
-import {ListSubheader,
-  alpha,
-  Box,
-  List,
-  styled,
-  Button,
-  ListItem} from '@mui/material';
+import { ListSubheader, alpha, Box, List, styled, Button, ListItem } from '@mui/material';
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
@@ -36,7 +30,7 @@ import { ReactComponent as TemplateIcon } from '../../../../assets/icons/templat
 // import { ReactComponent as Logo } from '../../assets/icons/sidebarLogo.svg';
 
 // import styles from '../../';
-import styles from '../../../../components/SideBar/SideBar.module.scss'
+import styles from '../../../../components/SideBar/SideBar.module.scss';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -152,10 +146,7 @@ const SubMenuWrapper = styled(Box)(
                 content: ' ';
                 background: ${theme.colors.alpha.trueWhite[100]};
                 opacity: 0;
-                transition: ${theme.transitions.create([
-    'transform',
-    'opacity'
-  ])};
+                transition: ${theme.transitions.create(['transform', 'opacity'])};
                 width: 6px;
                 height: 6px;
                 transform: scale(0);
@@ -187,51 +178,49 @@ function SidebarMenu() {
     <>
       <MenuWrapper>
         <div className={styles.menu}>
-      <ul className={styles.menu__list}>
-        <li className={styles.menu__item}>
-          <NavLink exact activeClassName={styles.active} className={styles.menu__link} to="/">
-            <button type="button" className={styles.menu__icon}>
-              <HomeIcon />
-            </button>
-            <span className={styles.menu__label}>Dashboard</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/locker">
-            <button>
-              <MYDocsIcon />
-            </button>
-            <span className={styles.menu__label}>Locker</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/requests">
-            <button>
-              <MYRequestIcon />
-            </button>
-            <span className={styles.menu__label}>Requests</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/templates">
-            <button>
-              <TemplateIcon/>
-            </button>
-            <span className={styles.menu__label}>Templates</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings/Personal_Info">
-            <button>
-              <SettingsIcon />
-            </button>
-            <span className={styles.menu__label}>Settings</span>
-          </NavLink>
-        </li>
-      </ul>
-    </div>
-      
-        
+          <ul className={styles.menu__list}>
+            <li className={styles.menu__item}>
+              <NavLink exact activeClassName={styles.active} className={styles.menu__link} to="/">
+                <button type="button" className={styles.menu__icon}>
+                  <HomeIcon />
+                </button>
+                <span className={styles.menu__label}>Dashboard</span>
+              </NavLink>
+            </li>
+            <li className={styles.menu__item}>
+              <NavLink activeClassName={styles.active} className={styles.menu__link} to="/locker">
+                <button>
+                  <MYDocsIcon />
+                </button>
+                <span className={styles.menu__label}>Locker</span>
+              </NavLink>
+            </li>
+            <li className={styles.menu__item}>
+              <NavLink activeClassName={styles.active} className={styles.menu__link} to="/requests">
+                <button>
+                  <MYRequestIcon />
+                </button>
+                <span className={styles.menu__label}>Requests</span>
+              </NavLink>
+            </li>
+            <li className={styles.menu__item}>
+              <NavLink activeClassName={styles.active} className={styles.menu__link} to="/templates">
+                <button>
+                  <TemplateIcon />
+                </button>
+                <span className={styles.menu__label}>Templates</span>
+              </NavLink>
+            </li>
+            <li className={styles.menu__item}>
+              <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings/personal-info">
+                <button>
+                  <SettingsIcon />
+                </button>
+                <span className={styles.menu__label}>Settings</span>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
       </MenuWrapper>
     </>
   );

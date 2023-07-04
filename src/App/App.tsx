@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router as BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import Routes from 'router';
+import Router from 'router';
 import history from 'utils/history';
 import AppWrapper from './AppWrapper';
 import ThemeProvider from '../theme/ThemeProvider';
 
 
 const App: FC = () => (
-    <Router>
+    <BrowserRouter  history={history}>
        <ThemeProvider>
       <AppWrapper>
         <Toaster
@@ -29,10 +29,10 @@ const App: FC = () => (
             }
           }}
         />
-        <Routes />
+        <Router />
       </AppWrapper>
       </ThemeProvider>
-    </Router>
+    </BrowserRouter>
 );
 
 export default App;
