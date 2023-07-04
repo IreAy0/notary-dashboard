@@ -6,6 +6,7 @@ import { doSignOut } from 're-ducks/auth';
 import { isAuthenticated } from 'utils';
 import { getToken } from 'utils/getToken';
 import socket from 'utils/socket';
+import useSound from "use-sound";
 import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import { DateRangePicker } from 'react-date-range';
 import moment from 'moment';
@@ -160,8 +161,7 @@ function Header() {
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
   const { id } = useParams<{ id?: string }>();
   const onSignInPage = history.location.pathname.includes('sign-in');
-
-  const audio = useMemo(() => new Audio(mySound), []);
+  const [play] = useSound(mySound, { interrupt: true });
 
   const [playing, setPlaying] = useState(false);
 
@@ -227,13 +227,28 @@ function Header() {
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
 
+  // useEffect(() => {
+  //   if (playing) {
+  //     audio.play();
+  //   } else {
+  //     audio.pause();
+  //   }
+  // }, [playing]);
+
+  //   useEffect(() => {
+  //     play();
+  //   }, [playing, play]);
+  //   return null;
+  // }
+
   useEffect(() => {
-    if (playing) {
-      audio.play();
-    } else {
-      audio.pause();
+    if(playing === true){
+      play();
     }
-  }, [playing]);
+
+    return () => setPlaying(false)
+
+  }, [playing, play]);
 
   const fetchRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
@@ -275,7 +290,6 @@ function Header() {
       // eslint-disable-next-line no-console
       console.log('socket connected');
     });
-
     socket.on('NOTARY_NEW_REQUEST', (data) => {
       const request = JSON.parse(data);
       if (request.id === userProfile.id) {
@@ -302,7 +316,7 @@ function Header() {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [socket]);
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);

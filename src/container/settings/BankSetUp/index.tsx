@@ -21,9 +21,7 @@ interface Option {
   label: string;
 }
 
-const Placeholder = (props: PlaceholderProps) => {
-  return <components.Placeholder {...props} />;
-};
+const Placeholder = (props: PlaceholderProps) => <components.Placeholder {...props} />;
 
 const BankAccountSetUp = () => {
   const user: any = useSelector((state: RootState) => state.user);
@@ -191,6 +189,7 @@ const BankAccountSetUp = () => {
           setAccountName(res.data.data.bank_account_name);
           setValidateAccountNumber(true);
           setLoadingAccount(false);
+          
           return Promise.resolve(true);
         })
         .catch((error) => {
@@ -202,7 +201,6 @@ const BankAccountSetUp = () => {
 
   const handleSelectChange = (selected: Option) => {
     setDefaultValue(selected);
-    console.log(selected, 'onchange');
     setSelectedOption(selected);
 
     if (selected) {

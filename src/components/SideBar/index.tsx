@@ -19,54 +19,54 @@ const SideBar = () => {
   const sidebar = useTypedSelector((state: RootState) => state.sidebar);
 
   return (
-  <div className={classNames(styles.sideBar__wrapper, sidebar.minimizeSidebar && styles.small)}>
-    <div className={styles.sidebar__header}>
-      <Link className={classNames('flex', styles.logo)} to="/">
-        <Logo />
-      </Link>
-      <button type="button" onClick={() => toggleMenu(dispatch)} className={styles.sidebar__btn}>
-        <HideMenuIcon />
-      </button>
-    </div>
+    <div className={classNames(styles.sideBar__wrapper, sidebar.minimizeSidebar && styles.small)}>
+      <div className={styles.sidebar__header}>
+        <Link className={classNames('flex', styles.logo)} to="/">
+          <Logo />
+        </Link>
+        <button type="button" onClick={() => toggleMenu(dispatch)} className={styles.sidebar__btn}>
+          <HideMenuIcon />
+        </button>
+      </div>
 
-    <div className={styles.menu}>
-      <ul className={styles.menu__list}>
-        <li className={styles.menu__item}>
-          <NavLink exact activeClassName={styles.active} className={styles.menu__link} to="/">
-            <button type="button" className={styles.menu__icon}>
-              <HomeIcon />
-            </button>
-            <span className={styles.menu__label}>Dashboard</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/locker">
-            <button>
-              <MYDocsIcon />
-            </button>
-            <span className={styles.menu__label}>Locker</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/requests">
-            <button>
-              <MYRequestIcon />
-            </button>
-            <span className={styles.menu__label}>Requests</span>
-          </NavLink>
-        </li>
-        <li className={styles.menu__item}>
-          <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings/Personal_Info">
-            <button>
-              <SettingsIcon />
-            </button>
-            <span className={styles.menu__label}>Settings</span>
-          </NavLink>
-        </li>
-      </ul>
+      <div className={styles.menu}>
+        <ul className={styles.menu__list}>
+          <li className={styles.menu__item}>
+            <NavLink exact activeClassName={styles.active} className={styles.menu__link} to="/">
+              <button type="button" className={styles.menu__icon}>
+                <HomeIcon />
+              </button>
+              <span className={styles.menu__label}>Dashboard</span>
+            </NavLink>
+          </li>
+          <li className={styles.menu__item}>
+            <NavLink activeClassName={styles.active} className={styles.menu__link} to="/locker">
+              <button>
+                <MYDocsIcon />
+              </button>
+              <span className={styles.menu__label}>Locker</span>
+            </NavLink>
+          </li>
+          <li className={styles.menu__item}>
+            <NavLink activeClassName={styles.active} className={styles.menu__link} to="/requests">
+              <button>
+                <MYRequestIcon />
+              </button>
+              <span className={styles.menu__label}>Requests</span>
+            </NavLink>
+          </li>
+          <li className={styles.menu__item}>
+            <NavLink activeClassName={styles.active} className={styles.menu__link} to="/settings/personal-info">
+              <button>
+                <SettingsIcon />
+              </button>
+              <span className={styles.menu__label}>Settings</span>
+            </NavLink>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-  )
+  );
 };
 
 export default SideBar;

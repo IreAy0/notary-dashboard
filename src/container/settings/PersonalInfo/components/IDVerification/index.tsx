@@ -114,8 +114,8 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
       identity_type: identityType.id, 
       identity_number: user?.user?.identity_number,
       first_name: '',
-      last_name: ''
-
+      last_name: '',
+      dob: user.user.dob
     },
     validationSchema: Yup.object({
       
@@ -127,11 +127,10 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
       setSubmitting(true);
       dispatch(
         updateUserIDAction(
-          
           {
-
             type: values.identity_type,
-            value:` ${values.identity_number}`
+            value:` ${values.identity_number}`,
+            dob:  values.dob
           },
           () => {
             setSubmitting(false);
@@ -269,6 +268,29 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             disabled={user?.user?.national_verification}
             // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
             verifiedCheck={user?.user?.national_verification}
+          />
+          
+            </div>
+
+
+          </div>
+          
+        </div>
+        <div style={{flex: '1 1 0'}} className="col-6 mb-2">
+          <div className=" " style={{alignItems: 'flex-end', width: '100%'}}>
+            <div className={`${user?.user?.national_verification ? 'col-12' :  'col-7 mb-2' } `}>
+            <Input
+          className='mb-0'
+            // value={IDData}
+            label="ID Number*"
+            placeholder="ID"
+            type="date"
+            name="dob"
+            onChange={formik.handleChange}
+            value={formik.values.dob || ''}
+            disabled={user?.user?.national_verification}
+            // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
+            // verifiedCheck={user?.user?.national_verification}
           />
           
             </div>
