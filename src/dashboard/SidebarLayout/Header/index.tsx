@@ -275,10 +275,10 @@ function Header() {
     },
     [dispatch]
   );
-  // const playSound = () => {
-  //   const audio = new Audio(mySound);
-  //   audio.play();
-  // }
+  const playSound = () => {
+    const audio = new Audio(mySound);
+    audio.play();
+  }
 
   useEffect(() => {
     socket.auth = {
@@ -290,11 +290,16 @@ function Header() {
       // eslint-disable-next-line no-console
       console.log('socket connected');
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
+
+  useEffect(() => {
     socket.on('NOTARY_NEW_REQUEST', (data) => {
       const request = JSON.parse(data);
       if (request.id === userProfile.id) {
         setPlaying(true);
         fetchRequest();
+        playSound()
         // audio.play()
         dispatch(
           userRequestOverview(
@@ -315,8 +320,7 @@ function Header() {
         });
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket]);
+  }, [])
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
