@@ -153,7 +153,7 @@ Input.defaultProps = {
   children: null,
   name: '',
   icon: '',
-  value: '',
+  value: undefined,
   checked: false,
   id: '',
   label: null,

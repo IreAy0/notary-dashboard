@@ -158,6 +158,7 @@ const TypeSignature: FC<TabsProps> = ({
             
 
             {fonts.map((font, index) => ( <div 
+            key={font+1}
             role="button"
             tabIndex={0}
             onClick={(e) => onChange(e, font, index)}
@@ -172,7 +173,7 @@ const TypeSignature: FC<TabsProps> = ({
                 fontFamily: font,
                 fontSize: '70px',
                 color: textColor
-              }} type="radio" checked={index  === fontIndex} value={`${fullName.firstName  } ${  fullName.lastName}`} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
+              }} type="radio" onChange={()=>{}} checked={index  === fontIndex} value={`${fullName.firstName  } ${  fullName.lastName}`} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
               <label className='  w-full pr-2' htmlFor={`${fullName.firstName  } ${  fullName.lastName}`} >
                 {`${fullName.firstName  } ${  fullName.lastName}`} 
                

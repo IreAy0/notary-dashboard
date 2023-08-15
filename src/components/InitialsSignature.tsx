@@ -148,7 +148,7 @@ const InitialsSignature: FC<TabsProps> = ({
             <Input onChange={(e) => setFullName({...fullName, lastName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
           </div> */}
           <div className="col-3">
-            <Input onChange={(e) => setFullName({...fullName, initials: e.target.value })}  label="Initials*"  placeholder="EW" type="text" value={fullName.initials} />
+            <Input onChange={(e) => setFullName({...fullName, initials: e.target.value })}  label="Initials*"  placeholder="EW" type="text" value={fullName.initials || ''} />
           </div>
         </div>
      
@@ -156,7 +156,9 @@ const InitialsSignature: FC<TabsProps> = ({
         <div tabIndex={-1} className="signature__body mb-2 mt-1" onFocus={() => handleSigBoxFocused()} onBlur={() => handleSigBoxBlurred()}>
             
 
-            {fonts.map((font, index) => ( <div 
+            {fonts.map((font, index) => ( 
+            <div 
+            key={font+1}
             role="button"
             tabIndex={0}
             onClick={(e) => onChange(e, font, index)}
@@ -171,7 +173,7 @@ const InitialsSignature: FC<TabsProps> = ({
                 fontFamily: font,
                 fontSize: '70px',
                 color: textColor
-              }} type="radio" checked={index  === fontIndex} value={`${fullName.initials  } `} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
+              }} type="radio" onChange={()=>{}} checked={index  === fontIndex} value={`${fullName.initials  } `} className={styles.radio_input} name={font}  ref={(element) =>{ refs.current[index] = element}}  />
               <label className='  w-full pr-2' htmlFor={`${fullName.initials  }`} >
                {` ${  fullName.initials}`}  
                </label>

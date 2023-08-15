@@ -268,7 +268,8 @@ const IDVerification: FC<Props> = ({ user, nextStep }: Props) => {
             type={!user?.user?.national_verification ? "number" : 'text'}
             name="identity_number"
             onChange={formik.handleChange}
-            value={user?.user?.identity_number == null ? undefined :  mask(formik?.values?.identity_number)}
+            // value=""
+            value={user?.user?.identity_number === null ? undefined :  mask(formik?.values?.identity_number)}
             disabled={user?.user?.national_verification}
             // onChange={(e) => setIDData({...IDData, [e.target.name]: e.target.value })}
             verifiedCheck={user?.user?.national_verification}

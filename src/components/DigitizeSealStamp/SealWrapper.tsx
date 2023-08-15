@@ -398,7 +398,7 @@ const space = Math.PI / 16;
         <div className={styles.payment__options} onChange={onChangeValue}>
          
           <label className={styles.payment__option} htmlFor="color-red">
-            <input name="sealColor" v-model="sealColor"  type="radio" id="color-red" value="red" checked={sealColor == "red"} />
+            <input name="sealColor" v-model="sealColor"  type="radio" id="color-red" value="red" onChange={() => {}} checked={sealColor == "red"} />
             <div className={styles.payment__option_content}>
              
               <div className={styles.parent} style={
@@ -411,7 +411,7 @@ const space = Math.PI / 16;
             </div>
           </label>
           <label className={styles.payment__option} htmlFor="color-gold">
-            <input name="sealColor" v-model="sealColor" type="radio" id="color-gold" value="gold" checked={sealColor == "gold"} />
+            <input name="sealColor" v-model="sealColor" type="radio" id="color-gold" value="gold" onChange={() => {}} checked={sealColor == "gold"} />
             <div className={styles.payment__option_content}>
               
               <div className={styles.parent} style={
