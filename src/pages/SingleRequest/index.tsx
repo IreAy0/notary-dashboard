@@ -398,7 +398,7 @@ const SingleRequest = () => {
                     <span className="text--600 text--blue">
                       {row?.user?.first_name} {row?.user?.last_name}
                     </span>
-                    ({row?.role === 'Signer' ? 'Signer' : isSigner})
+                    ({row?.role})
                   </td>
                   <td className="table__row-text center">{row?.user?.phone}</td>
                   <td className="table__row-text center">{row?.user?.email}</td>
