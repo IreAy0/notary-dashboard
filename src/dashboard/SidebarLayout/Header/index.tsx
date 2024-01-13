@@ -317,7 +317,8 @@ function Header() {
             color: '#63d246',
             fontWeight: 'bolder'
           }
-        });
+        })
+        
       }
     });
   })
