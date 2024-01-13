@@ -7,19 +7,20 @@ export function textToSignImage(text: string, font?: string, color: string = '')
   tctx.fillStyle = color;  
   tctx.font = font;
 
+
   const metrics = tctx.measureText(text);
 
 
   const canvas = document.createElement('canvas');
-  canvas.width = metrics.width + 5;
+  canvas.width = metrics.width + 20 ;
   canvas.height = 100;
   const ctx: any = canvas.getContext('2d');
 
   ctx.fillStyle = color;  
   ctx.font = font;
-  ctx.fillText(text, 0, 50);
-  ctx.strokeText(text, 0, 50);
-
+  ctx.fillText(text, 20, 50);
+  // ctx.strokeText(text, 5, 50);
+  
   return canvas.toDataURL();
 }
    

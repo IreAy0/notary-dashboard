@@ -22,6 +22,7 @@ import VerifyExpired from 'pages/Auth/VerifyExpired';
 import Redirect from 'pages/Auth/Redirect';
 import Certificate from 'pages/Certificate';
 import SessionErrorPage from 'pages/SessionErrorPage';
+import EmailSent from 'pages/Auth/EmailSent';
 import { appRoutePaths } from './Router.utils';
 import PrivateRoute from './PrivateRoute';
 import ErrorPage from '../pages/ErrorPage/Error';
@@ -42,6 +43,7 @@ const Router: FC = () => (
     <Route exact path={appRoutePaths.setPassword} component={SetPassword} />
     <Route exact path={appRoutePaths.verifiyEmail} component={VerifiyEmail} />
     <Route exact path={appRoutePaths.verifyExpired} component={VerifyExpired} />
+    <Route exact path={appRoutePaths.emailSent} component={EmailSent} />
     <Route exact path={appRoutePaths.passwordRecovery} component={PasswordRecovery} />
     <PrivateRoute exact path={appRoutePaths.myRequest} component={Request} />
     <PrivateRoute exact path={appRoutePaths.singleRequest} component={SingleRequest} />

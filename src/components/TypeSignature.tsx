@@ -155,8 +155,6 @@ const TypeSignature: FC<TabsProps> = ({
      
       <div className="signature__body-wrapper">
         <div tabIndex={-1} className="signature__body mb-2 mt-1" onFocus={() => handleSigBoxFocused()} onBlur={() => handleSigBoxBlurred()}>
-            
-
             {fonts.map((font, index) => ( <div 
             key={font+1}
             role="button"

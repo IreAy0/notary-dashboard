@@ -320,7 +320,7 @@ function Header() {
         });
       }
     });
-  }, [])
+  })
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
