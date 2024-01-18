@@ -12,6 +12,8 @@ import { fetchUserProfile } from 're-ducks/user';
 import { stateList } from 'mocks/state';
 import SelectInput from 'components/Select/select';
 import instance from 'services/axios';
+import Avatar from '@mui/material/Avatar';
+import PersonIcon from '@mui/icons-material/Person';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { FormControl, InputLabel } from '@mui/material';
 import classNames from 'classnames';
@@ -46,7 +48,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
           setUserProfile(success);
         },
         (error: any) => {
-          toast.error(error.message);
+          // toast.error(error.message);
         }
       )
     );
@@ -208,7 +210,21 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
 
 
   return (
-    <form id="GetProfile" onSubmit={formik.handleSubmit}>
+    <form id="GetProfile" onSubmit={formik.handleSubmit}> 
+    <div style={{gap: '2rem'}} className="pb-2 flex gap-3 flex__item-center ">
+          <div className="rounded-a-8 ba-1 flex flex__center flex__item-center"
+            style={{width:"100px",height:"100px"}}
+            >
+        {userProfile?.image.includes('user') ? <img  width="100" src={userProfile?.image} alt={userProfile?.first_name}/> : <PersonIcon color="primary" sx={{ fontSize: '3rem' }}/> }
+        </div>
+        <div>
+          <h3   className='text--600 fs_xl text--capitalize'>{userProfile?.first_name} {userProfile?.last_name}</h3>
+          <p>{userProfile?.email} </p>
+        </div>
+        
+
+        </div>
+
       <div className="grid grid__layout gap-1">
         <div className="col-6">
           <Input
@@ -219,7 +235,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             name="first_name"
             onChange={formik.handleChange}
             value={formik.values.first_name}
-            disabled={userProfile?.national_verification}
+            // disabled={userProfile?.national_verification}
           />
           {formik.errors.first_name ? <div className={styles.error}>{formik.errors.first_name}</div> : null}
         </div>
@@ -232,7 +248,7 @@ const AddPersonalInfo = ({ nextStep, prevStep }: Props) => {
             name="last_name"
             onChange={formik.handleChange}
             value={formik.values.last_name}
-            disabled={userProfile?.national_verification}
+            // disabled={userProfile?.national_verification}
           />
           {formik.errors.last_name ? <div className={styles.error}>{formik.errors.last_name}</div> : null}
         </div>

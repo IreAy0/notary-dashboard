@@ -1,5 +1,6 @@
 import React, { useEffect, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Route, useParams, useLocation } from "react-router-dom";
 import { doReSendEmail, forgotPassResetState } from 're-ducks/auth';
 import toast from 'react-hot-toast';
 import OTPInput, { ResendOTP } from "otp-input-react";
@@ -7,32 +8,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TonoteLogo from 'assets/icons/blue-tonote-logo.svg';
 import history from 'utils/history';
 
-// import { Box, Grid } from '@mui/material';
-import { ListItem } from 'material-ui/List';
-import Avatar from '@mui/material/Avatar';
-// import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+
 import AppBar from '@mui/material/AppBar';
 
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Button from 'components/Button';
 import api from 'services/api';
 import styles from '../../../container/authForm/sign.module.scss';
@@ -41,10 +28,14 @@ import Image from '../../../assets/img/signIn.svg';
 
 
 const VerifyEmail = () => {
-  const email = localStorage.getItem('verifyEmail');
+  // const email = localStorage.getItem('verifyEmail');
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
   const dispatch = useDispatch();
   const [OTP, setOTP] = useState("");
   const [loading, setLoading] = useState(false);
+  const otp = searchParams.get("access_code");
+  const email = searchParams.get("email")
 
   const handleResendEmail = (event: FormEvent) => {
     event.preventDefault();
@@ -59,10 +50,12 @@ const VerifyEmail = () => {
     );
   };
 
+  useEffect(()=> setOTP(otp as string) ,[otp])
+
   const  handleSubmit = () => {
     // let email = this.$route.query.email
-    const data = { email: email?.toLocaleLowerCase(), otp: OTP }
-   
+    
+    const data = { email: email?.toLocaleLowerCase(), otp }
     setLoading(true);
     // this.verify(data)
     // history.push('/auth/sign-in');
@@ -82,7 +75,8 @@ const VerifyEmail = () => {
       }
       )
       .catch((err) => {
-        toast.success('Invalid OTP.', {
+        setLoading(false)
+        toast.error('Invalid OTP.', {
           position: "top-right",
           style: {
             background: '#dc3545',
@@ -96,6 +90,19 @@ const VerifyEmail = () => {
       )
 
   }
+
+  useEffect(() => {
+    if(!otp || !email){
+      history.push('../../auth/sign-in')
+    }
+  })
+
+  useEffect(() => {
+    if(otp && email) {
+      handleSubmit() 
+    }
+  
+  }, [email, otp] )
 
   const resendVerify = () => {
 
@@ -116,7 +123,7 @@ const VerifyEmail = () => {
 
     })
       .catch((err) => {
-        toast.success('Error sending verification code', {
+        toast.error('Error sending verification code', {
           position: "top-right",
           style: {
             background: '#dc3545',
@@ -132,6 +139,8 @@ const VerifyEmail = () => {
   }
 
   useEffect((): any => () => dispatch(forgotPassResetState()), [dispatch]);
+
+  
   const theme = createTheme();
 
   return (
@@ -256,7 +265,7 @@ const VerifyEmail = () => {
       
             </Box>
               {/* todo add loading */}
-            <Button disabled={OTP.length < 6 } theme="primary"  wide type="button" onClick={() => handleSubmit()} loading={loading}>
+            <Button disabled={OTP?.length < 6 } theme="primary"  wide type="button" onClick={() => handleSubmit()} loading={loading}>
                 Verify my account
             </Button>
             {/* @click="resendVerify" */}

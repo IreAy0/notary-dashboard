@@ -230,18 +230,18 @@ const MyLockerTable = () => {
     setRows(locker?.lockers)
   }, [locker])
 
-  useEffect(() => {
-    if(user?.user?.access_locker_documents === false){
-      instance.get('/notary/notary-otp-locker')
-        .then(res => {
-          toast.success(res?.data?.message);
+  // useEffect(() => {
+  //   if(user?.user?.access_locker_documents === false){
+  //     instance.get('/notary/notary-otp-locker')
+  //       .then(res => {
+  //         toast.success(res?.data?.message);
         
-        })
-        .catch((err) => {
-          toast.error(err.message);
-        })
-    }
-  },[user?.user?.access_locker_documents])
+  //       })
+  //       .catch((err) => {
+  //         toast.error(err.message);
+  //       })
+  //   }
+  // },[user?.user?.access_locker_documents])
 
   // console.log(showOTPModal, user?.user?.access_locker_documents, locker, locker?.length <= 0 )
 

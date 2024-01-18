@@ -379,10 +379,10 @@ const space = Math.PI / 16;
       
         <div className="grid grid__layout gap-1 pt-1">
         <div className="col-4">
-            <Input onChange={(e) => setFullName({...fullName, firstName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
+            <Input  onChange={()=>{}} label="First Name*" placeholder="Emily R. Waren"  type="text" value={fullName.firstName} />
           </div>
           <div className="col-4">
-            <Input onChange={(e) => setFullName({...fullName, lastName: e.target.value })} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
+            <Input  onChange={()=>{}} label="Last Name*" placeholder="Emily R. Waren"  type="text" value={fullName.lastName} />
           </div>
           <div className="col-3">
             <Input
@@ -390,7 +390,7 @@ const space = Math.PI / 16;
               placeholder="SNC01345"
               type="text"
               value={`${updatedUser.notary_commission_number || '' } `}
-              
+              onChange={()=>{}}
             />
           </div>
         </div>
@@ -398,7 +398,7 @@ const space = Math.PI / 16;
         <div className={styles.payment__options} onChange={onChangeValue}>
          
           <label className={styles.payment__option} htmlFor="color-red">
-            <input name="sealColor" v-model="sealColor"  type="radio" id="color-red" value="red" checked={sealColor == "red"} />
+            <input name="sealColor" v-model="sealColor"  type="radio" id="color-red" value="red" onChange={() => {}} checked={sealColor == "red"} />
             <div className={styles.payment__option_content}>
              
               <div className={styles.parent} style={
@@ -411,7 +411,7 @@ const space = Math.PI / 16;
             </div>
           </label>
           <label className={styles.payment__option} htmlFor="color-gold">
-            <input name="sealColor" v-model="sealColor" type="radio" id="color-gold" value="gold" checked={sealColor == "gold"} />
+            <input name="sealColor" v-model="sealColor" type="radio" id="color-gold" value="gold" onChange={() => {}} checked={sealColor == "gold"} />
             <div className={styles.payment__option_content}>
               
               <div className={styles.parent} style={
@@ -515,7 +515,7 @@ const space = Math.PI / 16;
       
       {/* <canvas ref={canvas}></canvas> */}
       <div className="mt-1" />
-      {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+      {showAgreement && <SignaturePolicy policy='By clicking adopt, I agree that this seal is as valid as my traditional seal to the extent allowed by law' acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
 
       <div className="bb-1 mb-2" />
      
@@ -531,8 +531,8 @@ const space = Math.PI / 16;
         theme="primary"
         width={161}
         onClick={() => onSave()}
-        // loading={loading}
-        loading={isSaving}
+        loading={loading}
+        // loading={isSaving}
         // disabled={actionType === 'requests' ? isDisabled : isDefaultDisabled}
         disabled={isDisabled || !uploadedSeal}
       >

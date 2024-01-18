@@ -24,6 +24,7 @@ const RequestDocument = () => {
         (requestData: any) => {
           setRequest(requestData?.documentUploads);
           setLoading(false);
+          setDocument(requestData);
         },
         (error) => {
           toast.error(error);
@@ -57,20 +58,16 @@ const RequestDocument = () => {
   // );
 
   useEffect(() => {
-
     dispatch(
       fetchUserProfile(
-        
         {},
-        () => {
-         
-        },
+        () => {},
         () => {}
       )
     );
   }, [dispatch]);
 
-  // console.log(request, 'request')
+  // console.log(document, 'request');
 
   const goBack = () => {
     history.goBack();
@@ -79,24 +76,38 @@ const RequestDocument = () => {
   return (
     <Dashboard>
       <button onClick={goBack} className="flex flex__item-center mt-2">
-              <svg className="mr-1" width="24" height="25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 16.5v-3h16v-2H6v-3l-4 4 4 4Z" fill="#363740" />
-              </svg>
-              Go Back
-            </button>
-      {request?.length === 0 ? <DocumentLoader /> : 
-      <> {request?.map((doc) =>(
-          <div key={doc?.id}>
-            <Document type="request" doc={doc} />
-          </div>
-        
-      ))}</>
-      }
-    
+        <svg className="mr-1" width="24" height="25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 16.5v-3h16v-2H6v-3l-4 4 4 4Z" fill="#363740" />
+        </svg>
+        Go Back
+      </button>
+      {request?.length === 0 ? (
+        <DocumentLoader />
+      ) : document.status === 'Completed' ? (
+        <>
+          {' '}
+          {request
+            ?.filter((data) => data?.status === 'Completed')
+            ?.map((doc) => (
+              <div key={doc?.id}>
+                <Document type="request" doc={doc} />
+              </div>
+            ))}
+        </>
+      ) : (
+        <>
+          {' '}
+          {request?.map((doc) => (
+            <div key={doc?.id}>
+              <Document type="request" doc={doc} />
+            </div>
+          ))}
+        </>
+      )}
+
       {/* <Document type="request" doc={document} /> */}
     </Dashboard>
   );
 };
 
 export default RequestDocument;
-

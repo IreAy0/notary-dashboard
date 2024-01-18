@@ -25,6 +25,7 @@
     rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" crossorigin  rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="src/">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -35,10 +36,92 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>ToNote</title>
+    <style lang="scss">
+      .loader-grid {
+        display: grid;
+        place-items: center;
+        height: 70vh;
+        width: 100%;
+      }
+      
+      .lds_ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .lds_ellipsis  div {
+          position: absolute;
+          top: 33px;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #003bb3;
+          animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      }
+      .lds_ellipsis  div:nth-child(1) {
+            left: 8px;
+            animation: lds-ellipsis1 0.6s infinite;
+          }
+          .lds_ellipsis  div:nth-child(2) {
+            left: 8px;
+            animation: lds-ellipsis2 0.6s infinite;
+          }
+          .lds_ellipsis  div:nth-child(3) {
+            left: 32px;
+            animation: lds-ellipsis2 0.6s infinite;
+          }
+          .lds_ellipsis  div:nth-child(4) {
+            left: 56px;
+            animation: lds-ellipsis3 0.6s infinite;
+          }
+        
+      
+      
+      @keyframes lds-ellipsis1 {
+        0% {
+          transform: scale(0);
+        }
+      
+        100% {
+          transform: scale(1);
+        }
+      }
+      
+      @keyframes lds-ellipsis3 {
+        0% {
+          transform: scale(1);
+        }
+      
+        100% {
+          transform: scale(0);
+        }
+      }
+      
+      @keyframes lds-ellipsis2 {
+        0% {
+          transform: translate(0, 0);
+        }
+      
+        100% {
+          transform: translate(24px, 0);
+        }
+      }
+      
+    </style>
   </head>
   <body class="outer">
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    
     <div id="root"></div>
+    <div class="loader-grid">
+      <div clas="lds_ellipsis">
+         <div />
+         <div />
+         <div />
+         <div />
+       </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

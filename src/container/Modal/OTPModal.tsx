@@ -32,6 +32,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
   const [updatedUser, setUpdatedUser] = useState<User>(user);
   const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState('');
+  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     setUpdatedUser({ ...user, ...userProfile });
@@ -81,10 +82,10 @@ const OTPModal = ({ isOpen, isClose }: any) => {
   };
 
   const resendOtp = () => {
-    instance.get('/notary/notary-otp-locker')
+    instance.get('/document-otp-locker')
       .then(res => {
         toast.success(res?.data?.message);
-    
+        setSent(true)
       })
       .catch((err) => {
         toast.error(err.message);
@@ -100,12 +101,32 @@ const OTPModal = ({ isOpen, isClose }: any) => {
     <Modal isOpen={isOpen} isClose={isClose} width={400}>
       <div className={styles.otpModalContainer}>
         
-        <h2 className={styles.otpModalContainer__title}>Enter OTP  <a style={{float: 'right'}} href="/">close</a></h2>
+        <h2 className={styles.otpModalContainer__title}>Digital Locker  </h2>
        
         <p className={styles.otpModalContainer__text}>
-          {`We have sent an OTP to ${updatedUser?.email}, If you don't get a code, please request another`}
+          To gain access to your locker , kindly click ‘Send OTP’ to receive a code .
+
+          {/* {`We have sent an OTP to ${updatedUser?.email}, If you don't get a code, please request another`} */}
         </p>
-        <form>
+        {/* <button
+            className={styles.otpModalContainer__resendEmail}
+            onClick={(e) => {
+              e.preventDefault();
+              resendOtp()
+            }}
+          >
+            Send another one
+          </button> */}
+          {sent === false && <Button
+              theme="primary"
+              onClick={() => resendOtp()}
+              loading={loading}
+              // disabled={otp === '' || otp.length !== 6 || loading}
+            >
+              Send OTP
+            </Button> }
+         
+        {sent === true && <form>
           <Input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
           <button
             className={styles.otpModalContainer__resendEmail}
@@ -117,9 +138,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
             Send another one
           </button>
           <div className={styles.otpModalContainer__buttons}>
-            {/* <button style={{ marginRight: '20px' }} onClick={isClose}>
-              Cancel
-            </button> */}
+            
             <Button
               theme="primary"
               onClick={() => verifyOTP('proceed')}
@@ -129,7 +148,7 @@ const OTPModal = ({ isOpen, isClose }: any) => {
               Proceed
             </Button>
           </div>
-        </form>
+        </form>}
       </div>
     </Modal>
   );

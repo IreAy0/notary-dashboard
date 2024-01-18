@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import Button from 'components/Button';
 import { doSignIn } from 're-ducks/auth';
 import { isAuthenticated } from 'utils';
+import history from 'utils/history';
 import styles from './sign.module.scss';
 
 const SignInForm = () => {
@@ -32,24 +33,30 @@ const SignInForm = () => {
         doSignIn(
           {
             email: values.email,
-            password: values.password
+            password: values.password,
+            entry_point: 'Notary'
           },
           () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
               setIsCompleteSignIn(true);
+              // <Redirect to="/" />
+              history.push('/')
+              // window.location.href = '/'
             }
             setLoading(false);
           },
           (error: any) => {
-            toast.error(error.message);
+            toast.error(error);
             setLoading(false);
           }
         )
       );
     }
   });
-  if (isCompleteSignIn || isAuthenticated()) {
+
+
+  if (isAuthenticated()) {
     return <Redirect to="/" />;
   }
  

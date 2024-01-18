@@ -2,7 +2,7 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
 import { useIdleTimer } from 'react-idle-timer'
-
+import { getToken } from 'utils/getToken';
 import { useDispatch, useSelector } from 'react-redux';
 import useTypedSelector from 'hooks/useTypedSelector';
 import PreLoader from 'components/Preloader';
@@ -21,18 +21,16 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
 
   const dispatch = useDispatch();
 
+  const token = getToken()
   const onIdle = () => {
-    
     // dispatch log out when idle
-   
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
 
   }
 
-  
   const idleTimer = useIdleTimer({ 
     onIdle,
-    timeout: 4200000,
+    timeout: 420000,
     promptTimeout: 0  
   })
 
@@ -51,7 +49,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({children}) => {
           setUserProfile(success);
         },
         (error: any) => {
-          toast.error(error.message);
+          // toast.error(error.message);
         }
       )
     );

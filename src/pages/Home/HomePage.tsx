@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Metrics from 'components/MetricCard';
 import { RootState } from 're-ducks/rootReducer';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import useTypedSelector from 'hooks/useTypedSelector';
 import VerifyNotaryId from 'container/authForm/VerifyNotaryId';
@@ -97,7 +97,14 @@ const HomePage = () => {
   const user: User = useTypedSelector((state: RootState) => state?.auth?.signIn);
   const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const { requests }: any = useTypedSelector((state) => state?.request);
-  // const userProfile = useTypedSelector((state: any) => state.user);
+  const user_profile = useTypedSelector((state: any) => state.user);
+
+  const env_variable =
+    `${process.env.REACT_APP_ENVIRONMENT}` === 'live'
+      ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}`
+      : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging'
+        ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}`
+        : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`;
 
   useEffect(() => {
     dispatch(
@@ -107,7 +114,7 @@ const HomePage = () => {
           setUserProfile(success);
         },
         (error: any) => {
-          toast.error(error.message);
+          // toast.error(error.message);
         }
       )
     );
@@ -116,20 +123,16 @@ const HomePage = () => {
   const [updatedUser, setUpdatedUser] = useState<any>({ ...user, ...userProfile });
 
   useEffect(() => {
-    if (!updatedUser?.national_verification) {
+    if (!user_profile?.national_verification) {
       setIsCloseModal(true);
-    }
-    if (updatedUser?.national_verification) {
+    } else if (user_profile?.national_verification) {
       setIsCloseModal(false);
     }
-  }, [updatedUser?.national_verification, userProfile, setIsCloseModal]);
-
-
+  }, [user_profile, setIsCloseModal]);
 
   useEffect(() => {
-    setUpdatedUser({ ...user, ...userProfile });
-  }, [userProfile, user]);
-
+    setUpdatedUser({ ...user, ...user_profile });
+  }, [user_profile, user]);
 
   const fetchAllRequest = useCallback(
     (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
@@ -179,14 +182,25 @@ const HomePage = () => {
     );
   };
 
-  // console.log(requests, dashboardOverview, 'home1', userProfile, updatedUser, user)
+  // console.log(userProfile, isCloseModal)
 
   return (
     <Dashboard>
-      {userProfile?.national_verification === false ?  <Alert className=" mt-2" severity="warning">Please  <Link style={{
-        fontWeight: 'bold',
-        textDecoration: 'underline'
-      }} to='/settings/Personal_info'>Click here</Link> to complete your profile</Alert> : null}
+      {userProfile?.national_verification === false ? (
+        <Alert className=" mt-2" severity="warning">
+          Please{' '}
+          <NavLink
+            style={{
+              fontWeight: 'bold',
+              textDecoration: 'underline'
+            }}
+            to="/settings/personal-info"
+          >
+            Click here
+          </NavLink>{' '}
+          to complete your profile
+        </Alert>
+      ) : null}
       {isCloseModal && <VerifyNotaryId isOpen={isCloseModal} isClose={() => setIsCloseModal(!isCloseModal)} />}
       <section>
         <div className=" pt-2">
@@ -201,7 +215,7 @@ const HomePage = () => {
               <Metrics iconPath={Time} label="Avg session time(hrs)" value={dashboardOverview?.message?.session_time} theme="white" />
             </Grid>
             <Grid item xs={6} md={3}>
-              <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.data?.notarised_docs} theme="white" />
+              <Metrics iconPath={Docs} label="Notarised Docs" value={dashboardOverview?.message?.notarised_docs} theme="white" />
             </Grid>
           </Grid>
         </div>
@@ -228,26 +242,23 @@ const HomePage = () => {
                     <td className="table__row-text center">
                       <Link className="text--blue text--600" to={`/requests/${row.id}`}>
                         {' '}
-                        {row?.document_name || row?.schedule_session?.title || '-'}
+                        {row?.document_name || row?.title || '-'}
                       </Link>
                       <br />
                       {/* <span className="text--grey">{row.participants.slice(0, 2).join(', ')}</span> */}
                     </td>
                     <td className="table__row-text center">
-                      <Badge size="md" theme={badgeType(row?.schedule_session.status)} type="secondary">
-                        {row?.schedule_session.status}
+                      <Badge size="md" theme={badgeType(row?.status)} type="secondary">
+                        {row?.status}
                       </Badge>
                     </td>
-                    <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
+                    <td className="table__row-text center">{format(parseISO(row?.date), 'PPPP')}</td>
 
-                    <td
-                      className="table__row-text center"
-                      style={checkForTime(row?.schedule_session?.immediate === 1 ? 'Immediate' : row?.start_time)}
-                    >
-                      {row?.schedule_session?.immediate === 0 ? row?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                    <td className="table__row-text center" style={checkForTime(row?.immediate === 1 ? 'Immediate' : row?.start_time)}>
+                      {row?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                     </td>
                     <td className="table__row-text center">
-                      {row?.schedule_session.status === 'Pending' && (
+                      {row?.status === 'Awaiting' && (
                         <>
                           <button
                             onClick={() =>
@@ -256,14 +267,14 @@ const HomePage = () => {
                                 id: row?.id,
                                 body: {
                                   status: 'Accepted',
-                                  schedule_session_id: row?.schedule_session?.id,
+                                  schedule_session_id: row?.id,
                                   schedule_session_request_id: row?.id
                                 }
                               })
                             }
                             className="text--600 text--coral px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Accept</span>}
+                            {row.status === 'Awaiting' && <span>Accept</span>}
                           </button>
 
                           <button
@@ -273,21 +284,21 @@ const HomePage = () => {
                                 id: row?.id,
                                 body: {
                                   status: 'Rejected',
-                                  schedule_session_id: row?.schedule_session?.id,
+                                  schedule_session_id: row?.id,
                                   schedule_session_request_id: row?.id
                                 }
                               })
                             }
                             className="text--600 text--red px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Reject</span>}
+                            {row.status === 'Awaiting' && <span>Reject</span>}
                           </button>
                         </>
                       )}
-                      {row?.schedule_session.status === 'Accepted' && (
+                      {row?.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
+                            href={`${env_variable}notary/session-prep/${row?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -308,10 +319,10 @@ const HomePage = () => {
                       <CardHeader
                         action={
                           <span className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__xs)}>
-                            {value?.schedule_session.status}
+                            {value?.status}
                           </span>
                         }
-                        subheader={<p className="fs_xs">{format(parseISO(value?.schedule_session?.date), 'PPPP')}</p>}
+                        subheader={<p className="fs_xs">{format(parseISO(value?.date), 'PPPP')}</p>}
                       />
                       <CardContent>
                         <Box
@@ -324,7 +335,7 @@ const HomePage = () => {
                           <p className="fs_xs">Document Name</p>
                           <Link className="text--blue text--600 fs_xs text--right" to={`/requests/${value.id}`}>
                             {' '}
-                            {value?.document_name || value?.schedule_session?.title || '-'}
+                            {value?.document_name || value?.title || '-'}
                           </Link>
                         </Box>
                         <Box
@@ -339,15 +350,15 @@ const HomePage = () => {
                           <p className="fs_xs">Time</p>
                           <p
                             className="fs_xs text--right"
-                            style={checkForTime(value?.schedule_session?.immediate === true ? 'Immediate' : value?.start_time)}
+                            style={checkForTime(value?.immediate === true ? 'Immediate' : value?.start_time)}
                           >
-                            {value?.schedule_session?.immediate === false ? value?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                            {value?.immediate === false ? value?.start_time?.slice(0, 5) : 'Immediate'}
                           </p>
                         </Box>
                       </CardContent>
                       <CardActions>
                         <Stack direction="row" spacing={2}>
-                          {value?.schedule_session.status === 'Pending' && (
+                          {value?.status === 'Pending' && (
                             <>
                               <button
                                 onClick={() =>
@@ -356,14 +367,14 @@ const HomePage = () => {
                                     id: value?.id,
                                     body: {
                                       status: 'Accepted',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
                                 }
                                 className="text--600 fs_xs text--coral px-1"
                               >
-                                {value.schedule_session.status === 'Pending' && <span>Accept</span>}
+                                {value.status === 'Awaiting' && <span>Accept</span>}
                               </button>
 
                               <button
@@ -373,21 +384,21 @@ const HomePage = () => {
                                     id: value?.id,
                                     body: {
                                       status: 'Rejected',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
                                 }
                                 className="text--600  fs_xs text--red px-1"
                               >
-                                {value.schedule_session.status === 'Pending' && <span>Reject</span>}
+                                {value.status === 'Awaiting' && <span>Reject</span>}
                               </button>
                             </>
                           )}
-                          {value?.schedule_session.status === 'Accepted' && (
+                          {value?.status === 'Accepted' && (
                             <>
                               <a
-                                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${value?.schedule_session?.id}?token=${getToken()}`}
+                                href={`${env_variable}notary/session-prep/${value?.id}?token=${getToken()}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}

@@ -85,7 +85,7 @@ function* updateUser(action: any): Generator<any> {
       yield put({ type: UPDATE_USER_STATE, payload: response.data.data });
       yield put({ type: SET_SIGNIN_DATA, payload: { is_verified_profile, first_name, last_name } });
     }
-    cb();
+    cb(response.data);
   } catch (error: any) {
     cbError(error?.response?.data?.message);
   }

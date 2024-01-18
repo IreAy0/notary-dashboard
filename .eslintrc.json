@@ -101,6 +101,7 @@
         "groups": ["external", "builtin", "sibling", "index"]
       }
     ],
+    "no-nested-ternary": "off",
     "import/newline-after-import": ["warn"],
     "no-console": ["warn", { "allow": ["error"] }],
     "react/self-closing-comp": ["warn"],

@@ -34,11 +34,10 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState({label: ''});
   const selectTab = (tabValue: { label: string }) => {
     setActiveTab(tabValue);
-
   };
 
   useEffect(() => {
-    setActiveTab({label: tab?.replace(/_/g, ' ')});
+    setActiveTab({label: tab?.replace(/-/g, ' ')});
   }, [tab])
   
   return(
@@ -47,19 +46,18 @@ const Settings = () => {
                 <div className="flex">
             <Tabs
               setActive={(tabValue) => {
-        
                 selectTab(tabValue);
               }}
               tabs={tabs}
               active={activeTab?.label}
             />
                 </div>
-                {activeTab?.label === 'Personal Info' && <PersonalInfo />}
-                {activeTab?.label === 'Bank account setup' && <BankAccountSetUp />}
-                {activeTab?.label === 'Payment History' && <PaymentHistory />}
-                {activeTab?.label === 'Security' && <SecuritySetUp />}
-                {activeTab?.label === 'Calendar' && <Calendar />}
-                {activeTab?.label === 'Review Calendar' && <PreviewCalendar />}
+                {activeTab?.label === 'personal info' && <PersonalInfo />}
+                {activeTab?.label === 'bank account setup' && <BankAccountSetUp />}
+                {activeTab?.label === 'payment history' && <PaymentHistory />}
+                {activeTab?.label === 'security' && <SecuritySetUp />}
+                {activeTab?.label === 'calendar' && <Calendar />}
+                {activeTab?.label === 'review calendar' && <PreviewCalendar />}
             </section>
         </Dashboard>
   )

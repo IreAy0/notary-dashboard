@@ -59,22 +59,12 @@ const SignUpForm = () => {
           },
           () => {
             // toast.success('Sign Up Successfully.');
-            localStorage.setItem('verifyEmail', values.email);
+            // localStorage.setItem('verifyEmail', values.email);
             resetForm();
-            history.push('/auth/verify-email');
+            history.push(`/auth/email-sent?email=${values.email}`);
             
-            // history.push('/');
-
             setLoading(false);
-            // toast.success('Sign Up Successfully.');
-            // // localStorage.setItem('verifyEmail', values.email);
-            // // console.log(res);
             
-            // // localStorage.setItem('accessToken', );
-            // resetForm();
-            // // history.push('../../../auth/verifiy-email');
-            // history.push('/')
-            // setLoading(false);
 
           },
           (error: any) => {
@@ -215,7 +205,7 @@ const SignUpForm = () => {
             </Link>
           </div>
           <div>
-            <Button theme="primary" wide type="submit" disabled={!formik.isValid || !formik.dirty} loading={loading}>
+            <Button theme="primary" wide type="submit" disabled={!formik.isValid || !formik.dirty ||  checkedCondition === false } loading={loading}>
               Sign Up
             </Button>
           </div>

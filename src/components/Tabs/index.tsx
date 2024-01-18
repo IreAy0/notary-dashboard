@@ -40,7 +40,7 @@ const Tabs = ({ tabs, active, setActive, type, size }: TabsProps) => {
                 // window.location.href = `/settings/${tab?.label.replaceAll(" ", "_")}`
                 // history.location.pathname = `/settings/${tab?.label.replaceAll(" ", "_")}`
                 history.push({
-                  pathname: `/settings/${tab?.label.replaceAll(" ", "_")}`
+                  pathname: `/settings/${tab?.label.replaceAll(" ", "-").toLocaleLowerCase()}`
                   // search:  `tab=${tab?.label.replaceAll(" ", "_")}`
                 })
               }}

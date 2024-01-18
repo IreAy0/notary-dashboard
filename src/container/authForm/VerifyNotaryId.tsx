@@ -10,10 +10,10 @@ import StatusModal from 'container/authForm/PendingModal';
 import { useDispatch } from 'react-redux';
 import { fetchUserProfile, updateUserIDAction } from 're-ducks/user';
 import * as Yup from 'yup';
+import classNames from 'classnames';
 import styles from './sign.module.scss';
 import RegistrationForms from './RegistrationForm';
 import Cancel from '../../assets/icons/close-icon.svg';
-
 
 export interface Props {
   isOpen: boolean;
@@ -25,19 +25,16 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
   const [openStatusModal, setOpenStatusModal] = useState<boolean>(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
   const [selectIdType, setSelectIdType] = useState({
     id: '',
     name: ''
   });
 
-  const [identityType, setIdentityType] = useState<{ name: string, id: string }>(
-    {
-      name: '',
-      id: ''
-    }
-
-  );
+  const [identityType, setIdentityType] = useState<{ name: string; id: string }>({
+    name: '',
+    id: ''
+  });
   const IDTypes = [
     { name: 'BVN', id: 'bvn' },
     { name: 'NIN', id: 'nin' },
@@ -53,12 +50,11 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
     initialValues: {
       // identity_number: '',
       identity_type: '',
-      identity_number: ''
+      identity_number: '',
+      dob: ''
     },
     validationSchema: Yup.object({
-      identity_number: Yup.number()
-        .min(10, "Must be more than 10 characters")
-        .required("This field is requried")
+      identity_number: Yup.number().min(10, 'Must be more than 10 characters').required('This field is requried')
     }),
     onSubmit: (values, { resetForm }) => {
       setLoading(true);
@@ -66,7 +62,8 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
         updateUserIDAction(
           {
             type: selectIdType?.id.toLowerCase(),
-            value: `${values.identity_number}`
+            value: `${values.identity_number}`,
+            dob: values.dob
           },
           () => {
             toast.success('Id Verified Successfully.');
@@ -81,9 +78,8 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
             );
             isClose();
             setLoading(false);
-            window.location.href = "/settings/Personal_Info"
-            // history.push('/settings/Personal_info')
-            
+            // window.location.href = "/settings/personal-info"
+            // history.push('/settings/personal-info')
           },
           (error: any) => {
             toast.error(error);
@@ -111,11 +107,11 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
     dispatch(
       fetchUserProfile(
         {},
-        () => { },
-        () => { }
+        () => {},
+        () => {}
       )
     );
-  }
+  };
 
   return (
     <div>
@@ -123,7 +119,7 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
         <StatusModal isOpen={openStatusModal} isClose={() => setOpenStatusModal(!openStatusModal)} handleClose={closeStatusModal} />
       )}
       {!openStatusModal && (
-        <Modal isOpen={isOpen} isClose={isClose} >
+        <Modal minWidth={600} isOpen={isOpen} isClose={isClose}>
           <div className={styles.title_wrapper}>
             <h3 className={styles.auth_wrapper__smallTitle}>Welcome!</h3>
             <Button onClick={isClose} theme="plain">
@@ -132,7 +128,7 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
           </div>
           <p className={styles.auth_wrapper__details}>Please Verify your ID</p>
           <form className={styles.form} onSubmit={formik.handleSubmit}>
-            <div className={styles.container}>
+            <div className={classNames(styles.container, 'gap-5')}>
               <div className={styles.container__innerWrapper1}>
                 <div>
                   <Select
@@ -141,7 +137,7 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
                     options={IDTypes}
                     selected={selectIdType}
                     handleChange={(e: any) => setSelectIdType(e)}
-                  // disabled={user?.user?.national_verification}
+                    // disabled={user?.user?.national_verification}
                   />
                 </div>
               </div>
@@ -159,19 +155,36 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
                   {formik.errors.identity_number ? <div className={styles.error}>{formik.errors.identity_number}</div> : null}
                 </div>
               </div>
+              <div className={styles.container__innerWrapper2}>
+                <div>
+                  <Input
+                    placeholder=""
+                    name="dob"
+                    label="Date of Birth*"
+                    type="date"
+                    id="dob"
+                    onChange={formik.handleChange}
+                    value={formik.values.dob}
+                  />
+                  {formik.errors.dob ? <div className={styles.error}>{formik.errors.dob}</div> : null}
+                </div>
+              </div>
             </div>
-            
+
             <div className={styles.auth_wrapper__sideBtn}>
-              <Button theme="primary" size="lg" type="submit"
+              <Button
+                theme="primary"
+                size="lg"
+                type="submit"
                 disabled={!formik.values.identity_number || !selectIdType?.id}
-                // disabled={disabledButton === true || !formik.dirty} 
-                loading={loading}>
+                // disabled={disabledButton === true || !formik.dirty}
+                loading={loading}
+              >
                 Submit
               </Button>
             </div>
           </form>
           {/* <RegistrationForms handleClose={() => isClose()} setDisabledButton={setDisabledButton} /> */}
-
         </Modal>
       )}
     </div>
@@ -179,4 +192,3 @@ const VerifyNotaryId = ({ isOpen, isClose }: Props) => {
 };
 
 export default VerifyNotaryId;
-

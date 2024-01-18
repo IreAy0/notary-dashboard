@@ -40,8 +40,7 @@ const CallSection = ({ data }: BodyProps) => {
   const end=new Date()
   end.setHours(23,59,59,999)
   end.getTime()
-  // console.log(data.filter(item => item.status === 'Accepted'), 'home')
-
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
   useEffect(() => {
     api.get('notary/notary-virtual-session-today')
       .then(res => 
@@ -65,7 +64,7 @@ const CallSection = ({ data }: BodyProps) => {
           <div className="">
             <Table
               type="primary"
-              tableData={filtered || []}
+              tableData={filtered?.reverse() || []}
               headers={[]}
               loading={false}
               showSecondary
@@ -88,7 +87,7 @@ const CallSection = ({ data }: BodyProps) => {
                 
                   <td className="table__row-text center">
                   <a 
-                    href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}?token=${getToken()}`} 
+                    href={`${env_variable}notary/session-prep/${row.id}?token=${getToken()}`} 
                     target="_blank" rel="noreferrer" 
                     className={classnames(
                       Buttonstyles.btn,

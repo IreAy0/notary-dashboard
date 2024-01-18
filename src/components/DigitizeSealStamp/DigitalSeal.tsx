@@ -392,7 +392,7 @@ const space = Math.PI / 12;
     <div className='pt-2'>
        <div className={styles.payment__options} onChange={onChangeValue}>
           <label className={styles.payment__option} htmlFor="color-grey">
-            <input name="sealColor"  type="radio" id="color-grey"  value="grey" checked={sealColor == "grey"} />
+            <input name="sealColor"  type="radio" id="color-grey" onChange={() => {}}  value="grey" checked={sealColor == "grey"} />
 
             <div className={styles.payment__option_content}>
               <div className={styles.parent} style={{borderColor: "rgb(152, 152, 152)"}}>
@@ -401,7 +401,7 @@ const space = Math.PI / 12;
             </div>
           </label>
           <label className={styles.payment__option} htmlFor="color-blue">
-            <input name="sealColor" v-model="sealColor"  type="radio" id="color-blue" value="green" checked={sealColor == "green"} />
+            <input name="sealColor" v-model="sealColor"  type="radio" id="color-blue" onChange={() => {}} value="green" checked={sealColor == "green"} />
             <div className={styles.payment__option_content}>
              
               <div className={styles.parent} style={{borderColor: "#36935b"}}>
@@ -410,7 +410,7 @@ const space = Math.PI / 12;
             </div>
           </label>
           <label className={styles.payment__option} htmlFor="color-red">
-            <input name="sealColor" v-model="sealColor" type="radio" id="color-red" value="orange" checked={sealColor == "orange"} />
+            <input name="sealColor" v-model="sealColor" type="radio" id="color-red" onChange={() => {}} value="orange" checked={sealColor == "orange"} />
             <div className={styles.payment__option_content}>
               
               <div className={styles.parent} style={{borderColor: "#fac77a"}} >
@@ -497,7 +497,7 @@ const space = Math.PI / 12;
       </div>
       {/* <canvas ref={canvas}></canvas> */}
       <div className="mt-1" />
-      {showAgreement && <SignaturePolicy acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
+      {showAgreement && <SignaturePolicy  policy='By clicking adopt, I agree that this seal is as valid as my traditional seal to the extent allowed by law'  acceptPolicy={acceptPolicy} setAcceptPolicy={setAcceptPolicy} />}
 
       <div className="bb-1 mb-2" />
       <Button onClick={prevStep} type="button" theme="grey" variant="outline" style={{borderRadius: '50%'}} className='mr-2'>

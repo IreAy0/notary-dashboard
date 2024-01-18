@@ -63,19 +63,18 @@ const SingleRequest = () => {
   const history = useHistory();
   const [participants, setParticipants] = useState<any>([]);
   const user: any = useTypedSelector((state: RootState) => state?.auth?.signIn);
-
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
   const getRequestParticipants = (Virtualid) => {
     instance.get(`/request-virtual-session/${Virtualid}`).then((res) => setParticipants(res?.data));
   };
-
   const fetchRequestDetails = useCallback(() => {
     dispatch(
       getRequestDetails(
         { id },
         (requestData: any) => {
-          getRequestParticipants(requestData?.schedule_session_id);
+          getRequestParticipants(requestData?.id);
           setRequest(requestData);
-          setDocumentId(requestData.document_id);
+          setDocumentId(requestData.document?.id);
           setLoading(false);
         },
         (error) => {
@@ -116,9 +115,11 @@ const SingleRequest = () => {
           ...selectedRequest
         },
         () => {
+          history.push("/requests")
           fetchRequestDetails();
           toast.success('Request cancelled successfully');
           setSelectedRequest({} as RequestAcceptance);
+
         },
         (error: string) => {
           setSelectedRequest({} as RequestAcceptance);
@@ -135,6 +136,10 @@ const SingleRequest = () => {
           ...selectedRequest
         },
         () => {
+          if(selectedRequest.type === 'reject'){
+            window.location.href = '/requests'
+            history.push("/requests")
+          }
           fetchRequestDetails();
           toast.success(`Request ${selectedRequest.type === 'accept' ? 'accepted' : 'rejected'} successfully`);
           setSelectedRequest({} as RequestAcceptance);
@@ -195,7 +200,7 @@ const SingleRequest = () => {
               <svg className="mr-1" width="24" height="25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 16.5v-3h16v-2H6v-3l-4 4 4 4Z" fill="#363740" />
               </svg>
-              {request?.document_name}
+              {request?.title}
             </button>
           </h4>
           <div>
@@ -208,8 +213,8 @@ const SingleRequest = () => {
                       id: request?.id,
                       body: {
                         status: 'Accepted',
-                        schedule_session_id: request?.schedule_session?.id,
-                        schedule_session_request_id: request?.id
+                        schedule_session_id: request?.id
+                        // schedule_session_request_id: request?.id
                       }
                     })
                   }
@@ -224,8 +229,8 @@ const SingleRequest = () => {
                       id: request?.id,
                       body: {
                         status: 'Rejected',
-                        schedule_session_id: request?.schedule_session?.id,
-                        schedule_session_request_id: request?.id
+                        schedule_session_id: request?.id
+                        // schedule_session_request_id: request?.id
                       }
                     })
                   }
@@ -253,13 +258,13 @@ const SingleRequest = () => {
               }} className={styles.session_container__title}>Request Title</p>
             {!loading && (
               <span className={classNames( 'fs_sm text--blue text--600' )}>
-               {request?.document_name}
+               {request?.title}
               </span>
             )}
               </div>
   </Grid>
 
-  { request?.schedule_session?.request_type === 'Custom' && 
+  { request?.request_type === 'Custom' && 
   <Grid item xs={16} md={11}>
   <div style={{
     border: '1px solid #003bb3',
@@ -271,7 +276,7 @@ const SingleRequest = () => {
             }} className={styles.session_container__title}>Request Description</p>
             {!loading && (
               <span className={classNames('fs_sm')}>
-                {request.schedule_session?.description}
+                {request?.description}
               </span>
             )}
           </div>
@@ -283,7 +288,7 @@ const SingleRequest = () => {
         <div className={styles.session_container}>
           {(!loading && request?.status !== 'Awaiting') ||
           request?.status === 'Accepted' ||
-          request?.schedule_session?.request_type === 'Custom' ? (
+          request?.request_type === 'Custom' ? (
             <div
               style={{
                 display: 'flex',
@@ -296,22 +301,22 @@ const SingleRequest = () => {
               <div>
                 <p className={styles.session_container__title}>Document Attached:</p>
                 <span className={styles.session_container__document_link}>
-                  {request?.schedule_session?.request_type === 'Custom' ? (
+                  {request?.request_type === 'Custom' ? (
                     <p className={styles.session_container__timeframe}>Custom Affidavit</p>
                   ) : (
                     <>
                       <img src={externalTab} alt="Icon" />
                       <Link
                         className={classNames(styles.session_container__link, 'text--blue text--600')}
-                        to={`/requests/${request?.document_id}/document`}
+                        to={`/requests/${request?.document?.id}/document`}
                       >
-                        {request?.document_name}
+                        {request?.title}
                       </Link>
                     </>
                   )}
                 </span>
               </div>
-              {request?.schedule_session?.request_type === 'Custom' && (
+              {request?.request_type === 'Custom' && (
                 <div style={{}}>
                   {document.documentUploads?.length >= 1 ? (
                     <div
@@ -325,9 +330,9 @@ const SingleRequest = () => {
                         <img src={externalTab} alt="Icon" />
                         <Link
                           className={classNames(styles.session_container__link, 'text--blue text--600')}
-                          to={`/requests/${request?.document_id}/document`}
+                          to={`/requests/${request?.document?.id}/document`}
                         >
-                          {request?.document_name}
+                          {request?.title}
                         </Link>
                       </div>
                       <button onClick={() => handleDelete()}>
@@ -345,7 +350,7 @@ const SingleRequest = () => {
                       id: request?.id,
                       body: {
                         status: 'Accepted',
-                        schedule_session_id: request?.schedule_session?.id,
+                        schedule_session_id: request?.id,
                         schedule_session_request_id: request?.id
                       }
                     })} size="sm" theme="primary" disabled={loading === true}>
@@ -364,14 +369,14 @@ const SingleRequest = () => {
             <p className={styles.session_container__title}>Meeting timeframe</p>
             {!loading && (
               <span className={styles.session_container__timeframe}>
-                {format(parseISO(request.date), 'PPPP')} - {timeConvert(request?.start_time)}
+                {format(parseISO(request?.date), 'PPPP')} - {timeConvert(request?.start_time)}
               </span>
             )}
           </div>
-          {request?.status !== 'cancelled' && request?.status !== 'Awaiting' && request?.status !== 'pay now' && !loading ? (
+          {request?.status !== 'Cancelled' && request?.status !== 'Completed' && request?.status !== 'Awaiting' && request?.status !== 'Pending'  && !loading ? (
             <div  className={classNames(styles.join_button, 'mt-1')}>
               <a
-                href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${request?.schedule_session?.id}`}
+                href={`${env_variable}notary/session-prep/${request?.id}`}
                 target="_blank"
                 rel="noreferrer"
                 className={classNames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm, document.documentUploads?.length === 0 ? Buttonstyles.btn__disabled : null
@@ -383,7 +388,7 @@ const SingleRequest = () => {
           ) : null}
         </div>
         <div className="mt-1" style={{ overflow: 'auto' }}>
-          <Table type="primary" tableData={participants?.schedule?.participants} headers={singleRequestHeaders} loading={loading}>
+          <Table type="primary" tableData={request?.document?.participants} headers={singleRequestHeaders} loading={loading}>
             {(row: any) => {
               const isSigner = <span>{row?.role === 'Signer' ? 'Signer' : 'Witness'}</span>;
 
@@ -391,12 +396,12 @@ const SingleRequest = () => {
                 <>
                   <td className="table__row-text center">
                     <span className="text--600 text--blue">
-                      {row?.first_name} {row?.last_name}
+                      {row?.user?.first_name} {row?.user?.last_name}
                     </span>
-                    ({row?.role === 'Signer' ? 'Signer' : isSigner})
+                    ({row?.role})
                   </td>
-                  <td className="table__row-text center">{row?.phone}</td>
-                  <td className="table__row-text center">{row?.email}</td>
+                  <td className="table__row-text center">{row?.user?.phone}</td>
+                  <td className="table__row-text center">{row?.user?.email}</td>
                   <td className="table__row-text center">
                     {/* <Badge size="md" theme={badgeType(row?.status.toString())} type="secondary">
                       {row?.status}

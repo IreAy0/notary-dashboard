@@ -7,11 +7,13 @@ export const appRoutes = {
   signIn: () => pathResolver('/auth/sign-in'),
   settings: () => pathResolver('/settings/:tab'),
   forgotPassword: () => pathResolver('/auth/forgot-password'),
-  resetPassword: () => pathResolver('/auth/reset-password'),
+  resetPassword: () => pathResolver('/reset-password'),
   setPassword: () => pathResolver('/auth/set-password'),
   verifiyEmail: () => pathResolver('/auth/verify-email'),
   passwordRecovery: () => pathResolver('/auth/password-recovery'),
   verifyExpired: () => pathResolver('/auth/expired'),
+  emailSent: () => pathResolver('/auth/email-sent'),
+
   myRequest: () => pathResolver('/requests'),
   singleRequest: () => pathResolver('/requests/:id'),
   requestDocument: () => pathResolver('/requests/:id/document'),
@@ -37,6 +39,7 @@ export const appRoutePaths: {
   setPassword: string;
   verifiyEmail: string;
   verifyExpired: string;
+  emailSent: string;
   passwordRecovery: string;
   myRequest: string;
   singleRequest: string;
@@ -60,6 +63,7 @@ export const appRoutePaths: {
   resetPassword: appRoutes.resetPassword(),
   setPassword: appRoutes.setPassword(),
   verifiyEmail: appRoutes.verifiyEmail(),
+  emailSent: appRoutes.emailSent(),
   verifyExpired: appRoutes.verifyExpired(),
   passwordRecovery: appRoutes.passwordRecovery(),
   myRequest: appRoutes.myRequest(),

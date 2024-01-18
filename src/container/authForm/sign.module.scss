@@ -134,6 +134,8 @@
   width: 100%;
   @media (min-width: 1024px) {
     width: 576px;
+    height: 100vh;
+    overflow-y: scroll ;
   }
 }
 

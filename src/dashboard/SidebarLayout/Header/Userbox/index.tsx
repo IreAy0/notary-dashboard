@@ -1,16 +1,8 @@
 import React, { useRef, useState } from 'react';
-import {  useHistory, NavLink } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { doSignOut } from 're-ducks/auth';
-import {Box,
-  Button,
-  Divider,
-  Hidden,
-  lighten,
-  List,
-  ListItem,
-  Popover,
-  Typography} from '@mui/material';
+import { Box, Button, Divider, Hidden, lighten, List, ListItem, Popover, Typography } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
@@ -21,7 +13,6 @@ import { ReactComponent as AlertErrorIcon } from '../../../../assets/icons/alert
 import { ReactComponent as Setting } from '../../../../assets/icons/navSettings.svg';
 import Avatar from '../../../../components/Avatar/index';
 import menuStyles from '../../../../components/MenuDialog/menu.module.scss';
-
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -58,8 +49,7 @@ const UserBoxDescription = styled(Typography)(
 `
 );
 
-
-function HeaderUserbox({userProfile}) {
+function HeaderUserbox({ userProfile }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -82,13 +72,11 @@ function HeaderUserbox({userProfile}) {
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-      <Avatar withInidicator name={`${userProfile?.first_name} ${userProfile?.last_name}`} />
+        <Avatar withInidicator name={`${userProfile?.first_name} ${userProfile?.last_name}`} />
         <Hidden mdDown>
           <UserBoxText>
             <UserBoxLabel variant="body1">{`${userProfile?.first_name} ${userProfile?.last_name}`}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-              {userProfile.role}
-            </UserBoxDescription>
+            <UserBoxDescription variant="body2">{userProfile.role}</UserBoxDescription>
           </UserBoxText>
         </Hidden>
         <Hidden smDown>
@@ -109,28 +97,26 @@ function HeaderUserbox({userProfile}) {
         }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-        <Avatar withInidicator name={`${userProfile?.first_name} ${userProfile?.last_name}`} />
+          <Avatar withInidicator name={`${userProfile?.first_name} ${userProfile?.last_name}`} />
           <UserBoxText>
             <UserBoxLabel variant="body1">{`${userProfile?.first_name} ${userProfile?.last_name}`}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-            {userProfile.role}
-            </UserBoxDescription>
+            <UserBoxDescription variant="body2">{userProfile.role}</UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
-        <List className={classnames(menuStyles.menu__dropdown, menuStyles.large)} sx={{ p: 1 }} component="nav" >
-          <ListItem >
-          <div className={menuStyles.header}>
-                    <div className="flex flex__spaced flex__item-center">
-                      <div>
-                        <strong className="text--capitalize">Notary </strong>&nbsp;
-                        <small className={`text--${userProfile?.national_verification === true ? 'green' : 'red'}`}>
-                          { verifiedUser}
-                        </small>
-                      </div>
-                      <span className="flex flex__item-center">{userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}</span>
-                    </div>
-                    {/* <div className={menuStyles.label__max}>
+        <List className={classnames(menuStyles.menu__dropdown, menuStyles.large)} sx={{ p: 1 }} component="nav">
+          <ListItem>
+            <div className={menuStyles.header}>
+              <div className="flex flex__spaced flex__item-center">
+                <div className="">
+                  <strong className="text--capitalize">Notary </strong>&nbsp;
+                  <small className={`text--${userProfile?.national_verification === true ? 'green' : 'red'}`}>{verifiedUser}</small>
+                </div>
+                <div className="flex flex__item-center pl-1">
+                  {userProfile?.national_verification === true ? <Tick /> : <AlertErrorIcon />}
+                </div>
+              </div>
+              {/* <div className={menuStyles.label__max}>
                       <span className={menuStyles.label}>
                         Personal: <br />
                       </span>
@@ -140,33 +126,22 @@ function HeaderUserbox({userProfile}) {
                       <br />
                       <span title={userProfile.email}>{userProfile.email}</span>
                     </div> */}
-                  </div>
+            </div>
           </ListItem>
-          
-          <ListItem
-            to="/settings/Personal_Info"
-            component={NavLink}
-            className={menuStyles.item}
-          >
-             <div className="icon__wrap">
-                            <Setting />
-                          </div>
-                          Settings
+
+          <ListItem to="/settings/personal-info" component={NavLink} className={menuStyles.item}>
+            <div className="icon__wrap">
+              <Setting />
+            </div>
+            Settings
           </ListItem>
-          <ListItem
-            button
-            onClick={handleSignout}
-            className={menuStyles.item}
-          >
-          
-                          <div className="icon__wrap">
-                            <Logout />
-                          </div>
-                          Sign Out
-                     
+          <ListItem button onClick={handleSignout} className={menuStyles.item}>
+            <div className="icon__wrap">
+              <Logout />
+            </div>
+            Sign Out
           </ListItem>
         </List>
-        
       </Popover>
     </>
   );

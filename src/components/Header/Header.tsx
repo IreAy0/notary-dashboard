@@ -1,7 +1,8 @@
 /* eslint-disable no-lone-blocks */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllRequestAction, confirmRequest } from 're-ducks/request';
 import classnames from 'classnames';
 import { doSignOut } from 're-ducks/auth';
 import { Menu } from '@headlessui/react';
@@ -13,6 +14,9 @@ import SelectBtnStyles from 'components/CustomSelect/customSelect.module.scss';
 import useTypedSelector from 'hooks/useTypedSelector';
 import Button from 'components/Button';
 import { ReactComponent as WhiteTick } from 'assets/icons/white-tick.svg';
+import socket from 'utils/socket';
+import toast from 'react-hot-toast';
+import { getToken } from 'utils/getToken';
 import styles from './Header.module.scss';
 import Notifications from './Notifications/Notifications';
 import MenuDialog from '../MenuDialog';
@@ -21,11 +25,11 @@ import Avatar from '../Avatar';
 import { ReactComponent as Logo } from '../../assets/icons/tonote-logo-blue.svg';
 import { ReactComponent as Logout } from '../../assets/icons/logout.svg';
 // import { ReactComponent as HideMenuIcon } from '../../assets/icons/hideMenuIcon.svg';
-
 import { ReactComponent as Tick } from '../../assets/icons/tick-badge.svg';
 import { ReactComponent as AlertErrorIcon } from '../../assets/icons/alertErrorIcon.svg';
 import { ReactComponent as Setting } from '../../assets/icons/navSettings.svg';
 import { ReactComponent as Caret } from '../../assets/icons/caret.svg';
+import mySound from '../../assets/sounds/notify.mp3';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
@@ -39,6 +43,8 @@ const Header = () => {
   });
   const dispatch = useDispatch();
   const history = useHistory();
+  const audio = useMemo(() => new Audio(mySound), []);
+  const [playing, setPlaying] = useState(false);
   const user = useSelector((state: any) => state?.auth?.signIn);
   const userProfile = useTypedSelector((state: any) => state.user);
 
@@ -51,8 +57,75 @@ const Header = () => {
   }, [userProfile, user]);
 
   const handleSignout = () => {
+    socket.disconnect()
     dispatch(doSignOut(() => history.push('../../auth/sign-in'), /* isWithRequest */ true));
   };
+
+
+  const fetchRequest = useCallback(
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+      const params = {
+        status: status === 'all' ? '' : status,
+        page: nextPage === 0 ? 1 : nextPage,
+        per_page: itemsPerPage
+        // search: searchValue.toLowerCase()
+      };
+      // setLoading(true);
+      // setDataPerPage(itemsPerPage);
+      dispatch(
+        getAllRequestAction(
+          { params },
+          () => {
+            // setLoading(false);
+          },
+          (error) => {
+            toast.error(error);
+            // setLoading(false);
+          }
+        )
+      );
+    },
+    [dispatch]
+  );
+
+  // useEffect(() => {
+  //   socket.auth = {
+  //     username: `${userProfile.first_name}-${userProfile.last_name}`,
+  //     token: getToken()
+  //   };
+  //   socket.connect();
+  //   socket.on('connected', () => {
+  //     // eslint-disable-next-line no-console
+  //     console.log('socket connected');
+  //   });
+
+  //   socket.on('NOTARY_NEW_REQUEST', (data) => {
+  //     const request = JSON.parse(data);
+  //     if (request.id === userProfile.id) {
+  //       setPlaying(true);
+  //       fetchRequest();
+  //       audio.play()
+  //       dispatch(
+  //         userRequestOverview(
+  //           {},
+  //           () => {},
+  //           () => {}
+  //         )
+  //       );
+  //       toast.success('You have a new request', {
+  //         position: 'top-right',
+  //         duration: 15000,
+  //         style: {
+  //           padding: '1.5rem',
+  //           fontSize: '1.2rem',
+  //           color: '#63d246',
+  //           fontWeight: 'bolder'
+  //         }
+  //       });
+  //     }
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [socket]);
 
   const handleDate = (value: any) => {
     setSelectedDate(value.selection || value.range1);
@@ -140,11 +213,11 @@ const Header = () => {
   const authLink = (
     <div>
       {onSignInPage ? (
-        <Link className="link mr-1" to="/auth/sign-up">
+        <Link className="link mr-1" to="/auth/sign-up/">
           Sign Up
         </Link>
       ) : (
-        <Link className="link mr-1" to="/auth/sign-in">
+        <Link className="link mr-1" to="/auth/sign-in/">
           Sign In
         </Link>
       )}

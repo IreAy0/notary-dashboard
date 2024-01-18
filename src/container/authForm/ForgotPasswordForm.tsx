@@ -29,9 +29,10 @@ const ForgotPasswordForm = () => {
           {
             email: values.email
           },
-          () => {
-            localStorage.setItem('recoveryEmail', values.email);
+          (success) => {
+            // localStorage.setItem('recoveryEmail', values.email);
             resetForm();
+            toast.success(success)
             // history.push('../../../auth/password-recovery');
             setLoading(false);
           },

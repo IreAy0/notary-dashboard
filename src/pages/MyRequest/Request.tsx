@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from 'react';
 import Tabs from 'components/Tabs';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
@@ -12,7 +12,7 @@ import Pagination from 'components/Pagination';
 import Table from 'components/Table';
 import Badge from 'components/Badge';
 import { getToken } from 'utils/getToken';
-
+import { editUserProfile, fetchUserProfile, userRequestOverview } from 're-ducks/user';
 import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -32,6 +32,7 @@ import classnames from 'classnames';
 import Button from 'components/Button';
 import instance from 'services/axios';
 import MediaQuery from 'helpers/useMediaQuery';
+import RequestTabs from 'components/Tabs/RequestTab';
 import styles from './request.module.scss';
 // import Dashboard from '../../layouts/dashboard';
 import Dashboard from '../../dashboard/SidebarLayout/index';
@@ -97,30 +98,33 @@ export default function Request() {
   const [searchValue, setSearchValue] = useState('');
   const [dataPerPage, setDataPerPage] = useState(10);
   const { requests }: any = useTypedSelector((state) => state?.request);
+  const dashboardOverview: any = useTypedSelector((state: any) => state?.user?.dashboardDetails);
   const dispatch = useDispatch();
-
+  const env_variable = `${process.env.REACT_APP_ENVIRONMENT}` === 'live' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_LIVE}` : `${process.env.REACT_APP_ENVIRONMENT}` === 'staging' ? `${process.env.REACT_APP_VIRTUAL_NOTARY_STAGING}` : `${process.env.REACT_APP_VIRTUAL_NOTARY_DEV}`
+  const {tab}: any = useParams()
   const tabs = [
     {
-      label: `All (${requests?.generalStatus?.total_count || 0})`,
+      label: `All (${dashboardOverview?.message?.all_docs || 0})`,
       title: 'all'
     },
     {
-      label: `Pending (${requests?.generalStatus?.pending_count || 0})`,
-      title: 'pending'
+      // requests?.data?.filter(item => item.status === 'Pending')?.length
+      label: `Awaiting (${ dashboardOverview?.message?.awaiting_docs ||0})`,
+      title: 'Awaiting'
     },
     {
-      label: `Scheduled (${requests?.generalStatus?.scheduled_count || 0})`,
-      title: 'scheduled'
+      label: `Accepted (${dashboardOverview?.message?.accepted_docs  || 0})`,
+      title: 'Accepted'
     },
     {
-      label: `Awaiting Payment (${requests?.generalStatus?.pay_now_count || 0})`,
-      title: 'pay now'
+      label: `Completed (${dashboardOverview?.message?.completed_docs || 0})`,
+      title: 'Completed'
     }
   ];
   const [activeTabContent, setActiveTabContent] = useState(tabs[0]);
 
   const fetchRequest = useCallback(
-    (status: string = '', nextPage: any = 1, itemsPerPage: any = 20) => {
+    (status: string = '', nextPage: any = 1, itemsPerPage: any = 10) => {
       const params = {
         status: status === 'all' ? '' : status,
         page: nextPage === 0 ? 1 : nextPage,
@@ -159,6 +163,13 @@ export default function Request() {
           // fetchRequest();
           setLoading(true);
           fetchRequest(activeTabContent.title);
+          dispatch(
+            userRequestOverview(
+              {},
+              () => {},
+              () => {}
+            )
+          );
           toast.success(`Request ${selectedRequest.type === 'accept' ? 'accepted' : 'rejected'} successfully`);
           setSelectedRequest({} as RequestAcceptance);
         },
@@ -177,13 +188,18 @@ export default function Request() {
     }
   }, [activeTabContent, fetchRequest, searchValue]);
 
+
+  // useEffect(() => {
+  //   setActiveTabContent({title: tab?.replace(/_/g, ' ')});
+  // }, [tab])
+
   return (
     <Dashboard>
       <section className="pt-1">
         <div className={styles.request_container}>
           <div className={styles.request_container__flex}>
             <div>
-              <Tabs tabs={tabs} active={activeTabContent} setActive={(tab: any) => setActiveTabContent(tab)} />
+              <RequestTabs tabs={tabs} active={activeTabContent} setActive={(Maintab: any) => setActiveTabContent(Maintab)} />
             </div>
             {activeTabContent.title === 'all' && (
               <div>
@@ -199,6 +215,7 @@ export default function Request() {
               </div>
             )}
           </div>
+
           <div className="mt-1" style={{ overflow: 'auto' }}>
             {MediaQuery().matchMD ? (
               <Table
@@ -222,27 +239,27 @@ export default function Request() {
                   <>
                     <td className="table__row-text center">
                       <Link className="text--blue text--600" to={`/requests/${row?.id}`}>
-                        {row?.document_name}
+                        {row?.title}
                       </Link>
                       <br />
-                      {row.schedule_session.request_type === "Custom" && <span style={{ color: '#7B7171' }}>Custom Request</span>}
+                      {row.request_type === "Custom" && <span style={{ color: '#7B7171' }}>Custom Request</span>}
                       
                     </td>
                     <td className="table__row-text center">
-                      <Badge size="md" theme={badgeType(row.schedule_session.status)} type="secondary">
-                        {row.schedule_session.status}
+                      <Badge size="md" theme={badgeType(row.status)} type="secondary">
+                        {row.status}
                       </Badge>
                     </td>
                     {/* {format(parseISO(row?.call_date), 'PPPP')} */}
-                    <td className="table__row-text center">{format(parseISO(row?.schedule_session?.date), 'PPPP')}</td>
+                    <td className="table__row-text center">{format(parseISO(row?.date), 'PPPP')}</td>
                     <td
                       className="table__row-text center"
-                      style={checkForTime(row?.schedule_session?.immediate === 1 ? 'Immediate' : row?.start_time)}
+                      style={checkForTime(row?.immediate === 1 ? 'Immediate' : row?.start_time)}
                     >
-                      {row?.schedule_session?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
+                      {row?.immediate === 0 ? row?.start_time?.slice(0, 5) : 'Immediate'}
                     </td>
                     <td className="table__row-text center">
-                      {row?.schedule_session.status === 'Pending' && (
+                      {row?.status === 'Awaiting' && (
                         <>
                           <button
                             onClick={() =>
@@ -251,14 +268,14 @@ export default function Request() {
                                 id: row?.id,
                                 body: {
                                   status: 'Accepted',
-                                  schedule_session_id: row?.schedule_session?.id,
-                                  schedule_session_request_id: row?.id
+                                  schedule_session_id: row?.id
+                                  // schedule_session_request_id: row?.id
                                 }
                               })
                             }
                             className="text--600 text--coral px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Accept</span>}
+                            {row.status === 'Awaiting' && <span>Accept</span>}
                           </button>
 
                           <button
@@ -268,21 +285,21 @@ export default function Request() {
                                 id: row?.id,
                                 body: {
                                   status: 'Rejected',
-                                  schedule_session_id: row?.schedule_session?.id,
-                                  schedule_session_request_id: row?.id
+                                  schedule_session_id: row?.id
+                                  // schedule_session_request_id: row?.id
                                 }
                               })
                             }
                             className="text--600 text--red px-1"
                           >
-                            {row.schedule_session.status === 'Pending' && <span>Reject</span>}
+                            {row.status === 'Awaiting' && <span>Reject</span>}
                           </button>
                         </>
                       )}
-                      {row?.schedule_session.status === 'Accepted' && (
+                      {row?.status === 'Accepted' && (
                         <>
                           <a
-                            href={`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row?.schedule_session?.id}?token=${getToken()}`}
+                            href={`${env_variable}notary/session-prep/${row?.id}?token=${getToken()}`}
                             target="_blank"
                             rel="noreferrer"
                             className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__sm)}
@@ -303,10 +320,10 @@ export default function Request() {
                       <CardHeader
                         action={
                           <span className={classnames(Buttonstyles.btn, Buttonstyles.btn__primary, Buttonstyles.btn__xs)}>
-                            {value?.schedule_session.status}
+                            {value?.status}
                           </span>
                         }
-                        subheader={<p className="fs_xs">{format(parseISO(value?.schedule_session?.date), 'PPPP')}</p>}
+                        subheader={<p className="fs_xs">{format(parseISO(value?.date), 'PPPP')}</p>}
                       />
                       <CardContent>
                         <Box
@@ -319,7 +336,7 @@ export default function Request() {
                           <p className="fs_xs">Document Name</p>
                           <Link className="text--blue text--600 fs_xs text--right" to={`/requests/${value.id}`}>
                             {' '}
-                            {value?.document_name || value?.schedule_session?.title || '-'}
+                            {value?.document_name || value?.title || '-'}
                           </Link>
                         </Box>
                         <Box
@@ -334,15 +351,15 @@ export default function Request() {
                           <p className="fs_xs">Time</p>
                           <p
                             className="fs_xs text--right"
-                            style={checkForTime(value?.schedule_session?.immediate === true ? 'Immediate' : value?.start_time)}
+                            style={checkForTime(value?.immediate === true ? 'Immediate' : value?.start_time)}
                           >
-                            {value?.schedule_session?.immediate === false ? value?.schedule_session?.start_time?.slice(0, 5) : 'Immediate'}
+                            {value?.immediate === false ? value?.start_time?.slice(0, 5) : 'Immediate'}
                           </p>
                         </Box>
                       </CardContent>
                       <CardActions>
                         <Stack direction="row" spacing={2}>
-                          {value?.schedule_session.status === 'Awaiting' && (
+                          {value?.status === 'Awaiting' && (
                             <>
                               <button
                                 onClick={() =>
@@ -351,14 +368,14 @@ export default function Request() {
                                     id: value?.id,
                                     body: {
                                       status: 'Accepted',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
                                 }
                                 className="text--600 fs_xs text--coral px-1"
                               >
-                                {value.schedule_session.status === 'Awaiting' && <span>Accept</span>}
+                                {value.status === 'Awaiting' && <span>Accept</span>}
                               </button>
 
                               <button
@@ -368,18 +385,18 @@ export default function Request() {
                                     id: value?.id,
                                     body: {
                                       status: 'Rejected',
-                                      schedule_session_id: value?.schedule_session?.id,
+                                      schedule_session_id: value?.id,
                                       schedule_session_request_id: value?.id
                                     }
                                   })
                                 }
                                 className="text--600  fs_xs text--red px-1"
                               >
-                                {value.schedule_session.status === 'Awaiting' && <span>Reject</span>}
+                                {value.status === 'Awaiting' && <span>Reject</span>}
                               </button>
                             </>
                           )}
-                          {value?.schedule_session.status === 'Accepted' && (
+                          {value?.status === 'Accepted' && (
                             <>
                               <a
                                 href={value?.link}
@@ -403,7 +420,7 @@ export default function Request() {
             )}
 
             <div className="pt-2">
-              {!loading && requests?.data?.length > 10 && (
+              {!loading && requests?.data?.length >= 1 && (
                 <Pagination
                   currentPage={requests?.meta?.current_page}
                   total={requests?.meta?.total}
